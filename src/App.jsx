@@ -8,7 +8,7 @@ import {
 
 import Home from './containers/Home';
 import About from './containers/About';
-import Navigation from './containers/Navigation'
+import Navigation from './containers/Navigation';
 
 import reactLogo from './assets/React-icon.png';
 
