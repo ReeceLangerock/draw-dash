@@ -8,6 +8,7 @@ import {
 
 import Home from './containers/Home';
 import About from './containers/About';
+import Navigation from './containers/Navigation'
 
 import reactLogo from './assets/React-icon.png';
 
@@ -23,6 +24,7 @@ class App extends React.Component {
     return (
       <HashRouter>
         <main>
+          <Navigation/>
           <div className="container">
             <h1>hello world!</h1>
             <img className="container__image" alt="react logo" src={reactLogo} />
