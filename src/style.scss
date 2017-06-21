@@ -1,3 +1,6 @@
+@import '~foundation-sites/scss/foundation';
+@include foundation-everything;
+
 .container {
     margin: auto;
     text-align: center;

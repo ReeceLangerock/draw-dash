@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "react, react-router, hot-reload, sass.",
   "main": "index.js",
-  "author": ["Eric Hartline, Reece Langerock"],
+  "author": [
+    "Eric Hartline, Reece Langerock"
+  ],
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development webpack-dev-server",
+    "start": "SET NODE_ENV=development && webpack-dev-server",
     "build": "NODE_ENV=production webpack -p"
   },
   "devDependencies": {
@@ -33,9 +35,12 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "foundation-sites": "^6.3.1",
+    "jquery": "^3.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-router-dom": "^4.1.1"
+    "react-router-dom": "^4.1.1",
+    "script-loader": "^0.7.0"
   }
 }
