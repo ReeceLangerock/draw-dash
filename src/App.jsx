@@ -14,8 +14,6 @@ import Chat from './containers/Chat';
 import Footer from './containers/Footer';
 import ImagePrompt from './containers/ImagePrompt';
 
-import reactLogo from './assets/React-icon.png';
-
 /**
  * this container is defined as class so we can modify state
  */

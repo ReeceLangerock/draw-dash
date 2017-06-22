@@ -1,9 +1,15 @@
 import React from 'react';
+import Canvas from './containers/Canvas';
 
-const Home = () => (
-  <div ClassName="container text-center">
-    <h2>Home Page</h2>
-  </div>
-);
+class Home extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Home</h1>
+        <Canvas />
+      </div>
+    );
+  }
+}
 
 export default Home;
