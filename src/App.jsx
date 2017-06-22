@@ -20,6 +20,21 @@ class App extends React.Component {
    * this is our statefull render
    * @return {objects} our stateless components
    */
+
+   componentDidMount() {
+     fetch('/users')
+       .then((response) => response.json())
+       .then((responseJson) => {
+         console.log(responseJson)
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+
+
+  }
+
+
   render() {
     return (
       <HashRouter>

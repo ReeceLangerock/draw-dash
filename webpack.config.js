@@ -33,6 +33,10 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
+    proxy: {
+    '/': 'http://localhost:3001'
+}
+
   },
   entry: [
     'react-hot-loader/patch',
@@ -43,6 +47,9 @@ module.exports = {
   externals: {
     jquery: 'jQuery'
   },
+
+
+
   plugins: [
     new webpack.ProvidePlugin({
       '$': 'jquery',

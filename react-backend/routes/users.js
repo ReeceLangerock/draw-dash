@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
   	username: "D0loresH4ze"
   },
   {
-    id: 3,
+    id: 3001,
     username: "reece"
   }]);
 });
