@@ -9,6 +9,10 @@ import {
 import Home from './containers/Home';
 import About from './containers/About';
 import Navigation from './containers/Navigation';
+import Canvas from './containers/Canvas';
+import Chat from './containers/Chat';
+import Footer from './containers/Footer';
+import ImagePrompt from './containers/ImagePrompt';
 
 import reactLogo from './assets/React-icon.png';
 
@@ -41,17 +45,18 @@ class App extends React.Component {
         <main>
           <Navigation/>
           <div className="container">
-            <h1>hello world!</h1>
-            <img className="container__image" alt="react logo" src={reactLogo} />
-            <p>If you see this everything is working!</p>
+            <Canvas />
+            <Chat />
+            <Footer />
+            <ImagePrompt />
           </div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-          </ul>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
+            <Route path="/canvas" component={Canvas} />
+            <Route path="/chat" component={Chat} />
+            <Route path="/footer" component={Footer} />
+            <Route path="/imageprompt" component={ImagePrompt} />
           </Switch>
         </main>
       </HashRouter>
