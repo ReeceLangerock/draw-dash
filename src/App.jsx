@@ -42,12 +42,6 @@ class App extends React.Component {
       <HashRouter>
         <main>
           <Navigation/>
-          <div className="container">
-            <Canvas />
-            <Chat />
-            <Footer />
-            <ImagePrompt />
-          </div>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />

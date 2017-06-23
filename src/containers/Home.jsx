@@ -1,12 +1,18 @@
-import React from 'react';
-import Canvas from './containers/Canvas';
+import React, { Component } from 'react';
+import Canvas from './Canvas';
+import Chat from './Chat';
+import Footer from './Footer';
+import ImagePrompt from './ImagePrompt';
 
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Home</h1>
         <Canvas />
+        <Chat />
+        <ImagePrompt />
+        <Footer />
       </div>
     );
   }
