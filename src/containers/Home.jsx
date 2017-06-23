@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Canvas from './Canvas';
+import Chat from './Chat';
+import Footer from './Footer';
+import ImagePrompt from './ImagePrompt';
 
-const Home = () => (
-  <div>
-    <h2>Home Page</h2>
-  </div>
-);
+class Home extends Component {
+  render() {
+    return (
+      <div className="container">
+        <h1>Home</h1>
+        <ImagePrompt />
+        <Canvas />
+        <Chat />
+      </div>
+    );
+  }
+}
 
 export default Home;

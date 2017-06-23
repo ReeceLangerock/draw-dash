@@ -14,7 +14,7 @@ class Navigation extends React.Component {
                 activeClassName="active-link"
                 activeStyle={{ fontWeight: "bold" }}
               >
-                Test
+                Rooms
               </NavLink>
             </li>
             <li>
@@ -23,7 +23,16 @@ class Navigation extends React.Component {
                 activeClassName="active-link"
                 activeStyle={{ fontWeight: "bold" }}
               >
-                Test
+                Leaderboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/test"
+                activeClassName="active-link"
+                activeStyle={{ fontWeight: "bold" }}
+              >
+                Image Gallery
               </NavLink>
             </li>
           </ul>
@@ -31,8 +40,14 @@ class Navigation extends React.Component {
 
         <div className = "top-bar-right">
           <ul className = "menu">
-            <li className = "menu-text">
-              Test
+            <li>
+              <NavLink
+                to="/about"
+                activeClassName="active-link"
+                activeStyle={{ fontWeight: "bold" }}
+              >
+                About
+              </NavLink>
             </li>
           </ul>
         </div>

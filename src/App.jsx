@@ -9,8 +9,10 @@ import {
 import Home from './containers/Home';
 import About from './containers/About';
 import Navigation from './containers/Navigation';
-
-import reactLogo from './assets/React-icon.png';
+import Canvas from './containers/Canvas';
+import Chat from './containers/Chat';
+import Footer from './containers/Footer';
+import ImagePrompt from './containers/ImagePrompt';
 
 /**
  * this container is defined as class so we can modify state
@@ -40,19 +42,13 @@ class App extends React.Component {
       <HashRouter>
         <main>
           <Navigation/>
-          <div className="container">
-            <h1>hello world!</h1>
-            <img className="container__image" alt="react logo" src={reactLogo} />
-            <p>If you see this everything is working!</p>
-          </div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-          </ul>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
+            <Route path="/canvas" component={Canvas} />
+            <Route path="/imageprompt" component={ImagePrompt} />
           </Switch>
+          <Footer/>
         </main>
       </HashRouter>
     );
