@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+/* GET home page. */
 router.get('/', function(req, res, next) {
 	// Comment out this line:
   //res.send('respond with a resource');
-  console.log('test')
+  console.log('te')
   // And insert something like this instead:
   res.json([{
   	id: 1,
