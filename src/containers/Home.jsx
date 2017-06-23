@@ -9,10 +9,9 @@ class Home extends Component {
     return (
       <div className="container">
         <h1>Home</h1>
+        <ImagePrompt />
         <Canvas />
         <Chat />
-        <ImagePrompt />
-        <Footer />
       </div>
     );
   }

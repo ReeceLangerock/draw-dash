@@ -1,9 +1,13 @@
 import React from 'react';
 
 const Footer = () => (
-  <div>
-    <h2>Footer Component</h2>
-  </div>
+  <footer>
+    <div className="container">
+      <div className="row">
+        Created by Reece Langerock & Eric Hartline
+      </div>
+    </div>
+  </footer>
 );
 
 export default Footer;
