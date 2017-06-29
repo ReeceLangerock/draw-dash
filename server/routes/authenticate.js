@@ -1,5 +1,5 @@
 //setup
-var Auth0Strategy = require("passport-auth0");
+var SlackStrategy = require('passport-slack').Strategy
 var express = require("express");
 var passport = require("passport");
 var router = express.Router();
@@ -8,7 +8,7 @@ var config = require("../config.js");
 router.use(session({ secret: "CHANGE-ME-LATER" }));
 router.use(passport.initialize());
 router.use(passport.session());
-SlackStrategy = require('passport-slack').Strategy
+
 
 
 
@@ -31,7 +31,7 @@ router.get('/', passport.authorize('slack'));
 // OAuth callback url
 router.get('/callback',
   passport.authorize('slack', { failureRedirect: '/login' }),
-  (req, res) => res.redirect('/')
+  (req, res) => res.redirect('http://localhost:3000')
 );
 
 module.exports = router;
