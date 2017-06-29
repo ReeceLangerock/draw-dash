@@ -41,7 +41,7 @@ app.use(passport.session());
 
 //ROUTES
 app.use("/api", require("./routes/index"));
-//app.use("/authenticate", require("./routes/authenticate"));
+app.use("/api/authenticate", require("./routes/authenticate"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
 
 
