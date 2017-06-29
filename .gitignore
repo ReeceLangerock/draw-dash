@@ -9,5 +9,8 @@ node_modules
 # Optional npm cache directory
 .npm
 
+# Local config file
+/server/config.js
+
 # Prod Bundle
 build
