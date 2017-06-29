@@ -11,9 +11,10 @@ class Canvas extends React.Component {
   render() {
 
     var { test, prompts } = this.props;
-
-    const mapPrompts = prompts.map(prompt => <li>{prompt}</li>);
-
+    var mapPrompts;
+    if(prompts.length>0){
+    mapPrompts = prompts.map(prompt => <li>{prompt}</li>);
+  }
     return (
       <div>
         <h2>Canvas Component</h2>
