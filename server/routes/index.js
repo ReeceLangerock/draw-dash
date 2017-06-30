@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 	// Comment out this line:
   //res.send('respond with a resource');
-  console.log('te')
+  console.log("USER INFO IN REQ.USER", req.user);
   // And insert something like this instead:
   res.json([{
   	id: 1,

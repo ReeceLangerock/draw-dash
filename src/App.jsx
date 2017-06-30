@@ -5,7 +5,7 @@ import Home from "./containers/Home";
 import About from "./containers/About";
 import Navigation from "./containers/Navigation";
 import Canvas from "./containers/Canvas";
-import Login from "./containers/Login";
+
 
 import reactLogo from "./assets/React-icon.png";
 
@@ -23,10 +23,7 @@ class App extends React.Component {
 
     // Toggle the state every second
   }
-  handleLogin() {
-    console.log('trying');
-    fetch("/api/authenticate").then(console.log('then'));
-  }
+
   componentDidMount() {
     // fetch("/api")
     //   .then(response => response.json())
@@ -71,11 +68,11 @@ class App extends React.Component {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/canvas">Canvas</Link></li>
-            <li><Link to="/slack">Slack Sign in</Link></li>
-            <li><a href = "api/authenticate">Test</a></li>
+
+            <li><a href = "api/authenticate">Slack Sign in</a></li>
           </ul>
 
-          <Login onLogin = {this.handleLogin}/>
+
 
           <Switch>
             <Route exact path="/" component={Home} />
@@ -87,7 +84,7 @@ class App extends React.Component {
               path="/canvas"
               render={props => <Canvas prompts={imagePrompts} test="testing" />}
             />
-            <Route path="/slack" render={props => <Login onLogin={this.handleLogin}/>}/>
+
 
           </Switch>
         </main>

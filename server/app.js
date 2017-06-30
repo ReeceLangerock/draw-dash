@@ -33,7 +33,7 @@ app.all('/*', function(req, res, next) {
 // });
 
 //passport setup
-app.use(session({ secret: "123secret" /*process.env.PASSPORT_SECRET*/ }));
+app.use(session({ secret: "123secret",saveUninitialized: true, /*process.env.PASSPORT_SECRET*/ }));
 app.use(passport.initialize());
 app.use(passport.session());
 
