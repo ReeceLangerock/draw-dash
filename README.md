@@ -2,6 +2,9 @@
 
 # Draw Dash!
 
+To start backend server, navigate to /server and run `node app.js`
+To start Client side follow the instructions below
+
 Keeping Kornil's readme info below for future reference.
 
 # simple-react-app
