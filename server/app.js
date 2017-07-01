@@ -8,6 +8,8 @@ var app = express();
 var passport = require("passport");
 var session = require("express-session");
 var bodyParser = require("body-parser");
+
+var morgan = require("morgan");
 app.use(
   bodyParser.urlencoded({
     extended: true
@@ -33,15 +35,17 @@ app.all('/*', function(req, res, next) {
 // });
 
 //passport setup
-app.use(session({ secret: "123secret" /*process.env.PASSPORT_SECRET*/ }));
+app.use(session({ secret: "123secret",saveUninitialized: true, /*process.env.PASSPORT_SECRET*/ }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(morgan('dev'));
 
 
 
 //ROUTES
 app.use("/api", require("./routes/index"));
-//app.use("/authenticate", require("./routes/authenticate"));
+app.use("/api/authenticate", require("./routes/authenticate"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
 
 

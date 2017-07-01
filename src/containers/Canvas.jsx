@@ -12,7 +12,7 @@ class Canvas extends React.Component {
 
     var { test, prompts } = this.props;
     var mapPrompts;
-    if(prompts.length>0){
+    if(prompts && prompts.length>0){
     mapPrompts = prompts.map(prompt => <li>{prompt}</li>);
   }
     return (
