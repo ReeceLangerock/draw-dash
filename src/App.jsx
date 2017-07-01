@@ -5,9 +5,8 @@ import Home from "./containers/Home";
 import About from "./containers/About";
 import Navigation from "./containers/Navigation";
 import Canvas from "./containers/Canvas";
-
-
-import reactLogo from "./assets/React-icon.png";
+import Chat from './containers/Chat';
+import Footer from './containers/Footer';
 
 /**
  * this container is defined as class so we can modify state
@@ -54,25 +53,13 @@ class App extends React.Component {
         <main>
           <Navigation />
           <div className="container">
-            <h1>hello world!</h1>
-            <img
-              className="container__image"
-              alt="react logo"
-              src={reactLogo}
-            />
-            <p>If you see this everything is working!</p>
-            <h1>{imagePrompts}</h1>
+            <h2>{imagePrompts}</h2>
 
           </div>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/canvas">Canvas</Link></li>
 
             <li><a href = "api/authenticate">Slack Sign in</a></li>
           </ul>
-
-
 
           <Switch>
             <Route exact path="/" component={Home} />
@@ -87,6 +74,7 @@ class App extends React.Component {
 
 
           </Switch>
+          <Footer/>
         </main>
       </HashRouter>
     );
