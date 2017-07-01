@@ -1,9 +1,21 @@
 import React from 'react';
+import Canvas from './Canvas'
+import About from './About'
 
-const Home = () => (
+class Home extends React.Component {
+
+  render () {
+    return(
   <div>
-    <h2>Home Page</h2>
+    Home
+
+    <Canvas/>
+    <About/>
+
+
   </div>
 );
+}
+}
 
 export default Home;

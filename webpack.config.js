@@ -33,10 +33,28 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
+    proxy: {
+    '/': 'http://localhost:3001'
+}
+
   },
   entry: [
     'react-hot-loader/patch',
+    'script-loader!jquery/dist/jquery.min.js',
+    'script-loader!foundation-sites/dist/js/foundation.min.js',
     path.join(__dirname, '/src/index.jsx'),
+  ],
+  externals: {
+    jquery: 'jQuery'
+  },
+
+
+
+  plugins: [
+    new webpack.ProvidePlugin({
+      '$': 'jquery',
+      'jQuery': 'jquery'
+    })
   ],
   module: {
     loaders: [
