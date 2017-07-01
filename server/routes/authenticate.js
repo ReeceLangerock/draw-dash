@@ -6,7 +6,6 @@ var passport = require("passport");
 var router = express.Router();
 var session = require("express-session");
 var config = require("../config.js");
-var util = require('util')
 router.use(session({ secret: "CHANGE-ME-LATER" }));
 router.use(passport.initialize());
 router.use(passport.session());
@@ -32,7 +31,6 @@ passport.use(new SlackStrategy({
 ));
 
 passport.serializeUser(function (user, cb) {
-  console.log(user);
     cb(null, user);
   });
 

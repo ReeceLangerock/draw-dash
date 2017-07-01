@@ -8,6 +8,8 @@ var app = express();
 var passport = require("passport");
 var session = require("express-session");
 var bodyParser = require("body-parser");
+
+var morgan = require("morgan");
 app.use(
   bodyParser.urlencoded({
     extended: true
@@ -36,6 +38,8 @@ app.all('/*', function(req, res, next) {
 app.use(session({ secret: "123secret",saveUninitialized: true, /*process.env.PASSPORT_SECRET*/ }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(morgan('dev'));
 
 
 

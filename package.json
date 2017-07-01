@@ -8,7 +8,6 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start": "SET NODE_ENV=development && webpack-dev-server",
     "start": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack -p"
   },
@@ -38,6 +37,7 @@
   "dependencies": {
     "foundation-sites": "^6.3.1",
     "jquery": "^3.2.1",
+    "morgan": "^1.8.2",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
