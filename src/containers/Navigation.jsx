@@ -32,7 +32,9 @@ class Navigation extends React.Component {
         <div className = "top-bar-right">
           <ul className = "menu">
             <li className = "menu-text">
-              Test
+              <a href = "/api/logout">
+                Logout
+              </a>
             </li>
           </ul>
         </div>

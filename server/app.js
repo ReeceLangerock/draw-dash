@@ -48,6 +48,7 @@ app.use(passport.session());
 //ROUTES
 app.use("/api", require("./routes/index"));
 app.use("/api/authenticate", require("./routes/authenticate"));
+app.use("/api/logout", require("./routes/logout"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
 
 //launch
