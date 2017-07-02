@@ -19,7 +19,7 @@ class App extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { imagePrompts: [] };
+    this.state = { imagePrompts: [], user: "Guest"};
 
     // Toggle the state every second
   }
@@ -33,13 +33,15 @@ class App extends React.Component {
     //   .catch(error => {
     //     console.error(error);
     //   });
-    fetch("/api/image-prompts")
+    fetch("/api/image-prompts", {credentials : 'include'})
       .then(response => response.json())
-      .then(imagePrompts => {
+      .then(response => {
         //this.state = {imagePrompts: responseJson['image-prompts']};
-
+        var user = response.user ? response.user : 'Guest';
         this.setState({
-          imagePrompts: imagePrompts["image-prompts"]
+          imagePrompts: response["image-prompts"],
+          user
+
         });
       })
       .catch(error => {
@@ -48,20 +50,20 @@ class App extends React.Component {
   }
 
   render() {
-    var { imagePrompts } = this.state;
+    var { imagePrompts, user } = this.state;
     return (
       <HashRouter>
         <main>
           <Navigation />
           <div className="container">
-            <h1>hello world!</h1>
+            <h1>hello {user}!</h1>
             <img
               className="container__image"
               alt="react logo"
               src={reactLogo}
             />
             <p>If you see this everything is working!</p>
-            <h1>{imagePrompts}</h1>
+            
 
           </div>
           <ul>
