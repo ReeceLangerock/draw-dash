@@ -6,7 +6,7 @@ import About from "./containers/About";
 import Canvas from "./containers/Canvas";
 import LandingPage from './containers/LandingPage';
 import reactLogo from "./assets/React-icon.png";
-
+require('../src/styles/app.scss');
 /**
  * this container is defined as class so we can modify state
  */
@@ -59,11 +59,10 @@ class App extends React.Component {
       <HashRouter>
         <main>
 
-          <div className="container">
-            <h1>hello {user}!</h1>
-          </div>
+
           {this.renderLandingPage()}
           {this.renderHome()}
+
           <Switch>
             <Route exact path="/"/>
             <Route
