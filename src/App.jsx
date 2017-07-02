@@ -57,7 +57,6 @@ class App extends React.Component {
 
           </div>
           <ul>
-
             <li><a href = "api/authenticate">Slack Sign in</a></li>
           </ul>
 
