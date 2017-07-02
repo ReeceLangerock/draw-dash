@@ -3,10 +3,8 @@ import { HashRouter, Route, Link, Switch } from "react-router-dom";
 
 import Home from "./containers/Home";
 import About from "./containers/About";
-import Navigation from "./containers/Navigation";
 import Canvas from "./containers/Canvas";
-
-
+import LandingPage from './containers/LandingPage';
 import reactLogo from "./assets/React-icon.png";
 
 /**
@@ -19,29 +17,22 @@ class App extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.state = { imagePrompts: [], user: "Guest"};
+    this.state = { imagePrompts: [], user: "Guest", isAuthenticated: undefined };
 
     // Toggle the state every second
   }
 
   componentDidMount() {
-    // fetch("/api")
-    //   .then(response => response.json())
-    //   .then(responseJson => {
-    //     console.log(responseJson);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-    fetch("/api/image-prompts", {credentials : 'include'})
+    fetch("/api/image-prompts", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
-        //this.state = {imagePrompts: responseJson['image-prompts']};
-        var user = response.user ? response.user : 'Guest';
+        var user = response.user ? response.user : "Guest";
+        console.log(response.user)
+        var isAuthenticated = response.user ? true : false;
         this.setState({
           imagePrompts: response["image-prompts"],
-          user
-
+          user,
+          isAuthenticated
         });
       })
       .catch(error => {
@@ -49,35 +40,32 @@ class App extends React.Component {
       });
   }
 
+  renderLandingPage(){
+    if(!this.state.isAuthenticated){
+      return ( <LandingPage/>)
+    }
+  }
+
+  renderHome(){
+    console.log(this.state);
+    if(this.state.isAuthenticated){
+      return ( <Home/>)
+    }
+  }
+
   render() {
-    var { imagePrompts, user } = this.state;
+    var { imagePrompts, user, isAuthenticated } = this.state;
     return (
       <HashRouter>
         <main>
-          <Navigation />
+
           <div className="container">
             <h1>hello {user}!</h1>
-            <img
-              className="container__image"
-              alt="react logo"
-              src={reactLogo}
-            />
-            <p>If you see this everything is working!</p>
-            
-
           </div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/canvas">Canvas</Link></li>
-
-            <li><a href = "api/authenticate">Slack Sign in</a></li>
-          </ul>
-
-
-
+          {this.renderLandingPage()}
+          {this.renderHome()}
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/"/>
             <Route
               path="/about"
               render={props => <About prompts={imagePrompts} test="testing" />}
@@ -86,7 +74,6 @@ class App extends React.Component {
               path="/canvas"
               render={props => <Canvas prompts={imagePrompts} test="testing" />}
             />
-
 
           </Switch>
         </main>
