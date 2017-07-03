@@ -1,6 +1,5 @@
 import React from "react";
-import Canvas from "./Canvas";
-import About from "./About";
+import { withRouter } from 'react-router-dom';
 import LandingPage from "./LandingPage";
 import Navigation from "./Navigation";
 const io = require("socket.io-client");
@@ -18,7 +17,6 @@ class Lobby extends React.Component {
     fetch("/api/lobby", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
         this.setState({
           rooms: response
         });
@@ -27,24 +25,56 @@ class Lobby extends React.Component {
         console.error(error);
       });
   }
+  handleRoomSelection(id) {
+    var that = this;
+    socket.emit("join", { roomId: id }, function(data) {
+      that.setState({
+        rooms: data
+      });
+
+    });
+    this.props.router.push(`room${id}`);
+  }
 
   render() {
     var { rooms, test } = this.state;
-    var roomRender;
-    if (rooms && rooms.length > 0) {
-      roomRender = rooms.map(room => (
-        <div>
-
-        <button className="button">{room.roomName}</button>
-      </div>
-      ));
+    if (rooms) {
+      var that = this;
+      var renderRoomButtons = Object.keys(rooms).map(function(
+        keyName,
+        keyIndex
+      ) {
+        if (rooms[keyName].max - rooms[keyName].occupants === 0) {
+          return (
+            <div key={keyName}>
+              <h1>{rooms[keyName].roomName}</h1>
+              <p>The room is full</p>
+            </div>
+          );
+        } else {
+          return (
+            <div key={keyName}>
+              <h1>{rooms[keyName].roomName}</h1>
+              <p>{rooms[keyName].max - rooms[keyName].occupants} Canvas Open</p>
+              <button
+                className="button"
+                onClick={() => that.handleRoomSelection(keyName)}
+              >
+                Join
+              </button>
+            </div>
+          );
+        }
+      });
     }
+
     return (
       <div>
 
         Lobby
         <h1>Join A Room!</h1>
-        {roomRender}
+
+        {renderRoomButtons}
 
       </div>
     );

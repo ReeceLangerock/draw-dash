@@ -7,10 +7,20 @@ var returnRouter = function(io, rooms) {
     if (rooms.checkIfAllRoomsOccupied()) {
       rooms.createRoom();
     }
-    rooms.joinRoom(1)
-    console.log(rooms.getRooms());
+
     res.json(rooms.getRooms());
   });
+
+  io.sockets.on('connection', function (socket) {
+    socket.on("join", function(data,fn) {
+
+        rooms.joinRoom(data.roomId);
+        if (rooms.checkIfAllRoomsOccupied()) {
+          rooms.createRoom();
+        }
+        fn(rooms.getRooms());
+    });
+});
 
   return router;
 };

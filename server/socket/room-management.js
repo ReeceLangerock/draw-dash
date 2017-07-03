@@ -1,6 +1,6 @@
 var rooms = {};
-var lastId = 1;
-const roomNames = ['Penguin', 'Panda', 'Chameleon', "Red Pandas"]
+var lastId = 0;
+const roomNames = ['Honey Badger', 'Chameleon', 'Sloth', 'Tapir', 'Red Panda', 'Bearded Dragon', 'Armadillo', 'Dolphin', 'Llama', 'Elephant', 'Puma', 'Platypus', 'Kiwis'];
 const MAX_OCCUPANTS = 2;
 const MAX_ROOMS = roomNames.length;
 module.exports = {
@@ -12,7 +12,6 @@ module.exports = {
     for (var id in rooms) {
       if (rooms.hasOwnProperty(id)) {
         if (rooms[id].occupants < MAX_OCCUPANTS) {
-          console.log(false);
           return false;
         }
       }
@@ -21,20 +20,20 @@ module.exports = {
     return true;
   },
   createRoom() {
-    rooms[lastId] = {
-      roomName: roomNames[lastId],
-      namespace: 'none',
-      occupants: 0
-    };
-    lastId++;
+    if (lastId < MAX_ROOMS) {
+      rooms[lastId] = {
+        roomName: roomNames[lastId],
+        namespace: "none",
+        occupants: 0,
+        max: MAX_OCCUPANTS
+      };
+      lastId++;
+    }
   },
   joinRoom(id) {
     if (rooms[id].occupants < MAX_OCCUPANTS) {
-      console.log("join room");
       rooms[id].occupants++;
     }
   },
-  cleanUpEmptyRooms() {
-
-  }
+  cleanUpEmptyRooms() {}
 };

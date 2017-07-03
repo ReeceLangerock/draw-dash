@@ -27,7 +27,6 @@ class App extends React.Component {
       .then(response => response.json())
       .then(response => {
         var user = response.user ? response.user : "Guest";
-        console.log(response.user)
         var isAuthenticated = response.user ? true : false;
         this.setState({
           imagePrompts: response["image-prompts"],
@@ -47,7 +46,7 @@ class App extends React.Component {
   }
 
   renderHome(){
-    console.log(this.state);
+
     if(this.state.isAuthenticated){
       return ( <Home/>)
     }
@@ -60,11 +59,14 @@ class App extends React.Component {
         <main>
 
 
-          {this.renderLandingPage()}
-          {this.renderHome()}
 
           <Switch>
-            <Route exact path="/"/>
+            <Route exact path="/">
+            <div>
+            {this.renderLandingPage()}
+            {this.renderHome()}
+          </div>
+            </Route>
             <Route
               path="/about"
               render={props => <About prompts={imagePrompts} test="testing" />}
@@ -73,6 +75,11 @@ class App extends React.Component {
               path="/canvas"
               render={props => <Canvas prompts={imagePrompts} test="testing" />}
             />
+            <Route
+              path="/:room"
+              render={props => <About test="testing" />}
+            />
+
 
           </Switch>
         </main>
