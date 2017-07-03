@@ -4,11 +4,13 @@ var mongoose = require("mongoose");
 var path = require("path");
 var port = process.env.PORT || 3001;
 var app = express();
-//var config = require("./config.js");
+var config = require("./config.js");
 var passport = require("passport");
 var session = require("express-session");
 var bodyParser = require("body-parser");
 var morgan = require("morgan");
+const MongoStore = require("connect-mongo")(session);
+var socketRooms = require('./socket/room-management')
 
 app.use(
   bodyParser.urlencoded({
@@ -23,35 +25,49 @@ app.all("/*", function(req, res, next) {
   next();
 });
 
-// var mongoUser = process.env.DB_USERNAME;// || config.getMongoUser();
-// var mongoPass = process.env.DB_PASSWORD;// || config.getMongoPass();
-//
-// mongoose.connect(
-//   `mongodb://${mongoUser}:${mongoPass}@ds131340.mlab.com:31340/libru`
-// );
-// var db = mongoose.connection;
-// db.on("error", console.error.bind(console, "connection eror:"));
-// db.once("open", function() {
-//   console.log("connected");
-// });
+var mongoUser = process.env.DB_USERNAME || config.getMongoUser();
+var mongoPass = process.env.DB_PASSWORD || config.getMongoPass();
+
+mongoose.connect(
+  `mongodb://${mongoUser}:${mongoPass}@ds047335.mlab.com:47335/draw-dash`
+);
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection eror:"));
+db.once("open", function() {
+  console.log("MongoDB Database connected");
+});
 
 //passport setup
 app.use(
   session({
     secret: "123secret",
-    saveUninitialized: true /*process.env.PASSPORT_SECRET*/
+    saveUninitialized: true /*process.env.PASSPORT_SECRET*/,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
 //ROUTES
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
 app.use("/api", require("./routes/index"));
 app.use("/api/authenticate", require("./routes/authenticate"));
 app.use("/api/logout", require("./routes/logout"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
+app.use("/api/lobby", require("./routes/lobby")(io, socketRooms));
 
 //launch
-app.listen(port, function() {
+server.listen(port, function() {
   console.log(`DrawDash Server listening on port ${port}!`);
+});
+
+io.on("connection", socket => {
+  console.log("a user connected");
+
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
