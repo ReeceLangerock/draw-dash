@@ -5,7 +5,8 @@ import Home from "./containers/Home";
 import About from "./containers/About";
 import Canvas from "./containers/Canvas";
 import LandingPage from './containers/LandingPage';
-import reactLogo from "./assets/React-icon.png";
+import Footer from './containers/Footer';
+
 require('../src/styles/app.scss');
 /**
  * this container is defined as class so we can modify state
@@ -82,6 +83,7 @@ class App extends React.Component {
 
 
           </Switch>
+          <Footer/>
         </main>
       </HashRouter>
     );
