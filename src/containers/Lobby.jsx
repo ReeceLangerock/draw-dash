@@ -4,6 +4,8 @@ import LandingPage from "./LandingPage";
 import Navigation from "./Navigation";
 const io = require("socket.io-client");
 const socket = io();
+import store from "./../store/store.js";
+import { push } from "react-router-redux";
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -33,7 +35,7 @@ class Lobby extends React.Component {
       });
 
     });
-    this.props.router.push(`room${id}`);
+    store.dispatch(push(`room${id}`));
   }
 
   render() {
@@ -53,6 +55,7 @@ class Lobby extends React.Component {
           );
         } else {
           return (
+
             <div key={keyName}>
               <h1>{rooms[keyName].roomName}</h1>
               <p>{rooms[keyName].max - rooms[keyName].occupants} Canvas Open</p>
@@ -70,7 +73,7 @@ class Lobby extends React.Component {
 
     return (
       <div>
-
+        <Navigation/>
         Lobby
         <h1>Join A Room!</h1>
 

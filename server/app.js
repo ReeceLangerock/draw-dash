@@ -56,6 +56,7 @@ app.use("/api", require("./routes/index"));
 app.use("/api/authenticate", require("./routes/authenticate"));
 app.use("/api/logout", require("./routes/logout"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
+app.use("/api/authCheck", require("./routes/authCheck"));
 app.use("/api/lobby", require("./routes/lobby")(io, socketRooms));
 
 //launch

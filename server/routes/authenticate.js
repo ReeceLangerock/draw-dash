@@ -53,7 +53,7 @@ router.get(
   "/callback",
   passport.authenticate("slack", { failureRedirect: "/login" }),
   function(req, res) {
-    res.redirect("http://localhost:3000");
+    res.redirect("http://localhost:3000/");
   }
 );
 

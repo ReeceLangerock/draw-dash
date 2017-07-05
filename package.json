@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start": "SET NODE_ENV=development && webpack-dev-server",
+    "start": "NODE_ENV=development && webpack-dev-server",
     "build": "NODE_ENV=production webpack -p"
   },
   "devDependencies": {
@@ -41,7 +41,12 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.5",
+    "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-router-redux": "next",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
     "script-loader": "^0.7.0",
     "socket.io-client": "^2.0.3"
   }

@@ -90,4 +90,5 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
   ] :
   [HTMLWebpackPluginConfig, DefinePluginConfig, UglifyJsPluginConfig],
+  devtool: "inline-source-map"
 };

@@ -1,11 +1,11 @@
 import React from 'react';
 
-const About = ({prompts}) => {
-  console.log(prompts)
+const About = (props) => {
+
   return(
   <div>
     <h2>About Page</h2>
-    <h2>{prompts}</h2>
+    <h2></h2>
 
   </div>
 );
