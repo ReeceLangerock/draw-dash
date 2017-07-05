@@ -35,6 +35,15 @@ class Navigation extends React.Component {
                 Gallery
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/canvas"
+                activeClassName="active-link"
+                activeStyle={{ fontWeight: "bold" }}
+              >
+                Canvas Test
+              </NavLink>
+            </li>
           </ul>
         </div>
 
