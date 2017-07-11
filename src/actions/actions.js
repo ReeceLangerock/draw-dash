@@ -31,15 +31,17 @@ export var isAuthenticating= (isAuthenticating) =>{
 export var startLogin = () => {
   return (dispatch) => {
     dispatch(isAuthenticating(true));
+    dispatch(login({user: 'test'}))
+    dispatch(isAuthenticating(false));
 
-    fetch("/api/authCheck", { credentials: "include" })
+    /*fetch("/api/authCheck", { credentials: "include" })
       .then((response) => {
         dispatch(isAuthenticating(false))
           return response.json()})
 
       .then(response => {
         dispatch(login(response));
-      });
+      });*/
   };
 };
 

@@ -2,7 +2,7 @@ const initialState = {
   userName: null,
   isAuthenticated: false,
   isAuthenticating: false,
-  user: {}
+  user: {name: 'Guest'}
 };
 
 export var imagePromptReducer = (state = [], action) => {
@@ -17,7 +17,7 @@ export var imagePromptReducer = (state = [], action) => {
 export var authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN":
-      return { ...state, user: action.user.user, isAuthenticated: true };
+      return { ...state, user: action.user, isAuthenticated: true };
     case "IS_AUTHENTICATING":
       return { ...state, isAuthenticating: !action.isAuthenticating };
     default:

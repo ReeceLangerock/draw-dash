@@ -2,6 +2,9 @@ import React from "react";
 import { withRouter } from 'react-router-dom';
 import LandingPage from "./LandingPage";
 import Navigation from "./Navigation";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 const io = require("socket.io-client");
 const socket = io();
 import store from "./../store/store.js";
@@ -16,6 +19,7 @@ class Lobby extends React.Component {
   }
 
   componentDidMount() {
+  console.log(this.props)
     fetch("/api/lobby", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
@@ -75,6 +79,7 @@ class Lobby extends React.Component {
       <div>
         <Navigation/>
         Lobby
+        <h1>Welcome {this.user.user}</h1>
         <h1>Join A Room!</h1>
 
         {renderRoomButtons}
@@ -84,4 +89,18 @@ class Lobby extends React.Component {
   }
 }
 
-export default Lobby;
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated
+  ,user: state.authReducer.user,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+
+}, dispatch)
+
+
+
+export default connect (
+  mapStateToProps,
+  mapDispatchToProps
+)(Lobby)

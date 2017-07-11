@@ -1,18 +1,43 @@
 import React from "react";
 import * as Redux from "react-redux";
-import { bindActionCreators } from "redux";
+import {push} from 'react-router-redux'
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import * as actions from "./../actions/actions";
+import {startLogin} from "./../actions/actions";
 
-class LandingPage extends React.Component {
+export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.onLogin = this.onLogin.bind(this);
   }
-  onLogin() {
-    var { dispatch } = this.props;
 
-    dispatch(actions.startLogin());
+
+    componentWillMount() {
+    this.checkAuth();
+
+    }
+    componentWillReceiveProps(nextProps) {
+       if (nextProps.isAuthenticated) {
+         //this.checkAuth()
+         this.props.changePage()
+         //this.props.dispatch(push('/lobby'));
+         console.log("dispatch(push('/lobby'))");
+       }
+     }
+
+    checkAuth() {
+
+      if (this.props.isAuthenticated) {
+        var dispatch = require('react-redux')
+        console.log(true)
+        this.dispatch(push("/lobby"));
+      }
+    }
+
+  onLogin() {
+    console.log('onlogin')
+    this.props.startLogin()
   }
 render() {
   return (
@@ -31,6 +56,8 @@ render() {
             </form>
           </div>
 
+          <h1>TEST{this.props.isAuthenticated}</h1>
+
         </div>
       </div>
 
@@ -39,4 +66,18 @@ render() {
 }
 };
 
-export default Redux.connect()(LandingPage);
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated
+  ,user: state.authReducer.user,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+startLogin, changePage: () => push('lobby')
+}, dispatch)
+
+
+
+export default connect (
+  mapStateToProps,
+  mapDispatchToProps
+)(LandingPage)

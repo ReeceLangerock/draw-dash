@@ -17,35 +17,13 @@ import Footer from "./containers/Footer";
 require("../src/styles/app.scss");
 
 class App extends React.Component {
-  componentDidMount() {
-    this.checkAuth();
 
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props)
-    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
-      console.log('will');
-      this.checkAuth()
-    }
-  }
-
-
-  checkAuth() {
-
-    if (this.props.isAuthenticated) {
-      console.log(true)
-      store.dispatch(push("/lobby"));
-    }
-  }
 
   render() {
-    if(this.props.isAuthenticated){
-      <p>test</p>
-    }
+
     return (
       <div>
         <main>
-          <p>{this.props.isAuthenticated}</p>
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/lobby" component={Lobby} />
@@ -62,9 +40,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('state',state);
   return {
-  user: state.authReducer.user,
   isAuthenticated: state.authReducer.isAuthenticated
 }};
 
