@@ -1,10 +1,10 @@
 import React from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Navigation from "./Navigation";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import { getRooms} from './../actions/actions'
 const io = require("socket.io-client");
 const socket = io();
 import store from "./../store/store.js";
@@ -19,17 +19,18 @@ class Lobby extends React.Component {
   }
 
   componentDidMount() {
-  console.log(this.props)
-    fetch("/api/lobby", { credentials: "include" })
-      .then(response => response.json())
-      .then(response => {
-        this.setState({
-          rooms: response
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    this.props.getRooms()
+
+    // fetch("/api/lobby", { credentials: "include" })
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     this.setState({
+    //       rooms: response
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
   }
   handleRoomSelection(id) {
     var that = this;
@@ -37,7 +38,6 @@ class Lobby extends React.Component {
       that.setState({
         rooms: data
       });
-
     });
     store.dispatch(push(`room${id}`));
   }
@@ -59,7 +59,6 @@ class Lobby extends React.Component {
           );
         } else {
           return (
-
             <div key={keyName}>
               <h1>{rooms[keyName].roomName}</h1>
               <p>{rooms[keyName].max - rooms[keyName].occupants} Canvas Open</p>
@@ -77,9 +76,9 @@ class Lobby extends React.Component {
 
     return (
       <div>
-        <Navigation/>
+        <Navigation />
         Lobby
-        <h1>Welcome {this.user.user}</h1>
+        <h1>Welcome {this.props.displayName}</h1>
         <h1>Join A Room!</h1>
 
         {renderRoomButtons}
@@ -90,17 +89,13 @@ class Lobby extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.isAuthenticated
-  ,user: state.authReducer.user,
-})
+  isAuthenticated: state.authReducer.isAuthenticated,
+  displayName: state.authReducer.displayName,
+  rooms: state.roomReducer.rooms
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  getRooms
+}, dispatch);
 
-}, dispatch)
-
-
-
-export default connect (
-  mapStateToProps,
-  mapDispatchToProps
-)(Lobby)
+export default connect(mapStateToProps, mapDispatchToProps)(Lobby);

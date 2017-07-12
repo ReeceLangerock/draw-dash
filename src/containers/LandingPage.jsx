@@ -22,7 +22,7 @@ export class LandingPage extends React.Component {
          //this.checkAuth()
          this.props.changePage()
          //this.props.dispatch(push('/lobby'));
-         console.log("dispatch(push('/lobby'))");
+    
        }
      }
 

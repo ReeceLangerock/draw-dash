@@ -8,42 +8,67 @@ export var addImagePrompts = prompts => {
 export var startGetImagePrompts = () => {
   return (dispatch, getState) => {
     console.log("action");
-    /*fetch("/api/image-prompts", { credentials: "include" })
+    fetch("/api/image-prompts", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
         var imagePrompts = response["image-prompts"];
         dispatch(addImagePrompts(imagePrompts));
-      });*/
-    dispatch(addImagePrompts(["test", "test2"]));
+      });
   };
 };
+
+//ROOM MANAGEMENT
+//-------------------------------
+export var getRooms = () => {
+  console.log('get rooms');
+  return dispatch => {
+    fetch("/api/lobby", { credentials: "include" })
+      .then(response => response.json())
+      .then(response => {
+        return response
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+}
 
 //AUTHENTICATION
 //-------------------------------
 
-export var isAuthenticating= (isAuthenticating) =>{
+export var isAuthenticating = isAuthenticating => {
   return {
     type: "IS_AUTHENTICATING",
     isAuthenticating
   };
-}
+};
+
+// export var startLogin = () => {
+//   return dispatch => {
+//     dispatch(isAuthenticating(true));
+//     fetch("/api/authCheck", { credentials: "include", mode: 'no-cors' })
+//       .then(response => {
+//         return response.json();
+//       })
+//       .then(response => {
+//         dispatch(login(response));
+//       })
+//       .then(response => {
+//         dispatch(isAuthenticating(false));
+//       });
+//   };
+// };
 
 export var startLogin = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(isAuthenticating(true));
-    dispatch(login({user: 'test'}))
-    dispatch(isAuthenticating(false));
-
-    /*fetch("/api/authCheck", { credentials: "include" })
-      .then((response) => {
-        dispatch(isAuthenticating(false))
-          return response.json()})
-
+    fetch("/api/authenticate", { credentials: "include", mode: 'no-cors' })
       .then(response => {
-        dispatch(login(response));
-      });*/
+        dispatch(isAuthenticating(false));
+      });
   };
 };
+
 
 export var login = user => {
   return {
