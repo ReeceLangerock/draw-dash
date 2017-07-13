@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Navigation from "./Navigation";
-
-require('../../node_modules/literallycanvas/lib/js/literallycanvas-core.js');
+import Navigation from './Navigation';
+const LC = require('literallycanvas');
 
 import styles from '../styles/components/literallycanvas.css';
 
@@ -20,8 +19,9 @@ class Canvas extends React.Component {
         <Navigation />
         <h2>Canvas Component</h2>
         <div>
-                <LC.LiterallyCanvasReactComponent imageURLPrefix="/static/img" />
-            </div>
+          <LC.LiterallyCanvasReactComponent imageURLPrefix="../assets" />
+          <br />
+        </div>
       </div>
     );
   }
