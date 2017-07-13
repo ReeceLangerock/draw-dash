@@ -38,12 +38,10 @@ passport.use(
 );
 
 passport.serializeUser(function(user, cb) {
-  console.log('test')
   cb(null, user);
 });
 
 passport.deserializeUser(function(obj, cb) {
-  console.log('test2')
   cb(null, obj);
 });
 

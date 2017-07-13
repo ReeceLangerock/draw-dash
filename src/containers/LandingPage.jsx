@@ -4,12 +4,13 @@ import {push} from 'react-router-redux'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "./../actions/actions";
-import {startLogin} from "./../actions/actions";
+import {startLoginProcess, logout} from "./../actions/actions";
 
 export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.onLogin = this.onLogin.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
 
@@ -22,7 +23,7 @@ export class LandingPage extends React.Component {
          //this.checkAuth()
          this.props.changePage()
          //this.props.dispatch(push('/lobby'));
-    
+
        }
      }
 
@@ -37,8 +38,14 @@ export class LandingPage extends React.Component {
 
   onLogin() {
     console.log('onlogin')
-    this.props.startLogin()
+    this.props.startLoginProcess()
   }
+
+  onLogout(){
+  console.log('logging out')
+  this.props.logout()
+  }
+
 render() {
   return (
     <div>
@@ -48,14 +55,16 @@ render() {
           <h1 className = "page-title">Draw Dash!</h1>
           <div className="auth-button-container">
 
+          <form action="/api/authenticate">
+              <input className="button" type="submit" value="TESTTT Me Draw!" />
+            </form>
+
               <button className="button" type="submit" onClick={this.onLogin}>Let Me Draw!</button>
 
 
-            <form action="/">
-              <input className="button" type="submit" value="Let Me Watch!" />
-            </form>
-          </div>
+              <button className="button" type="submit" onClick={this.onLogout}>Let Me Watch!</button>
 
+              </div>
           <h1>TEST{this.props.isAuthenticated}</h1>
 
         </div>
@@ -66,13 +75,11 @@ render() {
 }
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.isAuthenticated
-  ,user: state.authReducer.user,
-})
+const mapStateToProps = state => ({isAuthenticated: state.authReducer.isAuthenticated,
+  user: state.authReducer.user})
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-startLogin, changePage: () => push('lobby')
+startLoginProcess, logout, changePage: () => push('lobby')
 }, dispatch)
 
 

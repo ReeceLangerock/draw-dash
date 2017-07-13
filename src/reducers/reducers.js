@@ -36,6 +36,13 @@ export var authReducer = (state = initialState, action) => {
         //slackUID: action.user.user.id,
         isAuthenticated: true
       };
+      case "LOGOUT":
+        return {
+          ...state,
+          displayName: "Guest",
+          //slackUID: action.user.user.id,
+          isAuthenticated: false
+        };
     case "IS_AUTHENTICATING":
       return { ...state, isAuthenticating: action.isAuthenticating };
     default:
