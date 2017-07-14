@@ -29,7 +29,7 @@ class Lobby extends React.Component {
     // emit to backend if user joins a room
     socket.emit(
       "join",
-      { roomId: id, user: this.props.user.slackUID },
+      { roomId: id, user: this.props.user },
       function(data) {}
     );
     //dispatch actions to add user to room and redirect to selected room

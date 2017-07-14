@@ -42,12 +42,13 @@ module.exports = {
     }
   },
   joinRoom(id, user) {
+    console.log('join room', user);
     if (user.isAuthenticated === true) {
       if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
-        rooms[id].occupants.drawers.push(user);
+        rooms[id].occupants.drawers.push(user.slackUID);
       }
     } else if (user.isAuthenticated === false) {
-      rooms[id].occupants.watchers.push(user);
+      rooms[id].occupants.watchers.push(user.slackUID);
     }
   },
   cleanUpEmptyRooms() {
