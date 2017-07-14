@@ -51,10 +51,15 @@ router.get("/", passport.authenticate("slack", { session: true }));
 // OAuth callback url
 router.get(
   "/callback",
-  passport.authenticate("slack", { failureRedirect: "/login" }),
+  passport.authenticate("slack", { failureRedirect: "/" }),
   function(req, res) {
     res.redirect("http://localhost:3000/");
   }
 );
+
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = router;

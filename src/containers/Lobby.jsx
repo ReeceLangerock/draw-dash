@@ -1,56 +1,54 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import LandingPage from "./LandingPage";
 import Navigation from "./Navigation";
+import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getRooms} from './../actions/actions'
+import {
+  getRooms,
+  sendAuthorizationCheck,
+  addUserToRoom
+} from "./../actions/actions";
 const io = require("socket.io-client");
 const socket = io();
-import store from "./../store/store.js";
-import { push } from "react-router-redux";
 
 class Lobby extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      rooms: []
-    };
+  }
+  //
+  componentWillMount() {
+    if (!this.props.isAuthenticated) {
+      this.props.sendAuthorizationCheck();
+    }
+    this.props.getRooms();
   }
 
-  componentDidMount() {
-    this.props.getRooms()
+  componentDidMount() {}
 
-    // fetch("/api/lobby", { credentials: "include" })
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     this.setState({
-    //       rooms: response
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-  }
   handleRoomSelection(id) {
-    var that = this;
-    socket.emit("join", { roomId: id }, function(data) {
-      that.setState({
-        rooms: data
-      });
-    });
-    store.dispatch(push(`room${id}`));
+    // emit to backend if user joins a room
+    socket.emit(
+      "join",
+      { roomId: id, user: this.props.user.slackUID },
+      function(data) {}
+    );
+    //dispatch actions to add user to room and redirect to selected room
+    this.props.addUserToRoom(id, this.props.user);
+    this.props.changePage(`room${id}`);
+
   }
 
   render() {
-    var { rooms, test } = this.state;
+    var rooms = this.props.rooms; //shorten the name
+
     if (rooms) {
       var that = this;
       var renderRoomButtons = Object.keys(rooms).map(function(
         keyName,
         keyIndex
       ) {
-        if (rooms[keyName].max - rooms[keyName].occupants === 0) {
+        //if room is full, render that -- NEED TO ADD OPTION TO ENTER AS WATCHER
+        if (rooms[keyName].max - rooms[keyName].occupants.drawers.length ===  0  ) {
           return (
             <div key={keyName}>
               <h1>{rooms[keyName].roomName}</h1>
@@ -58,10 +56,15 @@ class Lobby extends React.Component {
             </div>
           );
         } else {
+          //if room is NOT full, render option to join -- NEED TO ADD OPTION TO ENTER AS WATCHER
           return (
             <div key={keyName}>
               <h1>{rooms[keyName].roomName}</h1>
-              <p>{rooms[keyName].max - rooms[keyName].occupants} Canvas Open</p>
+              <p>
+                {rooms[keyName].max - rooms[keyName].occupants.drawers.length}
+                {" "}
+                Canvas Open
+              </p>
               <button
                 className="button"
                 onClick={() => that.handleRoomSelection(keyName)}
@@ -77,10 +80,8 @@ class Lobby extends React.Component {
     return (
       <div>
         <Navigation />
-        Lobby
-        <h1>Welcome {this.props.displayName}</h1>
+        <h1>Welcome {this.props.user.displayName}</h1>
         <h1>Join A Room!</h1>
-
         {renderRoomButtons}
 
       </div>
@@ -90,12 +91,19 @@ class Lobby extends React.Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
-  displayName: state.authReducer.displayName,
+  user: state.authReducer,
   rooms: state.roomReducer.rooms
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getRooms
-}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      getRooms,
+      sendAuthorizationCheck,
+      addUserToRoom,
+      changePage: room => push(room)
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);

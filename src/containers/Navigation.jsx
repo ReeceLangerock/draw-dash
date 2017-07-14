@@ -10,7 +10,7 @@ class Navigation extends React.Component {
             <li className="menu-text">Draw Dash</li>
             <li>
               <NavLink
-                to="/rooms"
+                to="/lobby"
                 activeClassName="active-link"
                 activeStyle={{ fontWeight: "bold" }}
               >

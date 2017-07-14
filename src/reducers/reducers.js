@@ -14,14 +14,15 @@ export var imagePromptReducer = (state = [], action) => {
   }
 };
 
-export var roomReducer = (state = { roomID: "", userID: "" }, action) => {
+export var roomReducer = (state = { rooms: {} }, action) => {
   switch (action.type) {
-    case "JOIN_ROOM":
-      return [...state, ...action.prompts];
+    case "ADD_USER_TO_ROOM":
+      return {...state, rooms: action.user.displayName};
     case "LEAVE_ROOM":
       return state;
     case "GET_ROOMS":
-      return state;
+      console.log(action)
+      return {...state, rooms: action.rooms};
     default:
       return state;
   }
@@ -33,7 +34,7 @@ export var authReducer = (state = initialState, action) => {
       return {
         ...state,
         displayName: action.user.displayName,
-        //slackUID: action.user.user.id,
+        slackUID: action.user.user.id,
         isAuthenticated: true
       };
       case "LOGOUT":

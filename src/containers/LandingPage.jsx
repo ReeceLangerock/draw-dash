@@ -1,90 +1,72 @@
 import React from "react";
 import * as Redux from "react-redux";
-import {push} from 'react-router-redux'
+import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "./../actions/actions";
-import {startLoginProcess, logout} from "./../actions/actions";
+import { logout, sendAuthorizationCheck } from "./../actions/actions";
 
 export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.onLogin = this.onLogin.bind(this);
     this.onLogout = this.onLogout.bind(this);
   }
 
-
-    componentWillMount() {
-    this.checkAuth();
-
+  componentWillMount() {
+    //check if user is authorized before mounting
+    this.props.sendAuthorizationCheck();
+  }
+  componentWillReceiveProps(nextProps) {
+    // if the user is authenticated, redirect to lobby page
+    if (nextProps.isAuthenticated) {
+      this.props.changePage();
     }
-    componentWillReceiveProps(nextProps) {
-       if (nextProps.isAuthenticated) {
-         //this.checkAuth()
-         this.props.changePage()
-         //this.props.dispatch(push('/lobby'));
-
-       }
-     }
-
-    checkAuth() {
-
-      if (this.props.isAuthenticated) {
-        var dispatch = require('react-redux')
-        console.log(true)
-        this.dispatch(push("/lobby"));
-      }
-    }
-
-  onLogin() {
-    console.log('onlogin')
-    this.props.startLoginProcess()
+  }
+  //handle logout
+  onLogout() {
+    this.props.logout();
   }
 
-  onLogout(){
-  console.log('logging out')
-  this.props.logout()
-  }
+  render() {
+    return (
+      <div>
+        <div className="row landing-page">
+          <div className="columns small-centered small-10 medium-6 large-4">
 
-render() {
-  return (
-    <div>
-      <div className="row landing-page">
-        <div className="columns small-centered small-10 medium-6 large-4">
+            <h1 className="page-title">Draw Dash!</h1>
+            <div className="auth-button-container">
 
-          <h1 className = "page-title">Draw Dash!</h1>
-          <div className="auth-button-container">
+              <form action="/api/authenticate">
+                <input className="button" type="submit" value="Let Me Draw!" />
+              </form>
 
-          <form action="/api/authenticate">
-              <input className="button" type="submit" value="TESTTT Me Draw!" />
-            </form>
+              <button className="button" type="submit" onClick={this.onLogout}>
+                Let Me Watch!
+              </button>
 
-              <button className="button" type="submit" onClick={this.onLogin}>Let Me Draw!</button>
+            </div>
 
-
-              <button className="button" type="submit" onClick={this.onLogout}>Let Me Watch!</button>
-
-              </div>
-          <h1>TEST{this.props.isAuthenticated}</h1>
-
+          </div>
         </div>
+
       </div>
-
-    </div>
-  );
+    );
+  }
 }
-};
 
-const mapStateToProps = state => ({isAuthenticated: state.authReducer.isAuthenticated,
-  user: state.authReducer.user})
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  user: state.authReducer.user
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-startLoginProcess, logout, changePage: () => push('lobby')
-}, dispatch)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      sendAuthorizationCheck,
+      logout,
+      changePage: () => push("lobby")
+    },
+    dispatch
+  );
 
-
-
-export default connect (
-  mapStateToProps,
-  mapDispatchToProps
-)(LandingPage)
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

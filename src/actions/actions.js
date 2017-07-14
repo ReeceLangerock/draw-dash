@@ -1,4 +1,4 @@
-import axios from 'axios'
+//import axios from 'axios'
 
 export var addImagePrompts = prompts => {
   return {
@@ -9,7 +9,6 @@ export var addImagePrompts = prompts => {
 
 export var startGetImagePrompts = () => {
   return (dispatch, getState) => {
-    console.log("action");
     fetch("/api/image-prompts", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
@@ -22,18 +21,32 @@ export var startGetImagePrompts = () => {
 //ROOM MANAGEMENT
 //-------------------------------
 export var getRooms = () => {
-  console.log("get rooms");
   return dispatch => {
     fetch("/api/lobby", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
-        return response;
+        dispatch(updateAvailableRooms(response));
       })
       .catch(error => {
         console.error(error);
       });
   };
 };
+
+export var updateAvailableRooms = (rooms) => {
+  return {
+    type: "GET_ROOMS",
+    rooms
+  };
+}
+
+export var addUserToRoom = (room, user) => {
+  return {
+    type: 'ADD_USER_TO_ROOM',
+    room,
+    user
+  }
+}
 
 //AUTHENTICATION
 //-------------------------------
@@ -47,36 +60,21 @@ export var isAuthenticating = isAuthenticating => {
 
 export var sendAuthorizationCheck = () => {
   return dispatch => {
+    dispatch(isAuthenticating(true));
     fetch("/api/authCheck", { credentials: "include", mode: "no-cors" })
       .then(response => {
         return response.json();
       })
       .then(response => {
+        if(response !== false){
         dispatch(login(response));
+      } else {
+        //temporary error, add action for unauthenticated user later
+        console.log('ERROR')
+      }
+      }).then(()=> {
+        dispatch(isAuthenticating(false));
       });
-  };
-};
-
-export var sendSlackAuthenticationRequest = () => {
-  return (dispatch, getState) => {
-    axios.get('/api/authenticate').then(response => console.log(response));
-    // fetch("/api/authenticate", { credentials: "include", mode: "no-cors" })
-    //   .then(response => {
-    //     console.log(response);
-    //     return response.json();
-    //   })
-    //   .then(response => {
-    //     console.log(response);
-    //   });
-  };
-};
-
-export var startLoginProcess = () => {
-  return dispatch => {
-    dispatch(isAuthenticating(true));
-    dispatch(sendSlackAuthenticationRequest());
-    //dispatch(sendAuthorizationCheck());
-    dispatch(isAuthenticating(false));
   };
 };
 
