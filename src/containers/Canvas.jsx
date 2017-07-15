@@ -85,6 +85,13 @@ class Canvas extends React.Component {
         <div className="container">
           <Navigation />
           <h2>Canvas Component</h2>
+          <div className="tool">
+            Tool:
+            <select id="tool">
+              <option value="brush">Brush</option>
+              <option value="eraser">Eraser</option>
+            </select>
+          </div>
           <div id="drawing" ref={ref => this.renderKonva(ref)}>
           </div>
         </div>
