@@ -31,7 +31,6 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       //const userWithToken = addJWT(profile);
-      console.log(profile);
       done(null, profile);
     }
   )

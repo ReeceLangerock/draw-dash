@@ -17,7 +17,7 @@ app.use(
     extended: true
   })
 );
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -60,6 +60,7 @@ app.use("/api/logout", require("./routes/logout"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
 app.use("/api/authCheck", require("./routes/authCheck"));
 app.use("/api/lobby", require("./routes/lobby")(io, socketRooms));
+app.use("/api/room", require("./routes/room")(io, socketRooms));
 
 //launch
 server.listen(port, function() {

@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import {
   getRooms,
   sendAuthorizationCheck,
+  updateRooms,
   addUserToRoom
 } from "./../actions/actions";
 const io = require("socket.io-client");
@@ -14,16 +15,24 @@ const socket = io();
 class Lobby extends React.Component {
   constructor(props) {
     super(props);
+    socket.on('room_update', (payload) => {
+      console.log('room update')
+       this.props.updateRooms(payload)
+    });
+
   }
   //
   componentWillMount() {
+    console.log(this.props);
     if (!this.props.isAuthenticated) {
       this.props.sendAuthorizationCheck();
     }
     this.props.getRooms();
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+
+  }
 
   handleRoomSelection(id) {
     // emit to backend if user joins a room
@@ -34,7 +43,7 @@ class Lobby extends React.Component {
     );
     //dispatch actions to add user to room and redirect to selected room
     this.props.addUserToRoom(id, this.props.user);
-    this.props.changePage(`room${id}`);
+    this.props.changePage(`room/${id}`);
 
   }
 
@@ -101,6 +110,7 @@ const mapDispatchToProps = dispatch =>
       getRooms,
       sendAuthorizationCheck,
       addUserToRoom,
+      updateRooms,
       changePage: room => push(room)
     },
     dispatch

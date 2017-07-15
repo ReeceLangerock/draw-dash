@@ -1,5 +1,7 @@
 import React from 'react';
 import Navigation from "./Navigation";
+import { connect } from "react-redux";
+
 const About = (props) => {
 
   return(
@@ -12,4 +14,4 @@ const About = (props) => {
 );
 }
 
-export default About;
+export default connect(null, null)(About);

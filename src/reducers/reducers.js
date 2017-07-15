@@ -22,8 +22,9 @@ export var roomReducer = (state = { rooms: {}, currentUserRoom: -1 }, action) =>
     case "LEAVE_ROOM":
       return state;
     case "GET_ROOMS":
-      console.log(action)
       return {...state, rooms: action.rooms};
+      case "UPDATE_ROOMS":
+        return {...state, rooms: action.rooms};
     default:
       return state;
   }

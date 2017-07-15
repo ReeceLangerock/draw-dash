@@ -29,9 +29,10 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/lobby" component={Lobby} />
-            <Route exact path="/:room" component={Room} />
             <Route exact path="/leaderboard" component={About} />
             <Route exact path="/gallery" component={About} />
+            <Route path="/room/:number" component={Room} />
+
           </Switch>
 
         </main>

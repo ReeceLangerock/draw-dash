@@ -28,6 +28,7 @@ module.exports = {
     return true;
   },
   createRoom() {
+    console.log('create room')
     if (usedRoomId.length < MAX_ROOMS) {
       var id = availableRoomId[0]
       rooms.push({
@@ -46,28 +47,46 @@ module.exports = {
       availableRoomId.splice(indexToSplice,1);
     }
   },
-  joinRoom(id, user) {
-    //console.log('join room', user);
+  joinRoom(id, user, socket) {
+    console.log('join room')
     if (user.isAuthenticated === true) {
       if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
-        rooms[id].occupants.drawers.push(user.displayName);
+        rooms[id].occupants.drawers.push({name:user.displayName, socketId: socket});
       }
     } else if (user.isAuthenticated === false) {
       rooms[id].occupants.watchers.push(user.displayName);
     }
   },
-  leaveRoom(id, user) {
-    console.log('leaving room')
+  leaveRoom(id, user, socket) {
+    console.log('leave room')
     if (user.isAuthenticated === true) {
-      var indexOfUser = rooms[id].occupants.drawers.indexOf(user.displayName)
+      var indexOfUser = rooms[id].occupants.drawers.indexOf(socket)
       rooms[id].occupants.drawers.splice(indexOfUser, 1)
 
     } else if (user.isAuthenticated === false) {
-      var indexOfUser = rooms[id].occupants.watchers.indexOf(user.displayName)
+      var indexOfUser = rooms[id].occupants.watchers.indexOf(socket)
       rooms[id].occupants.watchers.splice(indexOfUser, 1)
     }
   },
+  onDisconnect(socket){
+    for(let i =0; i < rooms.length; i++){
+      console.log(rooms[i]);
+      if(rooms[i].occupants.watchers){
+      var indexOfUser = rooms[i].occupants.watchers.indexOf(socket);
+      rooms[i].occupants.watchers.splice(indexOfUser, 1)
+      }
+
+      if(rooms[i].occupants.drawers){
+      var indexOfUser = rooms[i].occupants.drawers.indexOf(socket);
+      rooms[i].occupants.drawers.splice(indexOfUser, 1)
+      }
+
+
+    }
+
+  },
   cleanUpEmptyRooms() {
+    console.log('clean up')
     for (var id in rooms) {
       if (rooms.hasOwnProperty(id)) {
         if (

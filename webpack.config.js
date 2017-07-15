@@ -33,6 +33,9 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
+    publicPath: '/',
+    historyApiFallback: true,
+
     proxy: {
     '/': 'http://localhost:3001'
 }

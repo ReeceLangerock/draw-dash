@@ -40,6 +40,13 @@ export var updateAvailableRooms = (rooms) => {
   };
 }
 
+export var updateRooms = (rooms) => {
+  return {
+    type: "UPDATE_ROOMS",
+    rooms
+  };
+}
+
 export var addUserToRoom = (room, user) => {
   return {
     type: 'ADD_USER_TO_ROOM',

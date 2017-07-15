@@ -12,6 +12,9 @@ class Room extends React.Component {
   constructor(props) {
     super(props);
     this.emitOnUnload = this.emitOnUnload.bind(this);
+    socket.on('user_join', (payload) => {
+      console.log(payload.displayName + ' joined')
+    });
   }
 
   handleUserLeavingPage(ev) {
@@ -23,9 +26,8 @@ class Room extends React.Component {
 
     ev.preventDefault();
 
-    console.log(socket);
     socket.emit(
-      "leave",
+      "leave_room",
       { roomId: this.props.roomId, user: this.props.user },
       function(data) {}
     );
@@ -34,11 +36,13 @@ class Room extends React.Component {
   }
 
   componentWillMount() {
-
-    this.props.getRooms();
-    if (!this.props.isAuthenticated) {
-      this.props.sendAuthorizationCheck();
-    }
+    socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(
+      data
+    ) {console.log("Data",data)});
+  //  this.props.getRooms();
+    //if (!this.props.isAuthenticated) {
+  //    this.props.sendAuthorizationCheck();
+  //  }
   }
 
   componentDidMount() {
@@ -50,7 +54,7 @@ class Room extends React.Component {
   componentWillUnmount() {
     alert('you sure?')
     socket.emit(
-      "leave",
+      "leave_room",
       { roomId: this.props.roomId, user: this.props.user },
       function(data) {}
     );

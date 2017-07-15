@@ -7,6 +7,7 @@ var returnRouter = function(io, rooms) {
 
     if (rooms.checkIfAllRoomsOccupied()) {
       rooms.createRoom();
+      io.sockets.emit('room_update',rooms.getRooms());
         }
 
     res.json(rooms.getRooms());
@@ -14,20 +15,32 @@ var returnRouter = function(io, rooms) {
 
   io.sockets.on("connection", function(socket) {
     //handle user joining a room
+    console.log('join lobby')
     socket.on("join", function(data, fn) {
-      socket.join(data.roomId)
-      rooms.joinRoom(data.roomId, data.user);
+      console.log('lobby join room')
+      rooms.joinRoom(data.roomId, data.user, socket.id);
       if (rooms.checkIfAllRoomsOccupied()) {
         rooms.createRoom();
       }
+      console.log('broadcast rooms from lobby')
+      socket.broadcast.emit('room_update',rooms.getRooms());
       fn(rooms.getRooms());
     });
 
     socket.on("leave", function(data, fn) {
-      socket.leave(data.roomId)
-      rooms.leaveRoom(data.roomId, data.user);
-      rooms.cleanUpEmptyRooms()
+      console.log('lobby leave room')
+      rooms.leaveRoom(data.roomId, data.user, socket.id);
+      rooms.cleanUpEmptyRooms();
+      console.log('broadcast rooms from lobby')
+      socket.broadcast.emit('room_update',rooms.getRooms());
       fn(rooms.getRooms());
+    });
+
+    socket.on("disconnect", function(data) {
+      console.log("disconnect");
+      rooms.onDisconnect(socket.id);
+      rooms.cleanUpEmptyRooms();
+      socket.broadcast.emit("room_update", rooms.getRooms());
     });
   });
 
