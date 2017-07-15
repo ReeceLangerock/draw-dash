@@ -6,6 +6,7 @@ import About from "./containers/About";
 import Canvas from "./containers/Canvas";
 import LandingPage from './containers/LandingPage';
 import Footer from './containers/Footer';
+import Countdown from './containers/Countdown';
 
 require('../src/styles/app.scss');
 /**
@@ -75,6 +76,10 @@ class App extends React.Component {
             <Route
               path="/canvas"
               render={props => <Canvas prompts={imagePrompts} test="testing" />}
+            />
+            <Route
+              path="/countdown"
+              render={props => <Countdown prompts={imagePrompts} test="testing" />}
             />
             <Route
               path="/:room"
