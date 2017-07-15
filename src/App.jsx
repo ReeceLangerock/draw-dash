@@ -12,6 +12,8 @@ import About from "./containers/About";
 import Lobby from "./containers/Lobby";
 import Canvas from "./containers/Canvas";
 import LandingPage from "./containers/LandingPage";
+import Room from "./containers/Room";
+
 import Footer from "./containers/Footer";
 
 require("../src/styles/app.scss");
@@ -27,7 +29,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/lobby" component={Lobby} />
-            <Route exact path="/:room" component={About} />
+            <Route exact path="/:room" component={Room} />
             <Route exact path="/leaderboard" component={About} />
             <Route exact path="/gallery" component={About} />
           </Switch>
