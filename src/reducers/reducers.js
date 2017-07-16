@@ -2,6 +2,7 @@ const initialState = {
   displayName: "Guest",
   isAuthenticated: false,
   isAuthenticating: false,
+  isGuest: false,
   slackUID: ""
 };
 
@@ -48,6 +49,8 @@ export var authReducer = (state = initialState, action) => {
         };
     case "IS_AUTHENTICATING":
       return { ...state, isAuthenticating: action.isAuthenticating };
+      case "ADD_USER_AS_WATCHER":
+        return { ...state, displayName: action.displayName, isAuthenticated: false, isAuthenticating:false, isGuest: true };
     default:
       return state;
   }

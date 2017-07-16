@@ -4,12 +4,13 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "./../actions/actions";
-import { logout, sendAuthorizationCheck } from "./../actions/actions";
+import { logout, sendAuthorizationCheck,registerUserAsWatcher } from "./../actions/actions";
 
 export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.onLogout = this.onLogout.bind(this);
+    this.onWantToWatch = this.onWantToWatch.bind(this);
   }
 
   componentWillMount() {
@@ -18,9 +19,13 @@ export class LandingPage extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // if the user is authenticated, redirect to lobby page
-    if (nextProps.isAuthenticated) {
+    if (nextProps.isAuthenticated || nextProps.isGuest) {
       this.props.changePage();
     }
+  }
+
+  onWantToWatch(){
+    this.props.registerUserAsWatcher()
   }
   //handle logout
   onLogout() {
@@ -40,7 +45,7 @@ export class LandingPage extends React.Component {
                 <input className="button" type="submit" value="Let Me Draw!" />
               </form>
 
-              <button className="button" type="submit" onClick={this.onLogout}>
+              <button className="button" type="submit" onClick={this.onWantToWatch}>
                 Let Me Watch!
               </button>
 
@@ -56,7 +61,10 @@ export class LandingPage extends React.Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
+  isGuest: state.authReducer.isGuest,
+
   user: state.authReducer.user
+
 });
 
 const mapDispatchToProps = dispatch =>
@@ -64,6 +72,7 @@ const mapDispatchToProps = dispatch =>
     {
       sendAuthorizationCheck,
       logout,
+      registerUserAsWatcher,
       changePage: () => push("lobby")
     },
     dispatch

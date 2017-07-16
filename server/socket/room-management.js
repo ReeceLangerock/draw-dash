@@ -59,6 +59,7 @@ module.exports = {
   },
   leaveRoom(id, user, socket) {
     console.log('leave room')
+    console.log(id);
     if (user.isAuthenticated === true) {
       var indexOfUser = rooms[id].occupants.drawers.indexOf(socket)
       rooms[id].occupants.drawers.splice(indexOfUser, 1)
@@ -86,6 +87,7 @@ module.exports = {
 
   },
   cleanUpEmptyRooms() {
+    if(rooms.length === 1) { return 0}
     console.log('clean up')
     for (var id in rooms) {
       if (rooms.hasOwnProperty(id)) {

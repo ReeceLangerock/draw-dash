@@ -40,6 +40,7 @@ export var updateAvailableRooms = (rooms) => {
   };
 }
 
+
 export var updateRooms = (rooms) => {
   return {
     type: "UPDATE_ROOMS",
@@ -53,6 +54,19 @@ export var addUserToRoom = (room, user) => {
     room,
     user
   }
+}
+
+//USER MANAGEMENT
+//-------------------------------
+
+export var registerUserAsWatcher = () => {
+  var guestId = (Math.random() *10000).toPrecision(4)
+  var displayName = "Guest" + guestId;
+  return {
+    type: "ADD_USER_AS_WATCHER",
+    displayName,
+
+  };
 }
 
 //AUTHENTICATION

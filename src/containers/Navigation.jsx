@@ -1,8 +1,37 @@
 import React from 'react';
 import { Link, NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+
 
 class Navigation extends React.Component {
+
+  constructor(props) {
+    super(props);
+    //this.renderLoginOrLogout = this.renderLoginOrLogout.bind(this);
+  }
+
+
   render () {
+
+    var renderLoginOrLogout = ()=>{
+      console.log(this.props)
+      if(this.props.isAuthenticated) {
+        return (
+          <a href = "/api/logout">
+            Logout
+          </a>
+
+        )
+      } else if (this.props.isGuest){
+        return (
+        <a href = "/api/authenticate">
+          Login
+        </a>
+      )
+      }
+
+    }
+
     return (
       <div className="top-bar">
         <div className="top-bar-left">
@@ -41,9 +70,7 @@ class Navigation extends React.Component {
         <div className = "top-bar-right">
           <ul className = "menu">
             <li className = "menu-text">
-              <a href = "/api/logout">
-                Logout
-              </a>
+              {renderLoginOrLogout()}
             </li>
           </ul>
         </div>
@@ -54,4 +81,10 @@ class Navigation extends React.Component {
 
 }
 
-export default Navigation;
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  isGuest: state.authReducer.isGuest
+
+});
+
+export default connect(mapStateToProps, null)(Navigation);

@@ -27,14 +27,14 @@ var returnRouter = function(io, rooms) {
       fn(rooms.getRooms());
     });
 
-    socket.on("leave", function(data, fn) {
-      console.log('lobby leave room')
-      rooms.leaveRoom(data.roomId, data.user, socket.id);
-      rooms.cleanUpEmptyRooms();
-      console.log('broadcast rooms from lobby')
-      socket.broadcast.emit('room_update',rooms.getRooms());
-      fn(rooms.getRooms());
-    });
+    // socket.on("leave", function(data, fn) {
+    //   console.log('lobby leave room')
+    //   rooms.leaveRoom(data.roomId, data.user, socket.id);
+    //   rooms.cleanUpEmptyRooms();
+    //   console.log('broadcast rooms from lobby')
+    //   socket.broadcast.emit('room_update',rooms.getRooms());
+    //   fn(rooms.getRooms());
+    // });
 
     socket.on("disconnect", function(data) {
       console.log("disconnect");
