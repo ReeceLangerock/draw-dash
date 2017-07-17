@@ -41,7 +41,6 @@ module.exports = {
     return true;
   },
   createRoom() {
-
     if (usedRoomId.length < MAX_ROOMS) {
       var id = availableRoomId[0];
       rooms.push({
@@ -60,43 +59,60 @@ module.exports = {
       availableRoomId.splice(indexToSplice, 1);
     }
   },
-  joinRoom(id, user, joiningAs) {
-
+  joinRoom(id, user, joiningAs, socketId) {
     if (joiningAs === "drawer") {
       if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
-        rooms[id].occupants.drawers.push(
-          user.UID
-        );
+        var canvasSeatNumber;
+        if(rooms[id].occupants.drawers.length === 0) { canvasSeatNumber = 1 }
+        else if (rooms[id].occupants.drawers[0].canvasSeatNumber === 1) {canvasSeatNumber = 2}
+        else { canvasSeatNumber = 1}
+        rooms[id].occupants.drawers.push({
+          UID: user.UID,
+          socketId: socketId,
+          displayName: user.displayName,
+          isReady: false,
+          canvasSeatNumber
+        });
       }
     } else if (joiningAs === "watcher") {
-      rooms[id].occupants.watchers.push(user.UID);
+      rooms[id].occupants.watchers.push({
+        UID: user.UID,
+        socketId: socketId,
+        displayName: user.displayName
+      });
     }
   },
-  leaveRoom(id, user) {
-
+  leaveRoom(id, user, socket) {
     if (rooms[id].occupants.watchers) {
-      var indexOfUser = rooms[id].occupants.watchers.indexOf(user.UID);
+      var indexOfUser = rooms[id].occupants.watchers
+        .map(watcher => {
+          return watcher.socketId;
+        })
+        .indexOf(socket);
       if (indexOfUser !== -1) {
         rooms[id].occupants.watchers.splice(indexOfUser, 1);
-
       }
     }
 
     if (rooms[id].occupants.drawers) {
-
-      var indexOfUser = rooms[id].occupants.drawers.indexOf(user.UID);
-      console.log('index ', indexOfUser)
+      var indexOfUser = rooms[id].occupants.drawers
+        .map(drawer => {
+          return drawer.socketId;
+        })
+        .indexOf(socket);
       if (indexOfUser !== -1) {
         rooms[id].occupants.drawers.splice(indexOfUser, 1);
-
       }
     }
   },
   onDisconnect(socket) {
     for (let i = 0; i < rooms.length; i++) {
-
       if (rooms[i].occupants.watchers) {
-        var indexOfUser = rooms[i].occupants.watchers.indexOf(socket.toString());
+        var indexOfUser = rooms[i].occupants.watchers
+          .map(watcher => {
+            return watcher.socketId;
+          })
+          .indexOf(socket);
 
         if (indexOfUser !== -1) {
           rooms[i].occupants.watchers.splice(indexOfUser, 1);
@@ -104,9 +120,12 @@ module.exports = {
       }
 
       if (rooms[i].occupants.drawers) {
-        var indexOfUser = rooms[i].occupants.drawers.indexOf(socket.toString());
+        var indexOfUser = rooms[i].occupants.drawers
+          .map(drawer => {
+            return drawer.socketId;
+          })
+          .indexOf(socket);
         if (indexOfUser !== -1) {
-
           rooms[i].occupants.drawers.splice(indexOfUser, 1);
         }
       }
@@ -114,7 +133,6 @@ module.exports = {
   },
   cleanUpEmptyRooms() {
     if (rooms.length === 1) {
-
       return 0;
     }
     for (var id in rooms) {

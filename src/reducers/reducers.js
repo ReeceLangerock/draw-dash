@@ -3,7 +3,7 @@ const initialState = {
   isAuthenticated: false,
   isAuthenticating: false,
   isGuest: false,
-  slackUID: ""
+  UID: ""
 };
 
 export var imagePromptReducer = (state = [], action) => {
@@ -15,17 +15,20 @@ export var imagePromptReducer = (state = [], action) => {
   }
 };
 
-export var roomReducer = (state = { rooms: {}, currentUserRoom: -1 }, action) => {
+export var roomReducer = (
+  state = { rooms: {}, currentUserRoom: -1 },
+  action
+) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
-      return {...state, currentUserRoom: action.room};
+      return { ...state, currentUserRoom: action.room };
     case "LEAVE_ROOM":
       return state;
     case "GET_ROOMS":
-      return {...state, rooms: action.rooms};
-      case "UPDATE_ROOMS":
-        return {...state, rooms: action.rooms};
+      return { ...state, rooms: action.rooms };
+    case "UPDATE_ROOMS":
+      return { ...state, rooms: action.rooms };
     default:
       return state;
   }
@@ -37,20 +40,27 @@ export var authReducer = (state = initialState, action) => {
       return {
         ...state,
         displayName: action.user.displayName,
-        slackUID: action.user.user.id,
+        UID: action.user.user.id,
         isAuthenticated: true
       };
-      case "LOGOUT":
-        return {
-          ...state,
-          displayName: "Guest",
-          //slackUID: action.user.user.id,
-          isAuthenticated: false
-        };
+    case "LOGOUT":
+      return {
+        ...state,
+        displayName: "Guest",
+        //slackUID: action.user.user.id,
+        isAuthenticated: false
+      };
     case "IS_AUTHENTICATING":
       return { ...state, isAuthenticating: action.isAuthenticating };
-      case "ADD_USER_AS_WATCHER":
-        return { ...state, displayName: action.displayName, isAuthenticated: false, isAuthenticating:false, isGuest: true };
+    case "ADD_GUEST_AS_WATCHER":
+      return {
+        ...state,
+        displayName: action.displayName,
+        isAuthenticated: false,
+        isAuthenticating: false,
+        isGuest: true,
+        UID: action.guestId
+      };
     default:
       return state;
   }

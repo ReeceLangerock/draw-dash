@@ -13,6 +13,8 @@ import Lobby from "./containers/Lobby";
 import Canvas from "./containers/Canvas";
 import LandingPage from "./containers/LandingPage";
 import Room from "./containers/Room";
+const io = require("socket.io-client");
+const socket = io();
 
 import Footer from "./containers/Footer";
 
@@ -28,10 +30,10 @@ class App extends React.Component {
         <main>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route exact path="/lobby" component={Lobby} />
+            <Route exact path="/lobby" render = {props => <Lobby socket = {socket} />}/>
             <Route exact path="/leaderboard" component={About} />
             <Route exact path="/gallery" component={About} />
-            <Route path="/room/:number" component={Room} />
+            <Route path="/room/:number" render = {props => <Room socket = {socket} />}/>
 
           </Switch>
 

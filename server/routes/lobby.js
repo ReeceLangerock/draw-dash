@@ -16,17 +16,16 @@ var returnRouter = function(io, rooms) {
   io.sockets.on("connection", function(socket) {
     //handle user joining a room
     clients.push(socket.id);
-    console.log(clients);
     console.log('lobby', socket.id)
     socket.on("join", function(data, fn) {
       console.log('join ', socket.id)
       console.log('lobby join room')
-      rooms.joinRoom(data.roomId, data.user, data.joiningAs);
+      rooms.joinRoom(data.roomId, data.user, data.joiningAs, socket.id);
       if (rooms.checkIfAllRoomsOccupied()) {
         rooms.createRoom();
       }
       console.log('broadcast rooms from lobby')
-      socket.broadcast.emit('room_update',rooms.getRooms());
+      io.sockets.emit('room_update',rooms.getRooms());
       fn(rooms.getRooms());
     });
 
@@ -43,7 +42,7 @@ var returnRouter = function(io, rooms) {
       console.log("disconnect", socket.id);
       rooms.onDisconnect(socket.id);
       rooms.cleanUpEmptyRooms();
-      socket.broadcast.emit("room_update", rooms.getRooms());
+      io.sockets.emit("room_update", rooms.getRooms());
     });
   });
 

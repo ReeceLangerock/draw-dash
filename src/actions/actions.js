@@ -25,6 +25,7 @@ export var getRooms = () => {
     fetch("/api/lobby", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
+        console.log('rooms in action', response)
         dispatch(updateAvailableRooms(response));
       })
       .catch(error => {
@@ -59,12 +60,13 @@ export var addUserToRoom = (room, user) => {
 //USER MANAGEMENT
 //-------------------------------
 
-export var registerUserAsWatcher = () => {
+export var registerGuestAsWatcher = () => {
   var guestId = (Math.random() *10000).toPrecision(4)
   var displayName = "Guest" + guestId;
   return {
-    type: "ADD_USER_AS_WATCHER",
+    type: "ADD_GUEST_AS_WATCHER",
     displayName,
+    guestId
 
   };
 }

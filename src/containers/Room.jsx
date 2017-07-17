@@ -5,14 +5,13 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {getRooms} from "./../actions/actions";
-const io = require("socket.io-client");
-const socket = io();
+
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
     this.emitOnUnload = this.emitOnUnload.bind(this);
-    socket.on('user_join', (payload) => {
+    this.props.socket.on('user_join', (payload) => {
       console.log(payload.displayName + ' joined')
     });
   }
@@ -26,7 +25,7 @@ class Room extends React.Component {
 
     ev.preventDefault();
 
-    socket.emit(
+    this.props.socket.emit(
       "leave_room",
       { roomId: this.props.roomId, user: this.props.user },
       function(data) {}
@@ -36,7 +35,7 @@ class Room extends React.Component {
   }
 
   componentWillMount() {
-    socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(
+    this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(
       data
     ) {console.log("Data",data)});
   //  this.props.getRooms();
@@ -52,8 +51,9 @@ class Room extends React.Component {
   }
 
   componentWillUnmount() {
-    alert('you sure?')
-    socket.emit(
+    //this needs some work, page redirects regardless of confirm result
+    confirm('you sure?')
+    this.props.socket.emit(
       "leave_room",
       { roomId: this.props.roomId, user: this.props.user },
       function(data) {}

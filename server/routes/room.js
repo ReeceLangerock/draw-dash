@@ -19,14 +19,14 @@ var returnRouter = function(io, rooms) {
       socket.leave(data.roomId);
       rooms.leaveRoom(data.roomId, data.user, socket.id);
       rooms.cleanUpEmptyRooms();
-      socket.broadcast.emit("room_update", rooms.getRooms());
+      io.sockets.emit("room_update", rooms.getRooms());
     });
 
     socket.on("disconnect", function(data) {
       console.log("disconnect");
       rooms.onDisconnect(socket.id);
       rooms.cleanUpEmptyRooms();
-      socket.broadcast.emit("room_update", rooms.getRooms());
+      io.sockets.emit("room_update", rooms.getRooms());
     });
 
 

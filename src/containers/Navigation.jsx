@@ -14,7 +14,6 @@ class Navigation extends React.Component {
   render () {
 
     var renderLoginOrLogout = ()=>{
-      console.log(this.props)
       if(this.props.isAuthenticated) {
         return (
           <a href = "/api/logout">

@@ -4,7 +4,7 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "./../actions/actions";
-import { logout, sendAuthorizationCheck,registerUserAsWatcher } from "./../actions/actions";
+import { logout, sendAuthorizationCheck, registerGuestAsWatcher } from "./../actions/actions";
 
 export class LandingPage extends React.Component {
   constructor(props) {
@@ -19,13 +19,15 @@ export class LandingPage extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // if the user is authenticated, redirect to lobby page
+    console.log(nextProps)
     if (nextProps.isAuthenticated || nextProps.isGuest) {
       this.props.changePage();
     }
   }
 
   onWantToWatch(){
-    this.props.registerUserAsWatcher()
+    console.log('want')
+    this.props.registerGuestAsWatcher()
   }
   //handle logout
   onLogout() {
@@ -72,7 +74,7 @@ const mapDispatchToProps = dispatch =>
     {
       sendAuthorizationCheck,
       logout,
-      registerUserAsWatcher,
+      registerGuestAsWatcher,
       changePage: () => push("lobby")
     },
     dispatch

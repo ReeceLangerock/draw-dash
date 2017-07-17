@@ -3,4 +3,10 @@
 @import "components/auth-button-container";
 @import "components/landing-page";
 @import "components/page-title";
+
+//Lobby Styling
+@import "components/Lobby/room-container";
+@import "components/Lobby/room-item";
+
+//Room Styling
 @import "components/Room/canvas-container";

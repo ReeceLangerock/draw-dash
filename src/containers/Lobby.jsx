@@ -9,21 +9,21 @@ import {
   updateRooms,
   addUserToRoom
 } from "./../actions/actions";
-const io = require("socket.io-client");
-const socket = io();
+// const io = require("socket.io-client");
+// const socket = io();
 
 class Lobby extends React.Component {
   constructor(props) {
     super(props);
-    socket.on('room_update', (payload) => {
-      console.log('room update')
+    this.props.socket.on('room_update', (payload) => {
+      console.log('room update', payload)
        this.props.updateRooms(payload)
     });
 
   }
   //
   componentWillMount() {
-    console.log(this.props);
+
     if (!this.props.isAuthenticated) {
       this.props.sendAuthorizationCheck();
     }
@@ -34,11 +34,11 @@ class Lobby extends React.Component {
 
   }
 
-  handleRoomSelection(id) {
+  handleRoomSelection(id, joinAs) {
     // emit to backend if user joins a room
-    socket.emit(
+    this.props.socket.emit(
       "join",
-      { roomId: id, user: this.props.user },
+      { roomId: id, user: this.props.user, joiningAs: joinAs },
       function(data) {}
     );
     //dispatch actions to add user to room and redirect to selected room
@@ -59,27 +59,41 @@ class Lobby extends React.Component {
         //if room is full, render that -- NEED TO ADD OPTION TO ENTER AS WATCHER
         if (rooms[keyName].max - rooms[keyName].occupants.drawers.length ===  0  ) {
           return (
-            <div key={keyName}>
+            <div key={keyName} className = "room-item">
               <h1>{rooms[keyName].roomName}</h1>
               <p>The room is full</p>
+              <button
+                className="button"
+                onClick={() => that.handleRoomSelection(keyName, 'watcher')}
+              >
+                Watch
+              </button>
             </div>
           );
         } else {
           //if room is NOT full, render option to join -- NEED TO ADD OPTION TO ENTER AS WATCHER
           return (
-            <div key={keyName}>
+            <div key={keyName} className = "room-item">
               <h1>{rooms[keyName].roomName}</h1>
               <p>
                 {rooms[keyName].max - rooms[keyName].occupants.drawers.length}
                 {" "}
                 Canvas Open
               </p>
+              <div className = 'room-item-button-container'>
               <button
                 className="button"
-                onClick={() => that.handleRoomSelection(keyName)}
+                onClick={() => that.handleRoomSelection(keyName, "drawer")}
               >
                 Join
               </button>
+              <button
+                className="button"
+                onClick={() => that.handleRoomSelection(keyName, 'watcher')}
+              >
+                Watch
+              </button>
+            </div>
             </div>
           );
         }
@@ -89,9 +103,19 @@ class Lobby extends React.Component {
     return (
       <div>
         <Navigation />
-        <h1>Welcome {this.props.user.displayName}</h1>
-        <h1>Join A Room!</h1>
+        <h1 className="page-title">Welcome {this.props.user.displayName}!</h1>
+
+        <div className="row">
+          <div className="columns small-centered small-12 medium-12 large-10">
+<h2>Select a room to join</h2>
+        <div className = "room-container">
+
         {renderRoomButtons}
+        </div>
+      </div>
+    </div>
+
+
 
       </div>
     );
