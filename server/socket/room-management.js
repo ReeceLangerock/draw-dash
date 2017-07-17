@@ -1,12 +1,25 @@
 var rooms = [];
-var availableRoomId = [0,1,2,3,4,5,6,7,8,9,10,11,12]
-var usedRoomId = []
-const roomNames = ['Honey Badger', 'Chameleon', 'Sloth', 'Tapir', 'Red Panda', 'Bearded Dragon', 'Armadillo', 'Dolphin', 'Llama', 'Elephant', 'Puma', 'Platypus', 'Kiwis'];
+var availableRoomId = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+var usedRoomId = [];
+const roomNames = [
+  "Honey Badger",
+  "Chameleon",
+  "Sloth",
+  "Tapir",
+  "Red Panda",
+  "Bearded Dragon",
+  "Armadillo",
+  "Dolphin",
+  "Llama",
+  "Elephant",
+  "Puma",
+  "Platypus",
+  "Kiwis"
+];
 const MAX_OCCUPANTS = 2;
 const MAX_ROOMS = availableRoomId.length;
 module.exports = {
   getRooms() {
-
     return rooms;
   },
 
@@ -28,9 +41,9 @@ module.exports = {
     return true;
   },
   createRoom() {
-    console.log('create room')
+
     if (usedRoomId.length < MAX_ROOMS) {
-      var id = availableRoomId[0]
+      var id = availableRoomId[0];
       rooms.push({
         roomName: roomNames[id],
         roomId: id,
@@ -44,51 +57,66 @@ module.exports = {
       // add the id being used to the usedRoom array and remove it from availbleRoom array
       usedRoomId.push(id);
       var indexToSplice = availableRoomId.indexOf(id);
-      availableRoomId.splice(indexToSplice,1);
+      availableRoomId.splice(indexToSplice, 1);
     }
   },
-  joinRoom(id, user, socket) {
-    console.log('join room')
-    if (user.isAuthenticated === true) {
+  joinRoom(id, user, joiningAs) {
+
+    if (joiningAs === "drawer") {
       if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
-        rooms[id].occupants.drawers.push({name:user.displayName, socketId: socket});
+        rooms[id].occupants.drawers.push(
+          user.UID
+        );
       }
-    } else if (user.isAuthenticated === false) {
-      rooms[id].occupants.watchers.push(user.displayName);
+    } else if (joiningAs === "watcher") {
+      rooms[id].occupants.watchers.push(user.UID);
     }
   },
-  leaveRoom(id, user, socket) {
-    console.log('leave room')
-    console.log(id);
-    if (user.isAuthenticated === true) {
-      var indexOfUser = rooms[id].occupants.drawers.indexOf(socket)
-      rooms[id].occupants.drawers.splice(indexOfUser, 1)
+  leaveRoom(id, user) {
 
-    } else if (user.isAuthenticated === false) {
-      var indexOfUser = rooms[id].occupants.watchers.indexOf(socket)
-      rooms[id].occupants.watchers.splice(indexOfUser, 1)
+    if (rooms[id].occupants.watchers) {
+      var indexOfUser = rooms[id].occupants.watchers.indexOf(user.UID);
+      if (indexOfUser !== -1) {
+        rooms[id].occupants.watchers.splice(indexOfUser, 1);
+
+      }
+    }
+
+    if (rooms[id].occupants.drawers) {
+
+      var indexOfUser = rooms[id].occupants.drawers.indexOf(user.UID);
+      console.log('index ', indexOfUser)
+      if (indexOfUser !== -1) {
+        rooms[id].occupants.drawers.splice(indexOfUser, 1);
+
+      }
     }
   },
-  onDisconnect(socket){
-    for(let i =0; i < rooms.length; i++){
-      console.log(rooms[i]);
-      if(rooms[i].occupants.watchers){
-      var indexOfUser = rooms[i].occupants.watchers.indexOf(socket);
-      rooms[i].occupants.watchers.splice(indexOfUser, 1)
+  onDisconnect(socket) {
+    for (let i = 0; i < rooms.length; i++) {
+
+      if (rooms[i].occupants.watchers) {
+        var indexOfUser = rooms[i].occupants.watchers.indexOf(socket.toString());
+
+        if (indexOfUser !== -1) {
+          rooms[i].occupants.watchers.splice(indexOfUser, 1);
+        }
       }
 
-      if(rooms[i].occupants.drawers){
-      var indexOfUser = rooms[i].occupants.drawers.indexOf(socket);
-      rooms[i].occupants.drawers.splice(indexOfUser, 1)
+      if (rooms[i].occupants.drawers) {
+        var indexOfUser = rooms[i].occupants.drawers.indexOf(socket.toString());
+        if (indexOfUser !== -1) {
+
+          rooms[i].occupants.drawers.splice(indexOfUser, 1);
+        }
       }
-
-
     }
-
   },
   cleanUpEmptyRooms() {
-    if(rooms.length === 1) { return 0}
-    console.log('clean up')
+    if (rooms.length === 1) {
+
+      return 0;
+    }
     for (var id in rooms) {
       if (rooms.hasOwnProperty(id)) {
         if (
@@ -97,11 +125,11 @@ module.exports = {
           rooms[id].occupants.watchers.length === 0
         ) {
           id = parseInt(id);
-          var idToSwap = rooms[id].roomId
+          var idToSwap = rooms[id].roomId;
           rooms.splice(id, 1);
           availableRoomId.push(idToSwap);
-          var indexToSplice = usedRoomId.indexOf(idToSwap)
-          usedRoomId.splice(indexToSplice,1)
+          var indexToSplice = usedRoomId.indexOf(idToSwap);
+          usedRoomId.splice(indexToSplice, 1);
         }
       }
     }

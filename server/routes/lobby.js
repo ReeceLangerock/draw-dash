@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-
+var clients = [];
 /* GET home page. */
 var returnRouter = function(io, rooms) {
   router.get("/", function(req, res, next) {
@@ -15,10 +15,13 @@ var returnRouter = function(io, rooms) {
 
   io.sockets.on("connection", function(socket) {
     //handle user joining a room
-    console.log('join lobby')
+    clients.push(socket.id);
+    console.log(clients);
+    console.log('lobby', socket.id)
     socket.on("join", function(data, fn) {
+      console.log('join ', socket.id)
       console.log('lobby join room')
-      rooms.joinRoom(data.roomId, data.user, socket.id);
+      rooms.joinRoom(data.roomId, data.user, data.joiningAs);
       if (rooms.checkIfAllRoomsOccupied()) {
         rooms.createRoom();
       }
@@ -37,7 +40,7 @@ var returnRouter = function(io, rooms) {
     // });
 
     socket.on("disconnect", function(data) {
-      console.log("disconnect");
+      console.log("disconnect", socket.id);
       rooms.onDisconnect(socket.id);
       rooms.cleanUpEmptyRooms();
       socket.broadcast.emit("room_update", rooms.getRooms());

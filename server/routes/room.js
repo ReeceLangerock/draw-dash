@@ -14,6 +14,7 @@ var returnRouter = function(io, rooms) {
     });
 
     socket.on("leave_room", function(data) {
+      console.log('leave', socket.id)
       console.log("leaving room socket:", data.roomId);
       socket.leave(data.roomId);
       rooms.leaveRoom(data.roomId, data.user, socket.id);
