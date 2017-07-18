@@ -1,6 +1,7 @@
 import React from "react";
 import Navigation from "./Navigation";
 import Canvas from "./Canvas";
+import Chat from "./Chat";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -80,12 +81,13 @@ class Room extends React.Component {
           <div className="columns small-centered small-12 medium-10 large-8">
 
             <h1>Timer Placeholder</h1>
+            <h1>Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</h1>
             <div className="canvas-items-container">
 
               <Canvas canvasNumber = "1" socket = {this.props.socket}/>
               <Canvas canvasNumber = "2" socket = {this.props.socket}/>
             </div>
-            <h1>Chat Placeholder</h1>
+            <Chat socket = {this.props.socket}/>
           </div>
         </div>
 

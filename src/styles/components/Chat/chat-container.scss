@@ -1,0 +1,17 @@
+.chat-container {
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px
+}
+
+.message-container {
+  border: 1px solid;
+  margin: 1px;
+  min-height: 200px;
+
+}
+
+.input-container{
+  display: flex;
+}
