@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Navigation from './Navigation';
-import CountdownForm from 'CountdownForm';
-import Controls from 'Controls';
+import Clock from './Clock';
+import CountdownForm from './CountdownForm';
+import Controls from './Controls';
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Countdown extends React.Component {
     this.state = {count: 0, countdownStatus: 'stopped'}
   }
 
-  componentDidUpdate: (prevProps, prevState) => {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.countdownStatus !== prevState.countdownStatus) {
       switch (this.state.countdownStatus) {
         case 'started':
@@ -23,12 +24,14 @@ class Countdown extends React.Component {
           break;
       }
     }
-  },
-  componentWillUnmount: function() {
+  }
+
+  componentWillUnmount() {
     clearInterval(this.timer);
     this.timer = undefined;
-  },
-  startTimer: function() {
+  }
+
+  startTimer = () => {
     this.timer = setInterval(() => {
       var newCount = this.state.count - 1;
       this.setState({
@@ -39,16 +42,19 @@ class Countdown extends React.Component {
         this.setState({countdownStatus: 'stopped'});
       }
     }, 1000);
-  },
-  handleSetCountdown: function(seconds) {
+  }
+
+  handleSetCountdown = (seconds) =>{
     this.setState({
-      count: seconds,
+      count:seconds,
       countdownStatus: 'started'
     });
-  },
-  handleStatusChange: function(newStatus) {
+  }
+
+  handleStatusChange = (newStatus) =>{
     this.setState({countdownStatus: newStatus});
-  },
+  }
+
   render() {
     var {count, countdownStatus} = this.state;
     var renderControlArea = () => {
@@ -58,6 +64,7 @@ class Countdown extends React.Component {
         return <CountdownForm onSetCountdown={this.handleSetCountdown}/>
       }
     };
+
     return(
       <div className="container">
         <Navigation />

@@ -7,6 +7,9 @@ import Canvas from "./containers/Canvas";
 import LandingPage from './containers/LandingPage';
 import Footer from './containers/Footer';
 import Countdown from './containers/Countdown';
+import CountdownForm from './containers/CountdownForm';
+import Clock from './containers/Clock';
+import Controls from './containers/Controls';
 
 require('../src/styles/app.scss');
 /**

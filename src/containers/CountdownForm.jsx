@@ -1,25 +1,28 @@
-var React = require('react');
+import React from 'react';
 
-var CountdownForm = React.createClass({
-  onSubmit: function(e) {
+class CountdownForm extends React.Component{
+  onSubmit = (e) =>{
     e.preventDefault();
-    var strSeconds = this.refs.seconds.value;
+    var strSeconds = this.seconds.value;
 
-    if (strSeconds.match(/^[0-9]*$/)) {
-      this.refs.seconds.value = '';
+    console.log('input count', $('input').length);
+
+    if(strSeconds.match(/^[0-9]*$/)){
+      this.seconds.value = "";
       this.props.onSetCountdown(parseInt(strSeconds, 10));
     }
-  },
-  render: function() {
-    return (
+  }
+
+  render(){
+    return(
       <div>
-        <form ref="form" onSubmit={this.onSubmit} className="countdown-form">
-          <input type="text" ref="seconds" placeholder="Enter time in seconds" />
+        <form ref={(ref) => this.from = ref} onSubmit={this.onSubmit} className="countdown-form">
+          <input type="text" ref={(ref) => this.seconds = ref} placeholder="Enter time in seconds" />
           <button className="button expanded">Start</button>
         </form>
       </div>
-    );
+    )
   }
-});
+}
 
 module.exports = CountdownForm;
