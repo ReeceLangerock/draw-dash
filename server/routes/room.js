@@ -32,11 +32,16 @@ var returnRouter = function(io, rooms) {
       } else {
         io.sockets.emit("room_update", rooms.getRooms());
       }
-      // console.log("leaving room socket:", data.roomId);
-      // socket.leave(data.roomId);
-      // rooms.leaveRoom(data.roomId, data.user, socket.id);
-      // rooms.cleanUpEmptyRooms();
-      // io.sockets.emit("room_update", rooms.getRooms());
+
+    });
+
+    socket.on("message_sent", function(data) {
+      
+
+    io.to(data.roomId).emit('message_received', data.message);
+
+
+
     });
 
     socket.on("disconnect", function(data) {
