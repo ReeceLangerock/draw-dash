@@ -36,14 +36,17 @@ class Lobby extends React.Component {
 
   handleRoomSelection(id, joinAs) {
     // emit to backend if user joins a room
+    var that = this;
     this.props.socket.emit(
       "join",
       { roomId: id, user: this.props.user, joiningAs: joinAs },
-      function(data) {}
+      function(canvasSeatNumber) {
+        that.props.addUserToRoom(id, that.props.user, canvasSeatNumber);
+        that.props.changePage(`room/${id}`);
+      }
     );
     //dispatch actions to add user to room and redirect to selected room
-    this.props.addUserToRoom(id, this.props.user);
-    this.props.changePage(`room/${id}`);
+
 
   }
 

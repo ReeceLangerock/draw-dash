@@ -1,29 +1,119 @@
 import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+import { sendAuthorizationCheck } from "./../actions/actions";
 
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
+    this.onUserReady = this.onUserReady.bind(this);
+    this.props.socket.on("user_join", payload => {
+      console.log(payload.displayName + " joined");
+    });
+  }
 
-    this.state = {
-      prompts: []
-    };
+  onUserReady() {
+    console.log("ready");
+    console.log(this.props);
+    this.props.socket.emit(
+      "ready",
+      { roomId: this.props.roomId },
+      function() {}
+    );
+  }
+
+  renderUserToCanvasContainer() {
+    var roomId = this.props.roomId;
+    var occupants = this.props.rooms[roomId].occupants;
+    var displayName = this.props.user.displayName;
+    var buttonId = `button${this.props.canvasNumber}`;
+    if (occupants.drawers.length === 2) {
+      //using loose equality check because canvasSeatNumber is stored as string on backend
+      if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
+        var buttonClass = occupants.drawers[0].isReady ? "button success" : "button primary";
+        var disabled = occupants.drawers[0].UID == this.props.user.UID ? '' : 'disabled';
+        return (
+          <div className="canvas-container">
+            <h1>{displayName}'s Canvas</h1>
+            <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
+              Ready
+            </button>
+          </div>
+        );
+      } else if (
+        occupants.drawers[1].canvasSeatNumber == this.props.canvasNumber
+      ) {
+        var buttonClass = occupants.drawers[1].isReady ? "button success" : "button primary";
+        var disabled = occupants.drawers[1].UID == this.props.user.UID ? '' : 'disabled';
+        return (
+          <div className="canvas-container">
+            <h1>{displayName}'s Canvas</h1>
+            <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
+              Ready
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="canvas-container">
+            <h1>Empty Canvas</h1>
+            <button id={buttonId} className="button">Join</button>
+          </div>
+        );
+      }
+    } else if (occupants.drawers.length === 1) {
+      if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
+        var buttonClass = occupants.drawers[0].isReady ? "button success" : "button primary";
+        var disabled = occupants.drawers[0].UID == this.props.user.UID ? '' : 'disabled';
+        return (
+          <div className="canvas-container">
+            <h1>{displayName}'s Canvas</h1>
+            <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
+              Ready
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="canvas-container">
+            <h1>Empty Canvas</h1>
+            <button id={buttonId} className="button">Join</button>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <div className="canvas-container">
+          <h1>Empty Canvas</h1>
+          <button id={buttonId} className="button">Join</button>
+        </div>
+      );
+    }
   }
   render() {
-
-    var { test, prompts } = this.props;
-    var mapPrompts;
-    if(prompts && prompts.length>0){
-    mapPrompts = prompts.map(prompt => <li>{prompt}</li>);
-  }
     return (
       <div>
-        <h2>Canvas Component</h2>
 
-        <h1>{test}</h1>
-        <ul>{mapPrompts}</ul>
+        {this.renderUserToCanvasContainer()}
       </div>
     );
   }
 }
 
-export default Canvas;
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  user: state.authReducer,
+  rooms: state.roomReducer.rooms,
+  roomId: state.roomReducer.currentUserRoom
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      sendAuthorizationCheck
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -16,15 +16,15 @@ export var imagePromptReducer = (state = [], action) => {
 };
 
 export var roomReducer = (
-  state = { rooms: {}, currentUserRoom: -1 },
+  state = { rooms: {}, currentUserRoom: -1, canvasSeatNumber: -1 },
   action
 ) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
-      return { ...state, currentUserRoom: action.room };
-    case "LEAVE_ROOM":
-      return state;
+      return { ...state, currentUserRoom: action.room, canvasSeatNumber: action.canvasSeatNumber };
+    case "REMOVE_USER_FROM_ROOM":
+      return {...state, currentUserRoom: -1, canvasSeatNumber: -1};
     case "GET_ROOMS":
       return { ...state, rooms: action.rooms };
     case "UPDATE_ROOMS":

@@ -20,13 +20,13 @@ var returnRouter = function(io, rooms) {
     socket.on("join", function(data, fn) {
       console.log('join ', socket.id)
       console.log('lobby join room')
-      rooms.joinRoom(data.roomId, data.user, data.joiningAs, socket.id);
+      var canvasSeatNumber = rooms.joinRoom(data.roomId, data.user, data.joiningAs, socket.id);
       if (rooms.checkIfAllRoomsOccupied()) {
         rooms.createRoom();
       }
       console.log('broadcast rooms from lobby')
       io.sockets.emit('room_update',rooms.getRooms());
-      fn(rooms.getRooms());
+      fn(canvasSeatNumber);
     });
 
     // socket.on("leave", function(data, fn) {

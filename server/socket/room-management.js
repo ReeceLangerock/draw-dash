@@ -63,9 +63,13 @@ module.exports = {
     if (joiningAs === "drawer") {
       if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
         var canvasSeatNumber;
-        if(rooms[id].occupants.drawers.length === 0) { canvasSeatNumber = 1 }
-        else if (rooms[id].occupants.drawers[0].canvasSeatNumber === 1) {canvasSeatNumber = 2}
-        else { canvasSeatNumber = 1}
+        if (rooms[id].occupants.drawers.length === 0) {
+          canvasSeatNumber = 1;
+        } else if (rooms[id].occupants.drawers[0].canvasSeatNumber === 1) {
+          canvasSeatNumber = 2;
+        } else {
+          canvasSeatNumber = 1;
+        }
         rooms[id].occupants.drawers.push({
           UID: user.UID,
           socketId: socketId,
@@ -73,6 +77,7 @@ module.exports = {
           isReady: false,
           canvasSeatNumber
         });
+        return canvasSeatNumber;
       }
     } else if (joiningAs === "watcher") {
       rooms[id].occupants.watchers.push({
@@ -80,6 +85,26 @@ module.exports = {
         socketId: socketId,
         displayName: user.displayName
       });
+      return null;
+    }
+  },
+  toggleReadyUser(id, socketId) {
+    rooms[id].occupants.drawers.map(drawer => {
+      if (drawer.socketId === socketId) {
+        console.log('setting ready');
+        drawer.isReady = !drawer.isReady;
+      }
+    });
+    var readyCount = 0;
+    rooms[id].occupants.drawers.map(drawer => {
+      if (drawer.isReady === true) {
+        readyCount++;
+      }
+    });
+    if (readyCount === MAX_OCCUPANTS) {
+      return true;
+    } else {
+      return false;
     }
   },
   leaveRoom(id, user, socket) {

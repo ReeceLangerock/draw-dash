@@ -49,11 +49,20 @@ export var updateRooms = (rooms) => {
   };
 }
 
-export var addUserToRoom = (room, user) => {
+export var addUserToRoom = (room, user, canvasSeatNumber) => {
   return {
     type: 'ADD_USER_TO_ROOM',
     room,
-    user
+    user,
+    canvasSeatNumber
+  }
+}
+
+export var removeUserFromRoom = (room, user) => {
+  return {
+    type: 'REMOVE_USER_FROM_ROOM'
+
+
   }
 }
 
