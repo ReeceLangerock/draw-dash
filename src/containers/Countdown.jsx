@@ -1,78 +1,74 @@
 import React, { Component } from "react";
 import Navigation from './Navigation';
-import Clock from './Clock';
-import CountdownForm from './CountdownForm';
-import Controls from './Controls';
 
 class Countdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {count: 0, countdownStatus: 'stopped'}
+
+    // still need to add 3-5 second timer before the real countdown
+    // and hide start button
+
+    this.state = { time: {}, seconds: 60 };
+    this.timer = 0;
+    this.startTimer = this.startTimer.bind(this);
+    this.countdown = this.countdown.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.countdownStatus !== prevState.countdownStatus) {
-      switch (this.state.countdownStatus) {
-        case 'started':
-          this.startTimer();
-          break;
-        case 'stopped':
-          this.setState({count: 0});
-        case 'paused':
-          clearInterval(this.timer);
-          this.timer = undefined;
-          break;
-      }
+  formatSeconds (totalSeconds) {
+    let seconds = totalSeconds;
+    let minutes = Math.floor(totalSeconds / 60);
+
+    if (seconds < 10) {
+      seconds = '0' + seconds;
+    }
+
+    if (minutes < 10) {
+      minutes = '0' + minutes;
+    }
+
+    let obj = {
+      "minutes": minutes,
+      "seconds": seconds
+    };
+
+    return obj;
+  }
+
+  componentDidMount() {
+    let timeLeft = this.formatSeconds(this.state.seconds);
+    this.setState({ time: timeLeft });
+  }
+
+  startTimer() {
+    if (this.timer === 0) {
+      this.timer = setInterval(this.countdown, 1000);
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-    this.timer = undefined;
-  }
-
-  startTimer = () => {
-    this.timer = setInterval(() => {
-      var newCount = this.state.count - 1;
-      this.setState({
-        count: newCount >= 0 ? newCount : 0
-      });
-
-      if (newCount === 0) {
-        this.setState({countdownStatus: 'stopped'});
-      }
-    }, 1000);
-  }
-
-  handleSetCountdown = (seconds) =>{
+  countdown() {
+    let seconds = this.state.seconds - 1;
     this.setState({
-      count:seconds,
-      countdownStatus: 'started'
+      time: this.formatSeconds(seconds),
+      seconds: seconds
     });
-  }
 
-  handleStatusChange = (newStatus) =>{
-    this.setState({countdownStatus: newStatus});
+    if (seconds === 0) {
+      clearInterval(this.timer);
+    }
   }
 
   render() {
-    var {count, countdownStatus} = this.state;
-    var renderControlArea = () => {
-      if (countdownStatus !== 'stopped') {
-        return <Controls countdownStatus={countdownStatus} onStatusChange={this.handleStatusChange}/>
-      } else {
-        return <CountdownForm onSetCountdown={this.handleSetCountdown}/>
-      }
-    };
-
     return(
       <div className="container">
         <Navigation />
-        <h2>Countdown Component</h2>
-        <Clock totalSeconds={count}/>
-        {renderControlArea()}
+        <div className="row">
+          <div className="column small-centered medium-6 large-4">
+            <h2>Countdown Component</h2>
+            {this.state.time.seconds}<br />
+            <button className="button" onClick={this.startTimer}>Start</button>
+          </div>
+        </div>
       </div>
-
     );
   }
 }

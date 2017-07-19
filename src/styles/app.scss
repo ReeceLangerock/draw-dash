@@ -4,3 +4,7 @@
 @import "components/landing-page";
 @import "components/page-title";
 @import "components/canvas";
+@import "components/countdown";
+
+@import '~foundation-sites/scss/foundation';
+@include foundation-everything;
