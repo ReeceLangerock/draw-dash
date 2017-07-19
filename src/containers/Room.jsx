@@ -2,7 +2,6 @@ import React from "react";
 import Navigation from "./Navigation";
 import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
-import CountdownStart from "./CountdownStart"
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -85,7 +84,7 @@ class Room extends React.Component {
           <div className="columns small-centered small-12 medium-10 large-8">
 
             <h1>Timer Placeholder</h1>
-            <CountdownStart/>
+        
 
             <h5>Image Prompt: {this.props.imagePrompt}</h5>
 

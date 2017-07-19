@@ -1,6 +1,5 @@
 import React from "react";
 import { bindActionCreators } from "redux";
-import CanvasTest from './CanvasTest'
 import { connect } from "react-redux";
 
 import { sendAuthorizationCheck, setImagePrompt } from "./../actions/actions";
@@ -98,7 +97,7 @@ class CanvasContainer extends React.Component {
       <div>
 
         {this.renderUserToCanvasContainer()}
-        <CanvasTest socket = {this.props.socket}/>
+  
       </div>
     );
   }
