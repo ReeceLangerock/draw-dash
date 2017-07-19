@@ -31,4 +31,4 @@ class Controls extends React.Component {
   }
 }
 
-module.exports = Controls;
+export default Controls;
