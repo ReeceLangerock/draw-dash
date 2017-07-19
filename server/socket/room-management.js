@@ -60,38 +60,40 @@ module.exports = {
     }
   },
   joinRoom(id, user, joiningAs, socketId) {
-    if (joiningAs === "drawer") {
-      if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
-        var canvasSeatNumber;
-        if (rooms[id].occupants.drawers.length === 0) {
-          canvasSeatNumber = 1;
-        } else if (rooms[id].occupants.drawers[0].canvasSeatNumber === 1) {
-          canvasSeatNumber = 2;
-        } else {
-          canvasSeatNumber = 1;
+    if (rooms[id]) {
+      if (joiningAs === "drawer") {
+        if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
+          var canvasSeatNumber;
+          if (rooms[id].occupants.drawers.length === 0) {
+            canvasSeatNumber = 1;
+          } else if (rooms[id].occupants.drawers[0].canvasSeatNumber === 1) {
+            canvasSeatNumber = 2;
+          } else {
+            canvasSeatNumber = 1;
+          }
+          rooms[id].occupants.drawers.push({
+            UID: user.UID,
+            socketId: socketId,
+            displayName: user.displayName,
+            isReady: false,
+            canvasSeatNumber
+          });
+          return canvasSeatNumber;
         }
-        rooms[id].occupants.drawers.push({
+      } else if (joiningAs === "watcher") {
+        rooms[id].occupants.watchers.push({
           UID: user.UID,
           socketId: socketId,
-          displayName: user.displayName,
-          isReady: false,
-          canvasSeatNumber
+          displayName: user.displayName
         });
-        return canvasSeatNumber;
+        return null;
       }
-    } else if (joiningAs === "watcher") {
-      rooms[id].occupants.watchers.push({
-        UID: user.UID,
-        socketId: socketId,
-        displayName: user.displayName
-      });
-      return null;
     }
   },
   toggleReadyUser(id, socketId) {
     rooms[id].occupants.drawers.map(drawer => {
       if (drawer.socketId === socketId) {
-        console.log('setting ready');
+        console.log("setting ready");
         drawer.isReady = !drawer.isReady;
       }
     });

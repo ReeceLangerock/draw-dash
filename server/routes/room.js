@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 /* GET home page. */
-var returnRouter = function(io, rooms) {
+var returnRouter = function(io, rooms, images) {
   router.get("/:roomId", function(req, res, next) {});
   io.on("connection", socket => {
     socket.on("join_room", function(data, fn) {
@@ -28,15 +28,17 @@ var returnRouter = function(io, rooms) {
       if(allUsersReady) {
         //start countdown function
         io.sockets.emit("room_update", rooms.getRooms());
+        io.sockets.emit("all_ready", {prompt: images.getRandomImagePrompt()})
 
       } else {
+        console.log(images.getRandomImagePrompt());
         io.sockets.emit("room_update", rooms.getRooms());
       }
 
     });
 
     socket.on("message_sent", function(data) {
-      
+
 
     io.to(data.roomId).emit('message_received', data.message);
 

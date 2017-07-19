@@ -10,7 +10,6 @@ import store from "./store/store.js";
 import Home from "./containers/Home";
 import About from "./containers/About";
 import Lobby from "./containers/Lobby";
-import Canvas from "./containers/Canvas";
 import LandingPage from "./containers/LandingPage";
 import Room from "./containers/Room";
 const io = require("socket.io-client");

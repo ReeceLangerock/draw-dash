@@ -1,0 +1,22 @@
+.countdown-circle-container {
+  display: flex;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 1px 3px 1px 3px;
+
+
+}
+.red {
+  background-color: rgba(139,0,0, .75);
+  border: 2px solid red;
+}
+
+
+.green {
+  background-color: green;
+  border: 2px solid green;
+}

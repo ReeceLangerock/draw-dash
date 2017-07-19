@@ -1,7 +1,8 @@
 import React from "react";
 import Navigation from "./Navigation";
-import Canvas from "./Canvas";
+import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
+import CountdownStart from "./CountdownStart"
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -76,16 +77,22 @@ class Room extends React.Component {
     return (
       <div>
         <Navigation />
+        <div className="callout clearfix">
+        <p className = "float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
+      </div>
         <h1 className="page-title">{this.props.rooms[this.props.roomId].roomName} Room</h1>
         <div className="row">
           <div className="columns small-centered small-12 medium-10 large-8">
 
             <h1>Timer Placeholder</h1>
-            <h1>Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</h1>
+            <CountdownStart/>
+
+            <h5>Image Prompt: {this.props.imagePrompt}</h5>
+
             <div className="canvas-items-container">
 
-              <Canvas canvasNumber = "1" socket = {this.props.socket}/>
-              <Canvas canvasNumber = "2" socket = {this.props.socket}/>
+              <CanvasContainer canvasNumber = "1" socket = {this.props.socket}/>
+              <CanvasContainer canvasNumber = "2" socket = {this.props.socket}/>
             </div>
             <Chat socket = {this.props.socket}/>
           </div>
@@ -100,7 +107,8 @@ const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   user: state.authReducer,
   roomId: state.roomReducer.currentUserRoom,
-  rooms: state.roomReducer.rooms
+  rooms: state.roomReducer.rooms,
+  imagePrompt: state.imageReducer.prompt
 });
 
 const mapDispatchToProps = dispatch =>

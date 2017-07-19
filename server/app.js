@@ -11,6 +11,7 @@ var bodyParser = require("body-parser");
 var morgan = require("morgan");
 const MongoStore = require("connect-mongo")(session);
 var socketRooms = require('./socket/room-management')
+var imagePrompts = require('./socket/image-prompt-management')
 
 app.use(
   bodyParser.urlencoded({
@@ -60,7 +61,7 @@ app.use("/api/logout", require("./routes/logout"));
 app.use("/api/image-prompts", require("./routes/image-prompts"));
 app.use("/api/authCheck", require("./routes/authCheck"));
 app.use("/api/lobby", require("./routes/lobby")(io, socketRooms));
-app.use("/api/room", require("./routes/room")(io, socketRooms));
+app.use("/api/room", require("./routes/room")(io, socketRooms, imagePrompts));
 
 //launch
 server.listen(port, function() {

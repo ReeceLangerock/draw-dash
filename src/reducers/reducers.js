@@ -6,10 +6,11 @@ const initialState = {
   UID: ""
 };
 
-export var imagePromptReducer = (state = [], action) => {
+export var imageReducer = (state = {prompt: ""}, action) => {
+  console.log(action)
   switch (action.type) {
-    case "ADD_IMAGE_PROMPTS":
-      return [...state, ...action.prompts];
+    case "SET_IMAGE_PROMPT":
+      return {...state, prompt: action.prompt};
     default:
       return state;
   }

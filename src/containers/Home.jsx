@@ -1,5 +1,5 @@
 import React from "react";
-import Canvas from "./Canvas";
+import CanvasContainer from "./CanvasContainer";
 import About from "./About";
 
 import Navigation from "./Navigation";

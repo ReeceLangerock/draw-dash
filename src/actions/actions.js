@@ -61,10 +61,9 @@ export var addUserToRoom = (room, user, canvasSeatNumber) => {
 export var removeUserFromRoom = (room, user) => {
   return {
     type: 'REMOVE_USER_FROM_ROOM'
-
-
   }
 }
+
 
 //USER MANAGEMENT
 //-------------------------------
@@ -76,6 +75,18 @@ export var registerGuestAsWatcher = () => {
     type: "ADD_GUEST_AS_WATCHER",
     displayName,
     guestId
+
+  };
+}
+
+//IMAGE MANAGEMENT
+//-------------------------------
+
+export var setImagePrompt = (prompt) => {
+  console.log('action',prompt);
+  return {
+    type: "SET_IMAGE_PROMPT",
+    prompt
 
   };
 }
