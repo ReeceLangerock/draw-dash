@@ -62,6 +62,10 @@ app.use("/api/image-prompts", require("./routes/image-prompts"));
 app.use("/api/authCheck", require("./routes/authCheck"));
 app.use("/api/lobby", require("./routes/lobby")(io, socketRooms));
 app.use("/api/room", require("./routes/room")(io, socketRooms, imagePrompts));
+app.use("/api/gallery", require("./routes/gallery"));
+app.use("/api/leaderboard", require("./routes/leaderboard"));
+
+
 
 //launch
 server.listen(port, function() {

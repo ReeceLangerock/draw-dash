@@ -7,8 +7,9 @@ import { push } from "react-router-redux";
 import * as actions from "./actions/actions";
 import {login} from "./actions/actions";
 import store from "./store/store.js";
-import Home from "./containers/Home";
+import Gallery from "./containers/Gallery";
 import About from "./containers/About";
+import Leaderboard from "./containers/Leaderboard";
 import Lobby from "./containers/Lobby";
 import LandingPage from "./containers/LandingPage";
 import Room from "./containers/Room";
@@ -30,8 +31,8 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/lobby" render = {props => <Lobby socket = {socket} />}/>
-            <Route exact path="/leaderboard" component={About} />
-            <Route exact path="/gallery" component={About} />
+            <Route exact path="/leaderboard" component={Leaderboard} />
+            <Route exact path="/gallery" component={Gallery} />
             <Route path="/room/:number" render = {props => <Room socket = {socket} />}/>
 
           </Switch>

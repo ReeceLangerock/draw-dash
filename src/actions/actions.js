@@ -91,6 +91,52 @@ export var setImagePrompt = (prompt) => {
   };
 }
 
+//GALLERY MANAGEMENT
+//-------------------------------
+
+export var getGalleryImages = () => {
+  return dispatch => {
+    fetch("/api/gallery", { credentials: "include" })
+      .then(response => response.json())
+      .then(response => {
+        dispatch(setGalleryImages([{res:'response'}]));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+}
+
+export var setGalleryImages = (images) => {
+  return {
+    type: "SET_GALLERY_IMAGES",
+    images
+  };
+}
+
+//LEADERBOARD MANAGEMENT
+//-------------------------------
+
+export var getLeaderboard = () => {
+  return dispatch => {
+    fetch("/api/leaderboard", { credentials: "include" })
+      .then(response => response.json())
+      .then(response => {
+        dispatch(setLeaderboard(response));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+}
+
+export var setLeaderboard = (leaderboard) => {
+  return {
+    type: "SET_LEADERBOARD",
+    leaderboard
+  };
+}
+
 //AUTHENTICATION
 //-------------------------------
 

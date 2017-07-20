@@ -7,10 +7,28 @@ const initialState = {
 };
 
 export var imageReducer = (state = {prompt: ""}, action) => {
-  console.log(action)
   switch (action.type) {
     case "SET_IMAGE_PROMPT":
       return {...state, prompt: action.prompt};
+    default:
+      return state;
+  }
+};
+
+export var galleryReducer = (state = {images: []}, action) => {
+  console.log('gallery', action)
+  switch (action.type) {
+    case "SET_GALLERY_IMAGES":
+      return {...state, images: action.images};
+    default:
+      return state;
+  }
+};
+
+export var leaderboardReducer = (state = {leaderboard: []}, action) => {
+  switch (action.type) {
+    case "SET_LEADERBOARD":
+      return {...state, leaderboard: action.leaderboard};
     default:
       return state;
   }

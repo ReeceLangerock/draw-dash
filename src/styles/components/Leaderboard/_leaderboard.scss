@@ -1,0 +1,18 @@
+.leaderboard-container {
+
+
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid;
+  margin:1px;
+  padding: 1px 2px 1px 2px;
+
+  h1 {
+    padding: 0px;
+    margin: 0px;
+
+  }
+}
