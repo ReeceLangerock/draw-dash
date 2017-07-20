@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import {imagePromptReducer, authReducer,roomReducer} from './../reducers/reducers'
+import {imageReducer, authReducer,roomReducer} from './../reducers/reducers'
 
 export default combineReducers({
   router: routerReducer,
-  imagePromptReducer,
+  imageReducer,
   authReducer,roomReducer
 })

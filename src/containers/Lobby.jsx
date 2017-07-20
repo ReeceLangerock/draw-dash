@@ -67,6 +67,9 @@ class Lobby extends React.Component {
           default:
             buttonClass = "button primary";
         }
+        if(that.props.user.isGuest) {
+          disabled = true;
+        }
 
         var spotsOpenText = spotsOpen !== 0
           ? `${spotsOpen} Canvas open`

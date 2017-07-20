@@ -2,20 +2,20 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { sendAuthorizationCheck } from "./../actions/actions";
+import { sendAuthorizationCheck, setImagePrompt } from "./../actions/actions";
 
-class Canvas extends React.Component {
+class CanvasContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onUserReady = this.onUserReady.bind(this);
-    this.props.socket.on("user_join", payload => {
-      console.log(payload.displayName + " joined");
+    this.props.socket.on("all_ready", data => {
+      this.props.setImagePrompt(data.prompt)
+      console.log('data',data.prompt);
     });
   }
 
   onUserReady() {
-    console.log("ready");
-    console.log(this.props);
+
     this.props.socket.emit(
       "ready",
       { roomId: this.props.roomId },
@@ -83,10 +83,11 @@ class Canvas extends React.Component {
         );
       }
     } else {
+      var disabled = this.props.user.isAuthenticated ? '' : 'disabled';
       return (
         <div className="canvas-container">
           <h1>Empty Canvas</h1>
-          <button id={buttonId} className="button">Join</button>
+          <button id={buttonId} className="button" disabled ={disabled}>Join</button>
         </div>
       );
     }
@@ -96,6 +97,7 @@ class Canvas extends React.Component {
       <div>
 
         {this.renderUserToCanvasContainer()}
+  
       </div>
     );
   }
@@ -111,9 +113,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck
+      sendAuthorizationCheck, setImagePrompt
     },
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
+export default connect(mapStateToProps, mapDispatchToProps)(CanvasContainer);

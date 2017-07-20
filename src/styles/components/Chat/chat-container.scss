@@ -8,8 +8,12 @@
 .message-container {
   border: 1px solid;
   margin: 1px;
-  min-height: 200px;
-
+  height: 200px;
+  overflow-y: auto;
+  p {
+    margin:0px 0px 0px 1px;
+    padding:0px;
+  }
 }
 
 .input-container{
