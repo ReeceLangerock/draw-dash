@@ -32,6 +32,8 @@ class App extends React.Component {
             <Route exact path="/lobby" render = {props => <Lobby socket = {socket}/>}/>
             <Route exact path="/leaderboard" component={Leaderboard} />
             <Route exact path="/gallery" component={Gallery} />
+            <Route exact path="/canvas" component={Canvas} />
+            <Route exact path="/countdown" component={Countdown} />
             <Route path="/room/:number" render = {props => <Room socket = {socket} />}/>
           </Switch>
         </main>
