@@ -19,15 +19,14 @@ export class LandingPage extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // if the user is authenticated, redirect to lobby page
-    console.log(nextProps)
+    console.log(nextProps);
     if (nextProps.isAuthenticated || nextProps.isGuest) {
       this.props.changePage();
     }
   }
 
-  onWantToWatch(){
-    console.log('want')
-    this.props.registerGuestAsWatcher()
+  onWantToWatch() {
+    this.props.registerGuestAsWatcher();
   }
   //handle logout
   onLogout() {
@@ -66,7 +65,6 @@ const mapStateToProps = state => ({
   isGuest: state.authReducer.isGuest,
 
   user: state.authReducer.user
-
 });
 
 const mapDispatchToProps = dispatch =>

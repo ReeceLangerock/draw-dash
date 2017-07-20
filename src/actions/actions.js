@@ -9,12 +9,10 @@ export var addImagePrompts = prompts => {
 
 export var startGetImagePrompts = () => {
   return (dispatch, getState) => {
-    fetch("/api/image-prompts", { credentials: "include" })
-      .then(response => response.json())
-      .then(response => {
-        var imagePrompts = response["image-prompts"];
-        dispatch(addImagePrompts(imagePrompts));
-      });
+    fetch("/api/image-prompts", { credentials: "include" }).then(response => response.json()).then(response => {
+      var imagePrompts = response["image-prompts"];
+      dispatch(addImagePrompts(imagePrompts));
+    });
   };
 };
 
@@ -25,7 +23,7 @@ export var getRooms = () => {
     fetch("/api/lobby", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
-        console.log('rooms in action', response)
+        console.log("rooms in action", response);
         dispatch(updateAvailableRooms(response));
       })
       .catch(error => {
@@ -34,62 +32,58 @@ export var getRooms = () => {
   };
 };
 
-export var updateAvailableRooms = (rooms) => {
+export var updateAvailableRooms = rooms => {
   return {
     type: "GET_ROOMS",
     rooms
   };
-}
+};
 
-
-export var updateRooms = (rooms) => {
+export var updateRooms = rooms => {
   return {
     type: "UPDATE_ROOMS",
     rooms
   };
-}
+};
 
 export var addUserToRoom = (room, user, canvasSeatNumber) => {
   return {
-    type: 'ADD_USER_TO_ROOM',
+    type: "ADD_USER_TO_ROOM",
     room,
     user,
     canvasSeatNumber
-  }
-}
+  };
+};
 
 export var removeUserFromRoom = (room, user) => {
   return {
-    type: 'REMOVE_USER_FROM_ROOM'
-  }
-}
-
+    type: "REMOVE_USER_FROM_ROOM"
+  };
+};
 
 //USER MANAGEMENT
 //-------------------------------
 
 export var registerGuestAsWatcher = () => {
-  var guestId = (Math.random() *10000).toPrecision(4)
+  var guestId = (Math.random() * 10000).toPrecision(4);
   var displayName = "Guest" + guestId;
   return {
     type: "ADD_GUEST_AS_WATCHER",
     displayName,
     guestId
-
   };
-}
+};
 
-//IMAGE MANAGEMENT
+//IMAGE PROMPT MANAGEMENT
 //-------------------------------
 
-export var setImagePrompt = (prompt) => {
-  console.log('action',prompt);
+export var setImagePrompt = prompt => {
+  console.log("action", prompt);
   return {
     type: "SET_IMAGE_PROMPT",
     prompt
-
   };
-}
+};
 
 //GALLERY MANAGEMENT
 //-------------------------------
@@ -99,20 +93,20 @@ export var getGalleryImages = () => {
     fetch("/api/gallery", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
-        dispatch(setGalleryImages([{res:'response'}]));
+        dispatch(setGalleryImages(response));
       })
       .catch(error => {
         console.error(error);
       });
   };
-}
+};
 
-export var setGalleryImages = (images) => {
+export var setGalleryImages = images => {
   return {
     type: "SET_GALLERY_IMAGES",
     images
   };
-}
+};
 
 //LEADERBOARD MANAGEMENT
 //-------------------------------
@@ -128,14 +122,14 @@ export var getLeaderboard = () => {
         console.error(error);
       });
   };
-}
+};
 
-export var setLeaderboard = (leaderboard) => {
+export var setLeaderboard = leaderboard => {
   return {
     type: "SET_LEADERBOARD",
     leaderboard
   };
-}
+};
 
 //AUTHENTICATION
 //-------------------------------
@@ -155,13 +149,14 @@ export var sendAuthorizationCheck = () => {
         return response.json();
       })
       .then(response => {
-        if(response !== false){
-        dispatch(login(response));
-      } else {
-        //temporary error, add action for unauthenticated user later
-        console.log('ERROR')
-      }
-      }).then(()=> {
+        if (response !== false) {
+          dispatch(login(response));
+        } else {
+          //temporary error, add action for unauthenticated user later
+          console.log("ERROR");
+        }
+      })
+      .then(() => {
         dispatch(isAuthenticating(false));
       });
   };

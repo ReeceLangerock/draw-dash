@@ -12,16 +12,18 @@ class Chat extends React.Component {
       var node = document.createElement("p");
       var textNode = document.createTextNode(message);
       node.appendChild(textNode);
-      document.getElementById('messageContainer').appendChild(node);
+      document.getElementById("messageContainer").appendChild(node);
     });
   }
 
-  onSend(e){
+  onSend(e) {
     var user = this.props.user.displayName;
-    var messageText = document.getElementById("textToSend").value
-    if(messageText.length === 0) {return 0;}
-    var fullMessage = user+": "+messageText;
-    this.props.socket.emit('message_sent', {message: fullMessage, roomId:this.props.roomId});
+    var messageText = document.getElementById("textToSend").value;
+    if (messageText.length === 0) {
+      return 0;
+    }
+    var fullMessage = user + ": " + messageText;
+    this.props.socket.emit("message_sent", { message: fullMessage, roomId: this.props.roomId });
     document.getElementById("textToSend").value = "";
   }
 
@@ -30,15 +32,12 @@ class Chat extends React.Component {
       <div>
         <div className="chat-container">
           <h3>Chat</h3>
-          <div id = "messageContainer" className = "message-container">
-
-          </div>
-
+          <div id="messageContainer" className="message-container" />
 
           <div className="input-container">
 
-              <input id = 'textToSend' type="text" />
-              <button className = 'button' onClick={this.onSend}>Send</button>
+            <input id="textToSend" type="text" />
+            <button className="button" onClick={this.onSend}>Send</button>
 
           </div>
         </div>

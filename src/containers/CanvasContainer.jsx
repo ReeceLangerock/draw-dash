@@ -9,18 +9,13 @@ class CanvasContainer extends React.Component {
     super(props);
     this.onUserReady = this.onUserReady.bind(this);
     this.props.socket.on("all_ready", data => {
-      this.props.setImagePrompt(data.prompt)
-      console.log('data',data.prompt);
+      this.props.setImagePrompt(data.prompt);
+      console.log("data", data.prompt);
     });
   }
 
   onUserReady() {
-
-    this.props.socket.emit(
-      "ready",
-      { roomId: this.props.roomId },
-      function() {}
-    );
+    this.props.socket.emit("ready", { roomId: this.props.roomId }, function() {});
   }
 
   renderUserToCanvasContainer() {
@@ -32,7 +27,7 @@ class CanvasContainer extends React.Component {
       //using loose equality check because canvasSeatNumber is stored as string on backend
       if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
         var buttonClass = occupants.drawers[0].isReady ? "button success" : "button primary";
-        var disabled = occupants.drawers[0].UID == this.props.user.UID ? '' : 'disabled';
+        var disabled = occupants.drawers[0].UID == this.props.user.UID ? "" : "disabled";
         return (
           <div className="canvas-container">
             <h1>{displayName}'s Canvas</h1>
@@ -41,11 +36,9 @@ class CanvasContainer extends React.Component {
             </button>
           </div>
         );
-      } else if (
-        occupants.drawers[1].canvasSeatNumber == this.props.canvasNumber
-      ) {
+      } else if (occupants.drawers[1].canvasSeatNumber == this.props.canvasNumber) {
         var buttonClass = occupants.drawers[1].isReady ? "button success" : "button primary";
-        var disabled = occupants.drawers[1].UID == this.props.user.UID ? '' : 'disabled';
+        var disabled = occupants.drawers[1].UID == this.props.user.UID ? "" : "disabled";
         return (
           <div className="canvas-container">
             <h1>{displayName}'s Canvas</h1>
@@ -65,7 +58,7 @@ class CanvasContainer extends React.Component {
     } else if (occupants.drawers.length === 1) {
       if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
         var buttonClass = occupants.drawers[0].isReady ? "button success" : "button primary";
-        var disabled = occupants.drawers[0].UID == this.props.user.UID ? '' : 'disabled';
+        var disabled = occupants.drawers[0].UID == this.props.user.UID ? "" : "disabled";
         return (
           <div className="canvas-container">
             <h1>{displayName}'s Canvas</h1>
@@ -83,11 +76,11 @@ class CanvasContainer extends React.Component {
         );
       }
     } else {
-      var disabled = this.props.user.isAuthenticated ? '' : 'disabled';
+      var disabled = this.props.user.isAuthenticated ? "" : "disabled";
       return (
         <div className="canvas-container">
           <h1>Empty Canvas</h1>
-          <button id={buttonId} className="button" disabled ={disabled}>Join</button>
+          <button id={buttonId} className="button" disabled={disabled}>Join</button>
         </div>
       );
     }
@@ -97,7 +90,7 @@ class CanvasContainer extends React.Component {
       <div>
 
         {this.renderUserToCanvasContainer()}
-  
+
       </div>
     );
   }
@@ -113,7 +106,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck, setImagePrompt
+      sendAuthorizationCheck,
+      setImagePrompt
     },
     dispatch
   );

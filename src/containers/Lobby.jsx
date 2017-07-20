@@ -3,12 +3,7 @@ import Navigation from "./Navigation";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  getRooms,
-  sendAuthorizationCheck,
-  updateRooms,
-  addUserToRoom
-} from "./../actions/actions";
+import { getRooms, sendAuthorizationCheck, updateRooms, addUserToRoom } from "./../actions/actions";
 // const io = require("socket.io-client");
 // const socket = io();
 
@@ -16,7 +11,6 @@ class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.props.socket.on("room_update", payload => {
-      console.log("room update", payload);
       this.props.updateRooms(payload);
     });
   }
@@ -33,14 +27,10 @@ class Lobby extends React.Component {
   handleRoomSelection(id, joinAs) {
     // emit to backend if user joins a room
     var that = this;
-    this.props.socket.emit(
-      "join",
-      { roomId: id, user: this.props.user, joiningAs: joinAs },
-      function(canvasSeatNumber) {
-        that.props.addUserToRoom(id, that.props.user, canvasSeatNumber);
-        that.props.changePage(`room/${id}`);
-      }
-    );
+    this.props.socket.emit("join", { roomId: id, user: this.props.user, joiningAs: joinAs }, function(canvasSeatNumber) {
+      that.props.addUserToRoom(id, that.props.user, canvasSeatNumber);
+      that.props.changePage(`room/${id}`);
+    });
     //dispatch actions to add user to room and redirect to selected room
   }
 
@@ -49,12 +39,8 @@ class Lobby extends React.Component {
 
     if (rooms) {
       var that = this;
-      var renderRoomButtons = Object.keys(rooms).map(function(
-        keyName,
-        keyIndex
-      ) {
-        var spotsOpen =
-          rooms[keyName].max - rooms[keyName].occupants.drawers.length;
+      var renderRoomButtons = Object.keys(rooms).map(function(keyName, keyIndex) {
+        var spotsOpen = rooms[keyName].max - rooms[keyName].occupants.drawers.length;
         var buttonClass, disabled;
         switch (spotsOpen) {
           case 1:
@@ -67,13 +53,11 @@ class Lobby extends React.Component {
           default:
             buttonClass = "button primary";
         }
-        if(that.props.user.isGuest) {
+        if (that.props.user.isGuest) {
           disabled = true;
         }
 
-        var spotsOpenText = spotsOpen !== 0
-          ? `${spotsOpen} Canvas open`
-          : "All canvas taken";
+        var spotsOpenText = spotsOpen !== 0 ? `${spotsOpen} Canvas open` : "All canvas taken";
 
         return (
           <div key={keyName} className="room-item">
@@ -82,17 +66,10 @@ class Lobby extends React.Component {
               {spotsOpenText}
             </p>
             <div className="room-item-button-container">
-              <button
-                className={buttonClass}
-                onClick={() => that.handleRoomSelection(keyName, "drawer")}
-                disabled={disabled}
-              >
+              <button className={buttonClass} onClick={() => that.handleRoomSelection(keyName, "drawer")} disabled={disabled}>
                 Join
               </button>
-              <button
-                className="button primary"
-                onClick={() => that.handleRoomSelection(keyName, "watcher")}
-              >
+              <button className="button primary" onClick={() => that.handleRoomSelection(keyName, "watcher")}>
                 Watch
               </button>
             </div>

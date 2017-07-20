@@ -3,30 +3,37 @@ import Navigation from "./Navigation";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  getGalleryImages
-} from "./../actions/actions";
+import { getGalleryImages } from "./../actions/actions";
 // const io = require("socket.io-client");
 // const socket = io();
 
 class Gallery extends React.Component {
   constructor(props) {
     super(props);
-
   }
   //
   componentWillMount() {
-
     this.props.getGalleryImages();
   }
 
   componentDidMount() {}
 
+  renderGalleryImages() {
+    console.log("render", this.props);
+
+    return this.props.gallery.map(galleryItem => {
+      return (
+        <div key={galleryItem["_id"]} className="gallery-item">
+
+          <img src="#" />
+          <h5>Artwork by: {galleryItem.displayName}</h5>
+          <h5>Created on: {galleryItem.date}</h5>
+        </div>
+      );
+    });
+  }
 
   render() {
-
-
-
     return (
       <div>
         <Navigation />
@@ -37,7 +44,9 @@ class Gallery extends React.Component {
 
             <div className="room-container">
 
-              <h1>Gallery</h1>
+              <div className="gallery-container">
+                {this.renderGalleryImages()}
+              </div>
             </div>
           </div>
         </div>
@@ -48,7 +57,7 @@ class Gallery extends React.Component {
 }
 
 const mapStateToProps = state => ({
-
+  gallery: state.galleryReducer.gallery
 });
 
 const mapDispatchToProps = dispatch =>

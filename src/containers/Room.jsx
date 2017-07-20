@@ -24,21 +24,11 @@ class Room extends React.Component {
   emitOnUnload(ev) {
     ev.preventDefault();
 
-    this.props.socket.emit(
-      "leave_room",
-      { roomId: this.props.roomId, user: this.props.user },
-      function(data) {}
-    );
+    this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
   }
 
   componentWillMount() {
-    this.props.socket.emit(
-      "join_room",
-      { roomId: this.props.roomId, user: this.props.user },
-      function(data) {
-
-      }
-    );
+    this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
     //  this.props.getRooms();
     //if (!this.props.isAuthenticated) {
     //    this.props.sendAuthorizationCheck();
@@ -54,11 +44,7 @@ class Room extends React.Component {
   componentWillUnmount() {
     //this needs some work, page redirects regardless of confirm result
     //confirm("you sure?");
-    this.props.socket.emit(
-      "leave_room",
-      { roomId: this.props.roomId, user: this.props.user },
-      function(data) {}
-    );
+    this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
     window.removeEventListener("beforeunload", this.handleUserLeavingPage);
   }
 
@@ -77,23 +63,22 @@ class Room extends React.Component {
       <div>
         <Navigation />
         <div className="callout clearfix">
-        <p className = "float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
-      </div>
+          <p className="float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
+        </div>
         <h1 className="page-title">{this.props.rooms[this.props.roomId].roomName} Room</h1>
         <div className="row">
           <div className="columns small-centered small-12 medium-10 large-8">
 
             <h1>Timer Placeholder</h1>
-        
 
             <h5>Image Prompt: {this.props.imagePrompt}</h5>
 
             <div className="canvas-items-container">
 
-              <CanvasContainer canvasNumber = "1" socket = {this.props.socket}/>
-              <CanvasContainer canvasNumber = "2" socket = {this.props.socket}/>
+              <CanvasContainer canvasNumber="1" socket={this.props.socket} />
+              <CanvasContainer canvasNumber="2" socket={this.props.socket} />
             </div>
-            <Chat socket = {this.props.socket}/>
+            <Chat socket={this.props.socket} />
           </div>
         </div>
 

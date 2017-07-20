@@ -6,44 +6,40 @@ const initialState = {
   UID: ""
 };
 
-export var imageReducer = (state = {prompt: ""}, action) => {
+export var imageReducer = (state = { prompt: "" }, action) => {
   switch (action.type) {
     case "SET_IMAGE_PROMPT":
-      return {...state, prompt: action.prompt};
+      return { ...state, prompt: action.prompt };
     default:
       return state;
   }
 };
 
-export var galleryReducer = (state = {images: []}, action) => {
-  console.log('gallery', action)
+export var galleryReducer = (state = { gallery: [] }, action) => {
   switch (action.type) {
     case "SET_GALLERY_IMAGES":
-      return {...state, images: action.images};
+      return { ...state, gallery: action.images };
     default:
       return state;
   }
 };
 
-export var leaderboardReducer = (state = {leaderboard: []}, action) => {
+export var leaderboardReducer = (state = { leaderboard: [] }, action) => {
   switch (action.type) {
     case "SET_LEADERBOARD":
-      return {...state, leaderboard: action.leaderboard};
+      return { ...state, leaderboard: action.leaderboard };
     default:
       return state;
   }
 };
 
-export var roomReducer = (
-  state = { rooms: {}, currentUserRoom: -1, canvasSeatNumber: -1 },
-  action
-) => {
+export var roomReducer = (state = { rooms: {}, currentUserRoom: -1, canvasSeatNumber: -1 }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
       return { ...state, currentUserRoom: action.room, canvasSeatNumber: action.canvasSeatNumber };
     case "REMOVE_USER_FROM_ROOM":
-      return {...state, currentUserRoom: -1, canvasSeatNumber: -1};
+      return { ...state, currentUserRoom: -1, canvasSeatNumber: -1 };
     case "GET_ROOMS":
       return { ...state, rooms: action.rooms };
     case "UPDATE_ROOMS":
