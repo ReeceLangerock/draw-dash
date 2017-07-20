@@ -13,30 +13,27 @@ import Leaderboard from "./containers/Leaderboard";
 import Lobby from "./containers/Lobby";
 import LandingPage from "./containers/LandingPage";
 import Room from "./containers/Room";
+import Canvas from "./containers/Canvas";
+import Countdown from './containers/Countdown';
+import Footer from "./containers/Footer";
+
 const io = require("socket.io-client");
 const socket = io();
-
-import Footer from "./containers/Footer";
 
 require("../src/styles/app.scss");
 
 class App extends React.Component {
-
-
   render() {
-
     return (
       <div>
         <main>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route exact path="/lobby" render = {props => <Lobby socket = {socket} />}/>
+            <Route exact path="/lobby" render = {props => <Lobby socket = {socket}/>}/>
             <Route exact path="/leaderboard" component={Leaderboard} />
             <Route exact path="/gallery" component={Gallery} />
             <Route path="/room/:number" render = {props => <Room socket = {socket} />}/>
-
           </Switch>
-
         </main>
         <Footer />
       </div>
