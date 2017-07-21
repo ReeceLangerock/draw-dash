@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom"
 import Navigation from './Navigation';
 
 class Countdown extends React.Component {
   constructor(props) {
     super(props);
 
-    // still need to add 3-5 second timer before the real countdown
-    // and hide start button
+    // still need to hide start button
 
-    this.state = { time: {}, seconds: 60 };
+    this.state = { time: {}, seconds: 3 };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countdown = this.countdown.bind(this);
@@ -54,8 +54,25 @@ class Countdown extends React.Component {
 
     if (seconds === 0) {
       clearInterval(this.timer);
+
+        let element = (
+          <h2>GO!</h2>
+        );
+        ReactDOM.render(
+          element,
+          document.getElementById('go')
+        );
+
+      this.state.seconds = 61;
+      let seconds = this.state.seconds - 1;
+      this.timer = setInterval(this.countdown, 1000);
+      this.setState({
+        time: this.formatSeconds(seconds),
+        seconds: seconds
+      });
     }
   }
+
 
   render() {
     return(
@@ -63,7 +80,7 @@ class Countdown extends React.Component {
         <Navigation />
         <div className="row">
           <div className="column small-centered medium-6 large-4">
-            <h2>Countdown Component</h2>
+            <h2 id="go"></h2>
             {this.state.time.seconds}<br />
             <button className="button" onClick={this.startTimer}>Start</button>
           </div>
