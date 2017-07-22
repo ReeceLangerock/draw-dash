@@ -10,7 +10,7 @@ class CanvasImage extends React.Component {
     this.props.socket.on("image_update", data => {
       var image;
       var idToUpdate = data.canvasId == 1 ? image = document.getElementById('image1') : image = document.getElementById('image2');
-    
+
       image.src = data.canvasJSON;
     });
   }
@@ -19,7 +19,7 @@ class CanvasImage extends React.Component {
     return (
       <div className="container">
         <h1>{this.props.canvasId}</h1>
-        <img id={"image" + this.props.canvasId} src="https://facebook.github.io/react/img/logo.svg" />
+        <img id={"image" + this.props.canvasId} src="http://www.bluemaize.net/im/arts-crafts-sewing/blank-canvas-3.jpg" />
       </div>
     );
   }

@@ -8,7 +8,7 @@ var returnRouter = function(io, rooms, images) {
     socket.on("join_room", function(data, fn) {
       console.log("joining room socket:", data.roomId);
       socket.join(data.roomId);
-      socket.broadcast.to(data.roomId).emit("user_join", data.user);
+      socket.broadcast.to(data.roomId).emit("user_join", data.user.displayName);
       //socket.broadcast.emit("room_update", rooms.getRooms());
       fn(rooms.getRooms());
     });
@@ -16,6 +16,7 @@ var returnRouter = function(io, rooms, images) {
     socket.on("leave_room", function(data) {
       console.log("leave", socket.id);
       console.log("leaving room socket:", data.roomId);
+      socket.broadcast.to(data.roomId).emit("user_leave", data.user.displayName);
       socket.leave(data.roomId);
       rooms.leaveRoom(data.roomId, data.user, socket.id);
       rooms.cleanUpEmptyRooms();

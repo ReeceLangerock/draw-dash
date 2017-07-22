@@ -6,7 +6,6 @@ import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-
 class Room extends React.Component {
   constructor(props) {
     super(props);
@@ -19,17 +18,15 @@ class Room extends React.Component {
   handleUserLeavingPage(ev) {
     ev.preventDefault();
     return (ev.returnValue = "Are you sure you want to close?");
-  }
+  }  
 
   emitOnUnload(ev) {
     ev.preventDefault();
-
     this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
   }
 
   componentWillMount() {
     this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
-
   }
 
   componentDidMount() {
@@ -59,7 +56,7 @@ class Room extends React.Component {
     return (
       <div>
         <Navigation />
-        <div className="callout clearfix">
+        <div className="clearfix">
           <p className="float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
         </div>
         <h1 className="page-title">{this.props.rooms[this.props.roomId].roomName} Room</h1>
@@ -92,11 +89,6 @@ const mapStateToProps = state => ({
   imagePrompt: state.imageReducer.prompt
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-    },
-    dispatch
-  );
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

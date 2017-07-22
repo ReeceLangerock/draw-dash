@@ -126,7 +126,6 @@ class Canvas extends React.Component {
   render() {
     return (
       <div className="container">
-        <button id="save">save</button>
         {this.renderTools()}
         <div id={"drawing" + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>
