@@ -4,15 +4,18 @@ import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getRooms } from "./../actions/actions";
+import { setImagePrompt, bindActionCreators } from "redux";
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
     this.emitOnUnload = this.emitOnUnload.bind(this);
-    this.props.socket.on("user_join", payload => {
-      console.log(payload.displayName + " joined");
+    // this.props.socket.on("user_join", payload => {
+    //   console.log(payload.displayName + " joined");
+    // });
+    this.props.socket.on("all_ready", data => {
+      this.props.setImagePrompt(data.prompt);
+      console.log("data", data.prompt);
     });
   }
 
@@ -23,16 +26,11 @@ class Room extends React.Component {
 
   emitOnUnload(ev) {
     ev.preventDefault();
-
     this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
   }
 
   componentWillMount() {
     this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
-    //  this.props.getRooms();
-    //if (!this.props.isAuthenticated) {
-    //    this.props.sendAuthorizationCheck();
-    //  }
   }
 
   componentDidMount() {
@@ -62,7 +60,7 @@ class Room extends React.Component {
     return (
       <div>
         <Navigation />
-        <div className="callout clearfix">
+        <div className="clearfix">
           <p className="float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
         </div>
         <h1 className="page-title">{this.props.rooms[this.props.roomId].roomName} Room</h1>
@@ -93,15 +91,9 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
   imagePrompt: state.imageReducer.prompt
+
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getRooms,
-      changePage: room => push(room)
-    },
-    dispatch
-  );
+const mapDispatchToProps = dispatch => bindActionCreators({setImagePrompt}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

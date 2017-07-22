@@ -9,11 +9,32 @@ class Chat extends React.Component {
     super(props);
     this.onSend = this.onSend.bind(this);
     this.props.socket.on("message_received", message => {
+      console.log('message_received', message)
       var node = document.createElement("p");
       var textNode = document.createTextNode(message);
       node.appendChild(textNode);
       document.getElementById("messageContainer").appendChild(node);
     });
+
+    this.props.socket.on("user_join", user => {
+      var node = document.createElement("p");
+      var textNode = document.createTextNode(`${user} joined the room`);
+      node.appendChild(textNode);
+      document.getElementById("messageContainer").appendChild(node);
+    });
+    this.props.socket.on("user_leave", user => {
+      var node = document.createElement("p");
+      var textNode = document.createTextNode(`${user} left the room`);
+      node.appendChild(textNode);
+      document.getElementById("messageContainer").appendChild(node);
+    });
+
+
+  }
+
+
+  componentWillUnmount(){
+    this.props.socket.removeListener('message_received');
   }
 
   onSend(e) {

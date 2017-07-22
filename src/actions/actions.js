@@ -131,6 +131,29 @@ export var setLeaderboard = leaderboard => {
   };
 };
 
+export var updateLeaderboard = user => {
+  console.log("updateLeaderboard", user);
+  return dispatch => {
+    fetch("/api/leaderboard", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        //if (response === "UPDATED") console.log(updated);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
 //AUTHENTICATION
 //-------------------------------
 
