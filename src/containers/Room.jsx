@@ -5,15 +5,15 @@ import Chat from "./Chat";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getRooms } from "./../actions/actions";
+
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
     this.emitOnUnload = this.emitOnUnload.bind(this);
-    this.props.socket.on("user_join", payload => {
-      console.log(payload.displayName + " joined");
-    });
+    // this.props.socket.on("user_join", payload => {
+    //   console.log(payload.displayName + " joined");
+    // });
   }
 
   handleUserLeavingPage(ev) {
@@ -29,10 +29,7 @@ class Room extends React.Component {
 
   componentWillMount() {
     this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
-    //  this.props.getRooms();
-    //if (!this.props.isAuthenticated) {
-    //    this.props.sendAuthorizationCheck();
-    //  }
+
   }
 
   componentDidMount() {
@@ -98,8 +95,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      getRooms,
-      changePage: room => push(room)
     },
     dispatch
   );
