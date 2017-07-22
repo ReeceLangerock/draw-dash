@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom"
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Navigation from './Navigation';
+import LongCountdown from './LongCountdown';
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class Countdown extends React.Component {
 
     if (seconds === 0) {
       clearInterval(this.timer);
-
+      setTimeout(() => {
         let element = (
           <h2>GO!</h2>
         );
@@ -62,17 +63,10 @@ class Countdown extends React.Component {
           element,
           document.getElementById('go')
         );
+      }, 1000);
 
-      this.state.seconds = 61;
-      let seconds = this.state.seconds - 1;
-      this.timer = setInterval(this.countdown, 1000);
-      this.setState({
-        time: this.formatSeconds(seconds),
-        seconds: seconds
-      });
     }
   }
-
 
   render() {
     return(
@@ -82,6 +76,7 @@ class Countdown extends React.Component {
           <div className="column small-centered medium-6 large-4">
             <h2 id="go"></h2>
             {this.state.time.seconds}<br />
+            <LongCountdown />
             <button className="button" onClick={this.startTimer}>Start</button>
           </div>
         </div>
