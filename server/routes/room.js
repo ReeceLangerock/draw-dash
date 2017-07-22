@@ -37,15 +37,13 @@ var returnRouter = function(io, rooms, images) {
     });
 
     socket.on("message_sent", function(data) {
-      console.log('message', data)
+      console.log("message", data);
       io.to(data.roomId).emit("message_received", data.message);
     });
 
     socket.on("canvas_event", function(data) {
-
       socket.broadcast.to(data.roomId).emit("image_update", data);
       //io.sockets.emitdata.roomId).emit("image_update", data);
-
     });
 
     socket.on("disconnect", function(data) {

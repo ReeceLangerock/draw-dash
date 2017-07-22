@@ -4,20 +4,18 @@ import Canvas from "./Canvas";
 import CanvasImage from "./CanvasImage";
 import { connect } from "react-redux";
 
-import { sendAuthorizationCheck, setImagePrompt } from "./../actions/actions";
+import { sendAuthorizationCheck, updateLeaderboard } from "./../actions/actions";
 
 class CanvasContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onUserReady = this.onUserReady.bind(this);
-    this.props.socket.on("all_ready", data => {
-      this.props.setImagePrompt(data.prompt);
-      console.log("data", data.prompt);
-    });
+
   }
 
   onUserReady() {
     this.props.socket.emit("ready", { roomId: this.props.roomId }, function() {});
+    this.props.updateLeaderboard(this.props.user)
   }
 
   renderUserToCanvasContainer() {
@@ -138,14 +136,14 @@ const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   user: state.authReducer,
   rooms: state.roomReducer.rooms,
-  roomId: state.roomReducer.currentUserRoom
+  roomId: state.roomReducer.currentUserRoom,
+
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck,
-      setImagePrompt
+      sendAuthorizationCheck, updateLeaderboard
     },
     dispatch
   );

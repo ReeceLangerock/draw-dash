@@ -9,15 +9,16 @@ var leaderboardSchema = mongoose.Schema({
 
 });
 
-leaderboardSchema.methods.newLeaderboardItem = function(id, data) {
-  var newLeaderboardItem = new leaderboardItemModel({
+leaderboardSchema.methods.newLeaderboardItem = function(data) {
+  var newItem = new leaderboardModel({
+    _id: new ObjectID(),
     UID: data.UID,
-    displayName: date.displayName,
+    displayName: data.displayName,
     score: data.score
 
   });
 
-  newLeaderboardItem.save(function(err) {
+  newItem.save(function(err) {
     if (err) {
       throw err;
     } else {

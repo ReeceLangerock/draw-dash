@@ -4,7 +4,7 @@ import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { setImagePrompt, bindActionCreators } from "redux";
 
 class Room extends React.Component {
   constructor(props) {
@@ -13,12 +13,16 @@ class Room extends React.Component {
     // this.props.socket.on("user_join", payload => {
     //   console.log(payload.displayName + " joined");
     // });
+    this.props.socket.on("all_ready", data => {
+      this.props.setImagePrompt(data.prompt);
+      console.log("data", data.prompt);
+    });
   }
 
   handleUserLeavingPage(ev) {
     ev.preventDefault();
     return (ev.returnValue = "Are you sure you want to close?");
-  }  
+  }
 
   emitOnUnload(ev) {
     ev.preventDefault();
@@ -87,8 +91,9 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
   imagePrompt: state.imageReducer.prompt
+
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({setImagePrompt}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);
