@@ -20,13 +20,14 @@ class Countdown extends React.Component {
   }
 
   componentDidMount() {
-
     if (this.props.startSignal) {
       this.startTimer();
     }
   }
   componentWillReceiveProps(newProps) {
-
+    if (newProps.startSignal) {
+      this.startTimer();
+    }
   }
 
   startTimer() {

@@ -2,11 +2,11 @@ import React from "react";
 import Navigation from "./Navigation";
 import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
-import Countdown from './Countdown'
+import Countdown from "./Countdown";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setImagePrompt, setAllUsersReady} from "./../actions/actions";
+import { setImagePrompt, setAllUsersReady } from "./../actions/actions";
 
 class Room extends React.Component {
   constructor(props) {
@@ -74,18 +74,17 @@ class Room extends React.Component {
 
               </div>
 
+              <Countdown startSignal={this.props.allReady} />
+              <h1>{this.props.allReady}</h1>
+              <h5>Image Prompt: {this.props.imagePrompt}</h5>
 
-                <Countdown startSignal = {true}/>
-                <h1>{this.props.allReady}</h1>
-                <h5>Image Prompt: {this.props.imagePrompt}</h5>
+              <div className="canvas-items-container">
 
-                <div className="canvas-items-container">
-
-                  <CanvasContainer canvasNumber="1" socket={this.props.socket} />
-                  <CanvasContainer canvasNumber="2" socket={this.props.socket} />
-                </div>
-                <Chat socket={this.props.socket} />
+                <CanvasContainer canvasNumber="1" socket={this.props.socket} />
+                <CanvasContainer canvasNumber="2" socket={this.props.socket} />
               </div>
+              <Chat socket={this.props.socket} />
+            </div>
 
           </div>
         </div>
