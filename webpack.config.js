@@ -70,8 +70,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
-      },        { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=public/fonts/[name].[ext]' },
-
+      },       
       {
         test: /\.(jpe?g|png|gif|svg|ttf)$/i,
         loader: 'url-loader',

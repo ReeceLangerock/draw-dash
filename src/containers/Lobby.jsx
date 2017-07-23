@@ -61,19 +61,18 @@ class Lobby extends React.Component {
 
         return (
           <div key={keyName} className="room-item">
-            <div className = 'room-image'>
-            <img  src = "https://www.zooportraits.com/wp-content/uploads/2017/06/Veiled-Chameleon-Chamaeleo-Calyptratus.jpg"/>
+            <div className="room-image">
+              <img src="https://www.zooportraits.com/wp-content/uploads/2017/06/Veiled-Chameleon-Chamaeleo-Calyptratus.jpg" />
 
-            <p>
-              {spotsOpenText}
-            </p>
-          </div>
+              <p>
+                {spotsOpenText}
+              </p>
+            </div>
             <div className="room-item-button-container">
 
               <button className={buttonClass} onClick={() => that.handleRoomSelection(keyName, "drawer")} disabled={disabled}>
                 Join
               </button>
-
 
               <button className="button primary button-item" onClick={() => that.handleRoomSelection(keyName, "watcher")}>
                 Watch
@@ -91,19 +90,18 @@ class Lobby extends React.Component {
 
         <div className="row">
           <div className="columns small-centered small-12 medium-12 large-10">
-            <div className = 'lobby-container'>
+            <div className="lobby-container">
               <div className="page-title">
-                <h1 className ="columns small-centered small-10 medium-4 large-4">Room Select</h1>
+                <h1 className="columns small-centered small-11 medium-12 large-10">Room Select</h1>
 
               </div>
 
+              <div className="room-selection-container">
 
-            <div className="room-container">
-
-              {renderRoomButtons}
+                {renderRoomButtons}
+              </div>
             </div>
           </div>
-        </div>
         </div>
 
       </div>

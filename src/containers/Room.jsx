@@ -60,26 +60,33 @@ class Room extends React.Component {
     return (
       <div>
         <Navigation />
-        <div className="clearfix">
-          <p className="float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
-        </div>
-        <h1 className="page-title">{this.props.rooms[this.props.roomId].roomName} Room</h1>
         <div className="row">
-          <div className="columns small-centered small-12 medium-10 large-8">
 
-            <h1>Timer Placeholder</h1>
+          <div className="columns small-centered small-12 medium-10 large-10">
+            <div className="room-container">
+              <div className="page-title">
+                <div className="clearfix">
+                  <p className="float-right">Viewers: {this.props.rooms[this.props.roomId].occupants.watchers.length}</p>
+                </div>
+                <h1>{this.props.rooms[this.props.roomId].roomName} Room</h1>
 
-            <h5>Image Prompt: {this.props.imagePrompt}</h5>
+              </div>
 
-            <div className="canvas-items-container">
 
-              <CanvasContainer canvasNumber="1" socket={this.props.socket} />
-              <CanvasContainer canvasNumber="2" socket={this.props.socket} />
-            </div>
-            <Chat socket={this.props.socket} />
+                <h1>Timer Placeholder</h1>
+
+                <h5>Image Prompt: {this.props.imagePrompt}</h5>
+
+                <div className="canvas-items-container">
+
+                  <CanvasContainer canvasNumber="1" socket={this.props.socket} />
+                  <CanvasContainer canvasNumber="2" socket={this.props.socket} />
+                </div>
+                <Chat socket={this.props.socket} />
+              </div>
+            
           </div>
         </div>
-
       </div>
     );
   }
@@ -91,9 +98,8 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
   imagePrompt: state.imageReducer.prompt
-
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({setImagePrompt}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setImagePrompt }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

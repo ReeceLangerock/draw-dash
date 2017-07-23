@@ -5,12 +5,14 @@
 @import "components/page-title";
 
 //Lobby Styling
-@import "components/Lobby/room-container";
+@import "components/Lobby/room-selection-container";
 @import "components/Lobby/room-item";
 @import "components/Lobby/lobby-container";
 
 //Room Styling
 @import "components/Room/canvas-items-container";
+@import "components/Room/room-container";
+
 
 //Timer Styling
 @import "components/countdown";

@@ -29,7 +29,7 @@ class Navigation extends React.Component {
       <div className="top-bar naver">
         <div className="top-bar-left">
           <ul className="menu">
-            <li className="menu-text nav-item">Draw Dash</li>
+            <li className="menu-text nav-item"><i>Draw Dash</i></li>
             <li className="nav-item">
               <NavLink to="/lobby" activeClassName="active-link" activeStyle={{ fontWeight: "bold" }}>
                 Rooms
