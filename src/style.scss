@@ -1,5 +1,19 @@
 @import '~foundation-sites/scss/foundation';
 @include foundation-everything;
+@import "styles/base/variables";
+
+//override foundation nav styling
+.top-bar{
+  border-bottom: 2px solid $dark-border;
+  background-color: $dark-background;
+}
+
+//override foundation button styling
+.button{
+  margin:0px;
+  border:1px solid $dark-border;
+ padding: .5rem;
+}
 
 .container {
     margin: auto;
@@ -9,4 +23,23 @@
         width: 100px;
         height: auto;
     }
+}
+html {
+  height: 100%;
+  box-sizing: border-box;
+  background-color: blue;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }

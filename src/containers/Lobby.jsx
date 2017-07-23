@@ -44,14 +44,14 @@ class Lobby extends React.Component {
         var buttonClass, disabled;
         switch (spotsOpen) {
           case 1:
-            buttonClass = "button warning";
+            buttonClass = "button warning button-item";
             break;
           case 0:
-            buttonClass = "button disabled";
+            buttonClass = "button disabled button-item";
             disabled = true;
             break;
           default:
-            buttonClass = "button primary";
+            buttonClass = "button primary button-item";
         }
         if (that.props.user.isGuest) {
           disabled = true;
@@ -61,17 +61,24 @@ class Lobby extends React.Component {
 
         return (
           <div key={keyName} className="room-item">
-            <h1>{rooms[keyName].roomName}</h1>
+            <div className = 'room-image'>
+            <img  src = "https://www.zooportraits.com/wp-content/uploads/2017/06/Veiled-Chameleon-Chamaeleo-Calyptratus.jpg"/>
+
             <p>
               {spotsOpenText}
             </p>
+          </div>
             <div className="room-item-button-container">
+
               <button className={buttonClass} onClick={() => that.handleRoomSelection(keyName, "drawer")} disabled={disabled}>
                 Join
               </button>
-              <button className="button primary" onClick={() => that.handleRoomSelection(keyName, "watcher")}>
+
+
+              <button className="button primary button-item" onClick={() => that.handleRoomSelection(keyName, "watcher")}>
                 Watch
               </button>
+
             </div>
           </div>
         );
@@ -81,16 +88,22 @@ class Lobby extends React.Component {
     return (
       <div>
         <Navigation />
-        <h1 className="page-title">Welcome {this.props.user.displayName}!</h1>
 
         <div className="row">
           <div className="columns small-centered small-12 medium-12 large-10">
-            <h2>Select a room to join</h2>
+            <div className = 'lobby-container'>
+              <div className="page-title">
+                <h1 className ="columns small-centered small-10 medium-4 large-4">Room Select</h1>
+
+              </div>
+
+
             <div className="room-container">
 
               {renderRoomButtons}
             </div>
           </div>
+        </div>
         </div>
 
       </div>

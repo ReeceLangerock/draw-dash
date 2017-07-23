@@ -1,4 +1,7 @@
 .room-container {
   display: flex;
-  border: 1px solid;
+  padding:3px;
+  min-height: 400px;
+  flex-shrink: 1;
+  align-items: flex-start;
 }

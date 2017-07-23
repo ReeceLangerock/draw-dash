@@ -1,5 +1,18 @@
 .page-title {
   text-align: center;
-  padding: 2rem 0;
+  padding: 1rem 0;
+  font-size: 4rem;
+  font-weight: bold;
   margin: 0;
+
+  background-color: $dark-background;
+color:$light-text;
+border-bottom: 2px solid $dark-border;
+
+  .h1{
+background-color: $dark-background;
+    font-size: 4rem;
+    font-weight: bold;
+  }
+
 }

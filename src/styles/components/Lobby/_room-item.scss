@@ -1,8 +1,43 @@
 .room-item {
-  background-color: grey;
+  background-color: $dark-background;
+
+  margin:5px;
+  border: 2px solid $dark-border;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .room-item-button-container {
+  border-top: $dark-border;
   display: flex;
-  justify-content: space-around;
+  padding: 5px 0px 0px 0px;
+  align-items: flex-end;
+  background-color: grey;
+  justify-content: space-between;
+}
+
+.button-item {
+  border: 10px solid black;
+  margin:0px;
+  padding:2px;
+  align-self: flex-end;
+  flex-grow: 1;
+}
+
+.room-image {
+  position:relative;
+  height: 200px;
+ img {
+   height: 200px;
+
+ }
+
+  p {
+    position: absolute;
+    top: 0px;
+   left: 0;
+   width: 100%;
+  }
 }

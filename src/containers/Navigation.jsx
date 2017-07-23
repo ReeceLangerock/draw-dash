@@ -26,49 +26,33 @@ class Navigation extends React.Component {
     };
 
     return (
-      <div className="top-bar">
+      <div className="top-bar naver">
         <div className="top-bar-left">
           <ul className="menu">
-            <li className="menu-text">Draw Dash</li>
-            <li>
+            <li className="menu-text nav-item">Draw Dash</li>
+            <li className="nav-item">
               <NavLink to="/lobby" activeClassName="active-link" activeStyle={{ fontWeight: "bold" }}>
                 Rooms
               </NavLink>
             </li>
-            <li>
+            <li  className="nav-item">
               <NavLink to="/leaderboard" activeClassName="active-link" activeStyle={{ fontWeight: "bold" }}>
                 Leaderboard
               </NavLink>
             </li>
-            <li>
+            <li className="nav-item">
               <NavLink to="/gallery" activeClassName="active-link" activeStyle={{ fontWeight: "bold" }}>
                 Gallery
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/canvas"
-                activeClassName="active-link"
-                activeStyle={{ fontWeight: "bold" }}
-              >
-                Canvas Test
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/countdown"
-                activeClassName="active-link"
-                activeStyle={{ fontWeight: "bold" }}
-              >
-                Countdown Test
-              </NavLink>
-            </li>
+
+
           </ul>
         </div>
 
         <div className="top-bar-right">
           <ul className="menu">
-            <li className="menu-text">
+            <li className="nav-item">
               {renderLoginOrLogout()}
             </li>
           </ul>

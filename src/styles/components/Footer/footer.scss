@@ -1,0 +1,11 @@
+footer {
+  background-color: $dark-background;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: .5rem;
+  text-align: center;
+  color: $dark-text;
+  border-top: 2px solid $dark-border;
+}
