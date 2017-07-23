@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Navigation from "./Navigation";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { toggleRoundCompleted, setCanvasToSave } from "./../actions/actions";
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -9,7 +11,7 @@ class Countdown extends React.Component {
 
     this.state = {
       countdownSeconds: 3,
-      roundSeconds: 60
+      roundSeconds: 2
     };
 
     this.roundCountdown = this.roundCountdown.bind(this);
@@ -26,6 +28,7 @@ class Countdown extends React.Component {
   }
   componentWillReceiveProps(newProps) {
     if (newProps.startSignal) {
+
       this.startTimer();
     }
   }
@@ -60,6 +63,8 @@ class Countdown extends React.Component {
 
     if (currentSeconds === 0) {
       clearInterval(this.roundTimer);
+      this.props.toggleRoundCompleted();
+      this.props.setCanvasToSave(1);
     }
   }
 
@@ -68,9 +73,14 @@ class Countdown extends React.Component {
 
     if (countdownSeconds > 0) {
       return <div>Counting down...<br />{countdownSeconds}</div>;
+    } else if (roundSeconds > 0) {
+      return <div>{roundSeconds}</div>;
+    } else if(roundSeconds === 0) {
+
+
     }
 
-    return <div>{roundSeconds}</div>;
+
   }
 
   render() {
@@ -89,4 +99,8 @@ class Countdown extends React.Component {
   }
 }
 
-export default connect(null, null)(Countdown);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ toggleRoundCompleted,setCanvasToSave  }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Countdown);

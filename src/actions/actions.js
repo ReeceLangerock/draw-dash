@@ -38,6 +38,12 @@ export var setAllUsersReady = () => {
   }
 }
 
+export var toggleRoundCompleted = () => {
+  return {
+    type: "TOGGLE_ROOM_COMPLETED"
+  }
+}
+
 export var updateAvailableRooms = rooms => {
   return {
     type: "GET_ROOMS",
@@ -104,6 +110,36 @@ export var getGalleryImages = () => {
       .catch(error => {
         console.error(error);
       });
+  };
+};
+
+export var saveCanvas = (image) => {
+  console.log(image);
+  return dispatch => {
+    fetch("/api/gallery", {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(image)
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        //dispatch(setGalleryImages(response));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
+export var setCanvasToSave = (canvasToSave) => {
+  return {
+    type: "SET_CANVAS_TO_SAVE",
+    canvasToSave
   };
 };
 

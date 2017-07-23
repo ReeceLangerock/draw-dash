@@ -19,6 +19,7 @@ export var galleryReducer = (state = { gallery: [] }, action) => {
   switch (action.type) {
     case "SET_GALLERY_IMAGES":
       return { ...state, gallery: action.images };
+
     default:
       return state;
   }
@@ -33,7 +34,7 @@ export var leaderboardReducer = (state = { leaderboard: [] }, action) => {
   }
 };
 
-export var roomReducer = (state = { rooms: {}, currentUserRoom: -1, canvasSeatNumber: -1, allReady: false }, action) => {
+export var roomReducer = (state = { rooms: {}, canvasToSave: -1, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: -1, allReady: false }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
@@ -46,6 +47,11 @@ export var roomReducer = (state = { rooms: {}, currentUserRoom: -1, canvasSeatNu
       return { ...state, rooms: action.rooms };
     case "ALL_READY":
       return {...state, allReady: !state.allReady}
+    case "SET_CANVAS_TO_SAVE":
+      return {...state, canvasToSave : action.canvasToSave}
+      case "TOGGLE_ROOM_COMPLETED":
+        return {...state, roundCompleted: !state.roundCompleted}
+
     default:
       return state;
   }

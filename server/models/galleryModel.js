@@ -3,19 +3,19 @@ var ObjectID = require('mongodb').ObjectID;
 
 var galleryItemSchema = mongoose.Schema({
   _id: String,
-  UID: String,
   displayName: String,
   date: Date,
-  imageJson: Buffer
+  image: String
 
 });
 
-galleryItemSchema.methods.newGalleryItem = function(id, data) {
+galleryItemSchema.methods.newGalleryItem = function(data) {
+  console.log(data);
   var newGalleryItem = new galleryModel({
-    UID: data.UID,
-    displayName: date.displayName,
+    _id: new ObjectID(),
+    displayName: data.displayName,
     date: new Date(),
-    imageJson: data.imageJson
+    image: data.image
 
   });
 

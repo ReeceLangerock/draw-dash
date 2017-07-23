@@ -48,16 +48,6 @@ class Room extends React.Component {
     window.removeEventListener("beforeunload", this.handleUserLeavingPage);
   }
 
-  // handleRoomSelection(id) {
-  //   // emit to backend if user joins a room
-  //   socket.emit("join", { roomId: id, user: this.props.user }, function(
-  //     data
-  //   ) {});
-  //   //dispatch actions to add user to room and redirect to selected room
-  //   this.props.addUserToRoom(id, this.props.user);
-  //   this.props.changePage(`room${id}`);
-  // }
-
   render() {
     return (
       <div>
@@ -99,7 +89,8 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
   allReady: state.roomReducer.allReady,
-  imagePrompt: state.imageReducer.prompt
+  imagePrompt: state.imageReducer.prompt,
+  roundComplete: state.roomReducer.roundComplete
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setImagePrompt }, dispatch);
