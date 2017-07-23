@@ -2,9 +2,11 @@ import React from "react";
 import Navigation from "./Navigation";
 import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
+import Countdown from './Countdown'
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
-import { setImagePrompt, bindActionCreators } from "redux";
+import { bindActionCreators } from "redux";
+import { setImagePrompt, setAllUsersReady} from "./../actions/actions";
 
 class Room extends React.Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class Room extends React.Component {
     // });
     this.props.socket.on("all_ready", data => {
       this.props.setImagePrompt(data.prompt);
-      console.log("data", data.prompt);
+      this.props.setAllUsersReady();
     });
   }
 
@@ -73,8 +75,8 @@ class Room extends React.Component {
               </div>
 
 
-                <h1>Timer Placeholder</h1>
-
+                <Countdown startSignal = {true}/>
+                <h1>{this.props.allReady}</h1>
                 <h5>Image Prompt: {this.props.imagePrompt}</h5>
 
                 <div className="canvas-items-container">
@@ -84,7 +86,7 @@ class Room extends React.Component {
                 </div>
                 <Chat socket={this.props.socket} />
               </div>
-            
+
           </div>
         </div>
       </div>
@@ -97,9 +99,10 @@ const mapStateToProps = state => ({
   user: state.authReducer,
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
+  allReady: state.roomReducer.allReady,
   imagePrompt: state.imageReducer.prompt
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setImagePrompt }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setImagePrompt }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

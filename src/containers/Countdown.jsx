@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom"
-import Navigation from './Navigation';
+import ReactDOM from "react-dom";
+import Navigation from "./Navigation";
+import { connect } from "react-redux";
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -18,14 +19,24 @@ class Countdown extends React.Component {
     this.roundTimer = null;
   }
 
+  componentDidMount() {
+
+    if (this.props.startSignal) {
+      this.startTimer();
+    }
+  }
+  componentWillReceiveProps(newProps) {
+
+  }
+
   startTimer() {
     if (!this.countdownTimer) {
       this.countdownTimer = setInterval(this.countdown, 1000);
     }
   }
 
-  countdown() {
-    const currentSeconds = this.state.countdownSeconds - 1;
+  countdown(correctThis) {
+    let currentSeconds = this.state.countdownSeconds - 1;
 
     this.setState({
       countdownSeconds: currentSeconds
@@ -34,13 +45,8 @@ class Countdown extends React.Component {
     if (currentSeconds === 0) {
       this.roundTimer = setInterval(this.roundCountdown, 1000);
       clearInterval(this.countdownTimer);
-      let element = (
-          <h2>GO!</h2>
-        );
-        ReactDOM.render(
-          element,
-          document.getElementById('go')
-        );
+      let element = <h2>GO!</h2>;
+      ReactDOM.render(element, document.getElementById("go"));
     }
   }
 
@@ -60,22 +66,21 @@ class Countdown extends React.Component {
     const { countdownSeconds, roundSeconds } = this.state;
 
     if (countdownSeconds > 0) {
-      return <div>Counting down...<br/>{countdownSeconds}</div>;
+      return <div>Counting down...<br />{countdownSeconds}</div>;
     }
 
-    return <div>{roundSeconds}</div>
+    return <div>{roundSeconds}</div>;
   }
 
   render() {
     const { countdownSeconds, roundSeconds } = this.state;
-    return(
+    return (
       <div className="container">
-        <Navigation />
         <div className="row">
           <div className="column small-centered medium-6 large-4">
-            <h2 id="go"></h2>
+            <h2 id="go" />
             {this.renderTimer()}
-            <button className="button" onClick={this.startTimer}>Start</button>
+
           </div>
         </div>
       </div>
@@ -83,4 +88,4 @@ class Countdown extends React.Component {
   }
 }
 
-export default Countdown;
+export default connect(null, null)(Countdown);

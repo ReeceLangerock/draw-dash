@@ -33,7 +33,7 @@ export var leaderboardReducer = (state = { leaderboard: [] }, action) => {
   }
 };
 
-export var roomReducer = (state = { rooms: {}, currentUserRoom: -1, canvasSeatNumber: -1 }, action) => {
+export var roomReducer = (state = { rooms: {}, currentUserRoom: -1, canvasSeatNumber: -1, allReady: false }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
@@ -44,6 +44,8 @@ export var roomReducer = (state = { rooms: {}, currentUserRoom: -1, canvasSeatNu
       return { ...state, rooms: action.rooms };
     case "UPDATE_ROOMS":
       return { ...state, rooms: action.rooms };
+    case "ALL_READY":
+      return {...state, allReady: !state.allReady}
     default:
       return state;
   }

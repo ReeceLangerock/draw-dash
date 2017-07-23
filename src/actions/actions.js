@@ -32,6 +32,12 @@ export var getRooms = () => {
   };
 };
 
+export var setAllUsersReady = () => {
+  return {
+    type: "ALL_READY"
+  }
+}
+
 export var updateAvailableRooms = rooms => {
   return {
     type: "GET_ROOMS",
