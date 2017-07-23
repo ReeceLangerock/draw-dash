@@ -1,0 +1,31 @@
+.modal-container {
+  position:absolute;
+
+  position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+  background-color: $light-background;
+  border: 3px solid $red;
+box-shadow: 1px;
+ border-radius: 5px;
+  z-index: 1;
+  padding: 10px;
+}
+
+.voting-button-container {
+
+    border-top: $dark-border;
+    display: flex;
+    padding: 5px 0px 0px 0px;
+    align-items: flex-end;
+    justify-content: space-between;
+
+}
+
+.voting-button {
+  border: 10px solid black;
+  margin:0px;
+  padding:2px;
+  align-self: flex-end;
+  flex-grow: 1;
+}

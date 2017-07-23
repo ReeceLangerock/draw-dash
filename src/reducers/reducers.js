@@ -34,6 +34,17 @@ export var leaderboardReducer = (state = { leaderboard: [] }, action) => {
   }
 };
 
+export var gameReducer = (state = { roundCompleted: false, roundStarted: false }, action) => {
+  switch (action.type) {
+    case "SET_ROUND_STARTED":
+      return { ...state, roundStarted: !action.roundStarted };
+    case "SET_ROUND_COMPLETED":
+      return { ...state, roundCompleted: !action.roundCompleted };
+    default:
+      return state;
+  }
+};
+
 export var roomReducer = (state = { rooms: {}, canvasToSave: -1, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: -1, allReady: false }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
@@ -46,11 +57,11 @@ export var roomReducer = (state = { rooms: {}, canvasToSave: -1, currentUserRoom
     case "UPDATE_ROOMS":
       return { ...state, rooms: action.rooms };
     case "ALL_READY":
-      return {...state, allReady: !state.allReady}
+      return { ...state, allReady: !state.allReady };
     case "SET_CANVAS_TO_SAVE":
-      return {...state, canvasToSave : action.canvasToSave}
-      case "TOGGLE_ROOM_COMPLETED":
-        return {...state, roundCompleted: !state.roundCompleted}
+      return { ...state, canvasToSave: action.canvasToSave };
+    case "TOGGLE_ROOM_COMPLETED":
+      return { ...state, roundCompleted: !state.roundCompleted };
 
     default:
       return state;

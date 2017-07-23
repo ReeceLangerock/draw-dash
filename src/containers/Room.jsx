@@ -3,6 +3,8 @@ import Navigation from "./Navigation";
 import CanvasContainer from "./CanvasContainer";
 import Chat from "./Chat";
 import Countdown from "./Countdown";
+import VotingModal from "./VotingModal";
+
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -48,6 +50,18 @@ class Room extends React.Component {
     window.removeEventListener("beforeunload", this.handleUserLeavingPage);
   }
 
+  renderVotingModal(){
+    console.log('render')
+  
+    if(this.props.roundCompleted){
+      console.log('render true')
+
+      return (
+        <VotingModal/>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
@@ -67,6 +81,7 @@ class Room extends React.Component {
               <Countdown startSignal={this.props.allReady} />
               <h1>{this.props.allReady}</h1>
               <h5>Image Prompt: {this.props.imagePrompt}</h5>
+              {this.renderVotingModal()}
 
               <div className="canvas-items-container">
 
@@ -90,7 +105,7 @@ const mapStateToProps = state => ({
   rooms: state.roomReducer.rooms,
   allReady: state.roomReducer.allReady,
   imagePrompt: state.imageReducer.prompt,
-  roundComplete: state.roomReducer.roundComplete
+  roundCompleted: state.roomReducer.roundCompleted
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setImagePrompt }, dispatch);

@@ -35,6 +35,7 @@ class Countdown extends React.Component {
 
   startTimer() {
     if (!this.countdownTimer) {
+      this.props.toggleRoundStarted();      
       this.countdownTimer = setInterval(this.countdown, 1000);
     }
   }
@@ -63,7 +64,9 @@ class Countdown extends React.Component {
 
     if (currentSeconds === 0) {
       clearInterval(this.roundTimer);
+      this.props.toggleRoundStarted();
       this.props.toggleRoundCompleted();
+
       this.props.setCanvasToSave(1);
     }
   }

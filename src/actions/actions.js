@@ -16,6 +16,20 @@ export var startGetImagePrompts = () => {
   };
 };
 
+//'GAME' MANAGEMENT
+//-------------------------------
+export var setRoundCompleted = () => {
+  return {
+    type: "SET_ROOM_COMPLETED"
+  }
+}
+
+export var setRoundStarted = () => {
+  return {
+    type: "SET_ROOM_STARTED"
+  }
+}
+
 //ROOM MANAGEMENT
 //-------------------------------
 export var getRooms = () => {
@@ -38,11 +52,6 @@ export var setAllUsersReady = () => {
   }
 }
 
-export var toggleRoundCompleted = () => {
-  return {
-    type: "TOGGLE_ROOM_COMPLETED"
-  }
-}
 
 export var updateAvailableRooms = rooms => {
   return {

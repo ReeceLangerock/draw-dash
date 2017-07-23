@@ -1,21 +1,7 @@
 var rooms = [];
 var availableRoomId = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 var usedRoomId = [];
-const roomNames = [
-  "Honey Badger",
-  "Chameleon",
-  "Sloth",
-  "Tapir",
-  "Red Panda",
-  "Bearded Dragon",
-  "Armadillo",
-  "Dolphin",
-  "Llama",
-  "Elephant",
-  "Puma",
-  "Platypus",
-  "Kiwis"
-];
+const roomNames = ["Honey Badger", "Chameleon", "Sloth", "Tapir", "Red Panda", "Bearded Dragon", "Armadillo", "Dolphin", "Llama", "Elephant", "Puma", "Platypus", "Kiwis"];
 const MAX_OCCUPANTS = 2;
 const MAX_ROOMS = availableRoomId.length;
 module.exports = {
@@ -29,10 +15,7 @@ module.exports = {
     }
     for (var id in rooms) {
       if (rooms.hasOwnProperty(id)) {
-        if (
-          rooms[id].occupants &&
-          rooms[id].occupants.drawers.length < MAX_OCCUPANTS
-        ) {
+        if (rooms[id].occupants && rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
           return false;
         }
       }
@@ -76,6 +59,7 @@ module.exports = {
             socketId: socketId,
             displayName: user.displayName,
             isReady: false,
+            vote: 0,
             canvasSeatNumber
           });
           return canvasSeatNumber;
@@ -84,7 +68,8 @@ module.exports = {
         rooms[id].occupants.watchers.push({
           UID: user.UID,
           socketId: socketId,
-          displayName: user.displayName
+          displayName: user.displayName,
+          vote: 0
         });
         return null;
       }
@@ -93,7 +78,6 @@ module.exports = {
   toggleReadyUser(id, socketId) {
     rooms[id].occupants.drawers.map(drawer => {
       if (drawer.socketId === socketId) {
-        console.log("setting ready");
         drawer.isReady = !drawer.isReady;
       }
     });
@@ -107,6 +91,24 @@ module.exports = {
       return true;
     } else {
       return false;
+    }
+  },
+  registerVote(id, socketId, vote) {
+    //var numInRoom = rooms[id].occupants.drawers.length + rooms[id].occupants.watchers.length
+    if (rooms[id].occupants.drawers) {
+      rooms[id].occupants.drawers.map(drawer => {
+        if (drawer.socketId === socketId) {
+          drawer.vote = vote;
+        }
+      });
+    }
+
+    if (rooms[id].occupants.watchers) {
+      rooms[id].occupants.watchers.map(watcher => {
+        if (watcher.socketId === socketId) {
+          watcher.vote = vote;
+        }
+      });
     }
   },
   leaveRoom(id, user, socket) {
@@ -164,11 +166,7 @@ module.exports = {
     }
     for (var id in rooms) {
       if (rooms.hasOwnProperty(id)) {
-        if (
-          rooms[id].occupants &&
-          rooms[id].occupants.drawers.length === 0 &&
-          rooms[id].occupants.watchers.length === 0
-        ) {
+        if (rooms[id].occupants && rooms[id].occupants.drawers.length === 0 && rooms[id].occupants.watchers.length === 0) {
           id = parseInt(id);
           var idToSwap = rooms[id].roomId;
           rooms.splice(id, 1);
