@@ -1,4 +1,8 @@
 .canvas-container {
-  border: 1px solid;
+  border: 2px solid $dark-border;
+  border-radius: 3px;
   max-width: 400px;
+  margin: 5px;
+
+  
 }

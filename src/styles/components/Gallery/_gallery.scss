@@ -1,11 +1,16 @@
 .gallery-container{
   display:flex;
   flex-wrap: wrap;
-  
+  margin: 5px;
+  padding: 3px;
+  justify-content: space-around;
+
 }
 
 .gallery-item {
-  border: 1px solid;
+  border: 2px solid $dark-border;
+  border-radius: 2px;
   margin:5px;
-  max-width: 200px;
+  padding: 2px;
+  max-width: 225px;
 }

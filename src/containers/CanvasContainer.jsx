@@ -33,10 +33,9 @@ class CanvasContainer extends React.Component {
 
         var userMatch = occupants.drawers[0].UID == this.props.user.UID;
         if (userMatch) {
-          console.log("usermatch true2");
           return (
             <div className="canvas-container">
-              <h5>{displayName}'s Canvas</h5>
+              <h5>Your Canvas</h5>
               <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber}/>
               <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
                 Ready
@@ -62,7 +61,7 @@ class CanvasContainer extends React.Component {
           console.log("usermatch true2");
           return (
             <div className="canvas-container">
-              <h5>{displayName}'s Canvas</h5>
+              <h5>Your Canvas</h5>
               <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber} />
               <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
                 Ready
@@ -94,7 +93,7 @@ class CanvasContainer extends React.Component {
 
         return (
           <div className="canvas-container">
-            <h5>{displayName}'s Canvas</h5>
+            <h5>Your Canvas</h5>
             <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber} />
             <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
               Ready

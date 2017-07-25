@@ -37,20 +37,23 @@ class Gallery extends React.Component {
     return (
       <div>
         <Navigation />
-        <h1 className="page-title">Gallery</h1>
-
         <div className="row">
-          <div className="columns small-centered small-12 medium-12 large-10">
 
+          <div className="columns small-centered small-12 medium-10 large-10">
             <div className="room-container">
+              <div className="page-title">
+                <h1>Gallery</h1>
+                </div>
 
-              <div className="gallery-container">
-                {this.renderGalleryImages()}
+
+                  <div className="gallery-container">
+                    {this.renderGalleryImages()}
+                  </div>
+        
               </div>
-            </div>
+
           </div>
         </div>
-
       </div>
     );
   }

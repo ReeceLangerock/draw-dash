@@ -1,4 +1,5 @@
 .leaderboard-container {
+  margin: 5px;
 
 
 }
@@ -6,11 +7,12 @@
 .leaderboard-item {
   display: flex;
   justify-content: space-between;
-  border: 1px solid;
-  margin:1px;
+  border: 2px solid $dark-border;
+  border-radius: 2px;
+  margin:3px 1px 3px 1px;
   padding: 1px 2px 1px 2px;
 
-  h1 {
+  h4 {
     padding: 0px;
     margin: 0px;
 

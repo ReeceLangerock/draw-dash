@@ -22,8 +22,8 @@ class Leaderboard extends React.Component {
     return this.props.leaderboard.map(leaderboardItem => {
       return (
         <div key={leaderboardItem.UID} className="leaderboard-item">
-          <h1>{leaderboardItem.displayName}</h1>
-          <h1>{leaderboardItem.score}</h1>
+          <h4>{leaderboardItem.displayName}</h4>
+          <h4>{leaderboardItem.score} points</h4>
 
         </div>
       );
@@ -34,14 +34,13 @@ class Leaderboard extends React.Component {
     return (
       <div>
         <Navigation />
-        <h1 className="page-title">Gallery</h1>
-
         <div className="row">
-          <div className="columns small-centered small-12 medium-12 large-10">
 
-            <div>
-
-              <h1>Leaderboard</h1>
+          <div className="columns small-centered small-12 medium-10 large-10">
+            <div className="room-container">
+              <div className="page-title">
+                <h1>Leaderboard</h1>
+                </div>
               <div className="leaderboard-container">
                 {this.renderLeaderboard()}
               </div>

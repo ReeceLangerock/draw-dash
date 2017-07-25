@@ -4,7 +4,7 @@ const Footer = () => (
   <footer>
     <div className="container">
       <div className="row">
-        Created by Reece Langerock & Eric Hartline
+        Created by <a href = "http://reecelangerock.com">Reece Langerock</a> & Eric Hartline
       </div>
     </div>
   </footer>
