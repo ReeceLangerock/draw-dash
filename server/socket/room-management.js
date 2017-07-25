@@ -116,16 +116,22 @@ module.exports = {
       winner = false;
     }
     console.log("winner", winner);
-    this.processRoundEnd(id);
     return winner;
   },
+  processRoundStart(id) {
+    rooms[id].votes = [];
+  },
   processRoundEnd(id) {
-    if (rooms[id].occupants.watchers) {
-      var indexOfUser = rooms[id].occupants.watchers.map(watcher => {
-        watcher.isReady = false;
+    console.log(id);
+
+    console.log(rooms[id]);
+    if (rooms[id].occupants.drawers) {
+      rooms[id].occupants.drawers.map(drawer => {
+        console.log("drawer", drawer);
+
+        drawer.isReady = false;
       });
     }
-    rooms[id].votes = [];
   },
   leaveRoom(id, user, socket) {
     if (rooms[id].occupants.watchers) {

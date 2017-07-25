@@ -3,7 +3,7 @@ import Navigation from "./Navigation";
 import { Layer, Stage, Image } from "react-konva";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { saveCanvas } from "./../actions/actions";
+import { saveCanvas, setCanvasToSave } from "./../actions/actions";
 
 class CanvasImage extends React.Component {
   constructor(props) {
@@ -17,9 +17,15 @@ class CanvasImage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.canvasToSave === 1) {
-      var image = document.getElementById("image1").src
-      this.saveCanvasToDB(image);
+    if (nextProps.canvasToSave !== -1) {
+      var image =
+      (nextProps.canvasToSave == 1) ? (document.getElementById("image1")) : (document.getElementById("image2"));
+
+      this.props.setCanvasToSave(-1);
+      if(image){
+
+      this.saveCanvasToDB(image.src);
+    }
     }
   }
   saveCanvasToDB(imageToSave) {
@@ -50,6 +56,6 @@ const mapStateToProps = state => ({
   canvasToSave: state.roomReducer.canvasToSave
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ saveCanvas }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ saveCanvas, setCanvasToSave }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CanvasImage);

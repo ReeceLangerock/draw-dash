@@ -56,6 +56,7 @@ var returnRouter = function(io, rooms, images) {
 
       fn(rooms.calculateVoteResult(data.roomId));
       io.sockets.emit("room_update", rooms.getRooms());
+      rooms.processRoundEnd(data.roomId) 
     });
 
     socket.on("disconnect", function(data) {

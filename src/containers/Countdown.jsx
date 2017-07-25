@@ -32,11 +32,13 @@ class Countdown extends React.Component {
     }
     console.log(newProps);
     if (newProps.voteCompleted === true && newProps.voteInProgress === false) {
-         this.props.socket.emit("complete_vote", { roomId: this.props.roomId, }, function(data) {
-           //this.props.setCanvasToSave(1);
-           console.log(data);
-         });
-
+      this.props.socket.emit("complete_vote", { roomId: this.props.roomId }, ((data) => {
+        console.log(data);
+        if (data) {
+          this.props.setCanvasToSave(data);
+        }
+        this.props.setRoundCompleted(false);
+      }));
     }
   }
 
@@ -45,7 +47,6 @@ class Countdown extends React.Component {
     this.props.setRoundStarted(true);
     this.props.setRoundCompleted(false);
     this.props.setVoteInProgress(false);
-
   }
 
   endTheRound() {
@@ -86,8 +87,6 @@ class Countdown extends React.Component {
     if (currentSeconds === 0) {
       clearInterval(this.roundTimer);
       this.endTheRound();
-
-
     }
   }
 

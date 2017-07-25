@@ -26,7 +26,7 @@ router.use(bodyParser.json());
 router.post("/", function(req, res, next) {
   console.log('post image', req.body);
   //ADD BACK LATER
-  //gallery.schema.methods.newGalleryItem(req.body);
+  gallery.schema.methods.newGalleryItem(req.body);
 
 
 });
