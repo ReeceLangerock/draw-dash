@@ -1,7 +1,7 @@
 var rooms = [];
 var availableRoomId = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 var usedRoomId = [];
-const roomNames = ["Honey Badger", "Chameleon", "Sloth", "Tapir", "Red Panda", "Bearded Dragon", "Armadillo", "Dolphin", "Llama", "Elephant", "Puma", "Platypus", "Kiwis"];
+const roomNames = ["Bear", "Chameleon", "Elephant", "Koala", "Leopard", "Owl", "Panther", "Red Panda", "Rhino", "Sloth", "Tapir", "Wombat"];
 const MAX_OCCUPANTS = 2;
 const MAX_ROOMS = availableRoomId.length;
 module.exports = {
@@ -134,6 +134,9 @@ module.exports = {
     }
   },
   leaveRoom(id, user, socket) {
+    if (!rooms[id]) {
+      return 0;
+    }
     if (rooms[id].occupants.watchers) {
       var indexOfUser = rooms[id].occupants.watchers
         .map(watcher => {

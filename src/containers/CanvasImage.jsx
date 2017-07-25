@@ -17,21 +17,20 @@ class CanvasImage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.canvasToSave !== -1) {
-      var image =
-      (nextProps.canvasToSave == 1) ? (document.getElementById("image1")) : (document.getElementById("image2"));
+    if (nextProps.canvasToSave !== undefined) {
+      var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
 
-      this.props.setCanvasToSave(-1);
-      if(image){
-
-      this.saveCanvasToDB(image.src);
-    }
+      this.props.setCanvasToSave(undefined);
+      if (image) {
+        this.saveCanvasToDB(image.src);
+      }
     }
   }
   saveCanvasToDB(imageToSave) {
-    this.props.saveCanvas({image:imageToSave,
-    displayName: 'test'}
-    );
+    this.props.saveCanvas({
+      image: imageToSave,
+      displayName: "test"
+    });
   }
 
   render() {

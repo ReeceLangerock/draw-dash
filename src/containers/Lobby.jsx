@@ -41,6 +41,7 @@ class Lobby extends React.Component {
       var that = this;
       var renderRoomButtons = Object.keys(rooms).map(function(keyName, keyIndex) {
         var spotsOpen = rooms[keyName].max - rooms[keyName].occupants.drawers.length;
+        var roomName = rooms[keyName].roomName;
         var buttonClass, disabled;
         switch (spotsOpen) {
           case 1:
@@ -62,7 +63,7 @@ class Lobby extends React.Component {
         return (
           <div key={keyName} className="room-item">
             <div className="room-image">
-              <img src="https://www.zooportraits.com/wp-content/uploads/2017/06/Veiled-Chameleon-Chamaeleo-Calyptratus.jpg" />
+              <img src={require(`./../assets/room-images/${roomName}.jpg`)} />
 
               <p>
                 {spotsOpenText}

@@ -60,7 +60,7 @@ export var gameReducer = (state = { voteCompleted: false, roundCompleted: false,
   }
 };
 
-export var roomReducer = (state = { rooms: {}, canvasToSave: -1, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: -1, allReady: false }, action) => {
+export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: -1, allReady: false }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
