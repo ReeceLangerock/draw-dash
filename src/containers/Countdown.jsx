@@ -3,15 +3,15 @@ import ReactDOM from "react-dom";
 import Navigation from "./Navigation";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { toggleRoundCompleted, setCanvasToSave } from "./../actions/actions";
+import { toggleRoundCompleted, setCanvasToSave, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
 
 class Countdown extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      countdownSeconds: 3,
-      roundSeconds: 2
+      countdownSeconds: 1,
+      roundSeconds: 1
     };
 
     this.roundCountdown = this.roundCountdown.bind(this);
@@ -28,14 +28,35 @@ class Countdown extends React.Component {
   }
   componentWillReceiveProps(newProps) {
     if (newProps.startSignal) {
-
       this.startTimer();
     }
+    console.log(newProps);
+    if (newProps.voteCompleted === true && newProps.voteInProgress === false) {
+         this.props.socket.emit("complete_vote", { roomId: this.props.roomId, }, function(data) {
+           //this.props.setCanvasToSave(1);
+           console.log(data);
+         });
+
+    }
+  }
+
+  startTheRound() {
+    this.props.setVoteCompleted(false);
+    this.props.setRoundStarted(true);
+    this.props.setRoundCompleted(false);
+    this.props.setVoteInProgress(false);
+
+  }
+
+  endTheRound() {
+    this.props.setRoundStarted(false);
+    this.props.setRoundCompleted(true);
+    this.props.setVoteInProgress(true);
   }
 
   startTimer() {
     if (!this.countdownTimer) {
-      this.props.toggleRoundStarted();      
+      this.startTheRound();
       this.countdownTimer = setInterval(this.countdown, 1000);
     }
   }
@@ -64,10 +85,9 @@ class Countdown extends React.Component {
 
     if (currentSeconds === 0) {
       clearInterval(this.roundTimer);
-      this.props.toggleRoundStarted();
-      this.props.toggleRoundCompleted();
+      this.endTheRound();
 
-      this.props.setCanvasToSave(1);
+
     }
   }
 
@@ -78,12 +98,8 @@ class Countdown extends React.Component {
       return <div>Counting down...<br />{countdownSeconds}</div>;
     } else if (roundSeconds > 0) {
       return <div>{roundSeconds}</div>;
-    } else if(roundSeconds === 0) {
-
-
+    } else if (roundSeconds === 0) {
     }
-
-
   }
 
   render() {
@@ -102,8 +118,12 @@ class Countdown extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  roomId: state.roomReducer.currentUserRoom,
+  voteCompleted: state.gameReducer.voteCompleted,
+  voteInProgress: state.gameReducer.voteInProgress
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({ toggleRoundCompleted,setCanvasToSave  }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Countdown);

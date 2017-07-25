@@ -52,12 +52,12 @@ class Room extends React.Component {
 
   renderVotingModal(){
     console.log('render')
-  
-    if(this.props.roundCompleted){
+
+    if(this.props.voteInProgress){
       console.log('render true')
 
       return (
-        <VotingModal/>
+        <VotingModal socket = {this.props.socket}/>
       )
     }
   }
@@ -78,7 +78,7 @@ class Room extends React.Component {
 
               </div>
 
-              <Countdown startSignal={this.props.allReady} />
+              <Countdown socket = {this.props.socket} startSignal={this.props.allReady} />
               <h1>{this.props.allReady}</h1>
               <h5>Image Prompt: {this.props.imagePrompt}</h5>
               {this.renderVotingModal()}
@@ -105,7 +105,7 @@ const mapStateToProps = state => ({
   rooms: state.roomReducer.rooms,
   allReady: state.roomReducer.allReady,
   imagePrompt: state.imageReducer.prompt,
-  roundCompleted: state.roomReducer.roundCompleted
+  voteInProgress: state.gameReducer.voteInProgress
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setImagePrompt }, dispatch);

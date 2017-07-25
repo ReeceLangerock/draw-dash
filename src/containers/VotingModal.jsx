@@ -3,15 +3,23 @@ import Navigation from "./Navigation";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-//import {  } from "./../actions/actions";
+import { setVoteInProgress, startVoteTimer } from "./../actions/actions";
 
 class VotingModal extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
+    this.registerVote = this.registerVote.bind(this);
+
+  }
+  componentDidMount() {
+    this.props.startVoteTimer();
   }
 
-  registerVote(){
-    console.log('vote');
+  registerVote(e){
+    var vote = e.target.value;
+    this.props.socket.emit("register_vote", { roomId: this.props.roomId, user: this.props.user, vote: vote }, function(data) {});
+    this.props.setVoteInProgress(false);
   }
 
   render() {
@@ -23,8 +31,9 @@ class VotingModal extends React.Component {
             <div className="modal-container">
               <h1>Voting Modal</h1>
               <div className="room-item-button-container">
-                <button className="button voting-button" onClick = {this.registerVote}>Drawing #1</button>
-                <button className="button voting-button" onClick = {this.registerVote}>Drawing #2</button>
+                <h5>Seconds To Vote: {this.props.seconds}</h5>
+                <button className="button voting-button" value = "1" onClick = {this.registerVote}>Drawing #1</button>
+                <button className="button voting-button" value = "2" onClick = {this.registerVote}>Drawing #2</button>
 
               </div>
             </div>
@@ -36,8 +45,12 @@ class VotingModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user: state.authReducer,
+  roomId: state.roomReducer.currentUserRoom,
+  seconds: state.votingTimerReducer.seconds
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({setVoteInProgress, startVoteTimer}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(VotingModal);

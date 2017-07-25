@@ -34,6 +34,7 @@ module.exports = {
           drawers: [],
           watchers: []
         },
+        votes: [],
         max: MAX_OCCUPANTS
       });
       // add the id being used to the usedRoom array and remove it from availbleRoom array
@@ -59,7 +60,6 @@ module.exports = {
             socketId: socketId,
             displayName: user.displayName,
             isReady: false,
-            vote: 0,
             canvasSeatNumber
           });
           return canvasSeatNumber;
@@ -68,8 +68,7 @@ module.exports = {
         rooms[id].occupants.watchers.push({
           UID: user.UID,
           socketId: socketId,
-          displayName: user.displayName,
-          vote: 0
+          displayName: user.displayName
         });
         return null;
       }
@@ -95,21 +94,38 @@ module.exports = {
   },
   registerVote(id, socketId, vote) {
     //var numInRoom = rooms[id].occupants.drawers.length + rooms[id].occupants.watchers.length
-    if (rooms[id].occupants.drawers) {
-      rooms[id].occupants.drawers.map(drawer => {
-        if (drawer.socketId === socketId) {
-          drawer.vote = vote;
-        }
-      });
+    rooms[id].votes.push(vote);
+  },
+  calculateVoteResult(id) {
+    var drawingOneVotes = 0;
+    var drawingTwoVotes = 0;
+    var votes = rooms[id].votes;
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i] == 1) {
+        drawingOneVotes++;
+      } else {
+        drawingTwoVotes++;
+      }
     }
-
+    var winner;
+    if (drawingOneVotes > drawingTwoVotes) {
+      winner = 1;
+    } else if (drawingTwoVotes > drawingOneVotes) {
+      winner = 2;
+    } else {
+      winner = false;
+    }
+    console.log("winner", winner);
+    this.processRoundEnd(id);
+    return winner;
+  },
+  processRoundEnd(id) {
     if (rooms[id].occupants.watchers) {
-      rooms[id].occupants.watchers.map(watcher => {
-        if (watcher.socketId === socketId) {
-          watcher.vote = vote;
-        }
+      var indexOfUser = rooms[id].occupants.watchers.map(watcher => {
+        watcher.isReady = false;
       });
     }
+    rooms[id].votes = [];
   },
   leaveRoom(id, user, socket) {
     if (rooms[id].occupants.watchers) {

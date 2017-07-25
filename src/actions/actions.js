@@ -1,4 +1,5 @@
-//import axios from 'axios'
+var voteTimer = null;
+var seconds = 5;
 
 export var addImagePrompts = prompts => {
   return {
@@ -18,17 +19,54 @@ export var startGetImagePrompts = () => {
 
 //'GAME' MANAGEMENT
 //-------------------------------
-export var setRoundCompleted = () => {
+export var setRoundCompleted = roundCompleted => {
   return {
-    type: "SET_ROOM_COMPLETED"
-  }
-}
+    type: "SET_ROUND_COMPLETED",
+    roundCompleted
+  };
+};
 
-export var setRoundStarted = () => {
+export var setRoundStarted = roundStarted => {
   return {
-    type: "SET_ROOM_STARTED"
+    type: "SET_ROUND_STARTED",
+    roundStarted
+  };
+};
+
+export var setVoteInProgress = voteInProgress => {
+  if (voteInProgress === true) {
+    startVoteTimer();
   }
-}
+
+  return {
+    type: "SET_VOTE_IN_PROGRESS",
+    voteInProgress
+  };
+};
+
+export var startVoteTimer = () => {
+  return dispatch => {
+    clearInterval(voteTimer);
+    seconds = 5;
+    voteTimer = setInterval(() => {
+      seconds--;
+      dispatch({ type: "TICK", seconds });
+      if (seconds <= 0) {
+        clearInterval(voteTimer);
+        dispatch(setVoteInProgress(false));
+        dispatch(setVoteCompleted(true));
+      }
+    }, 1000);
+  };
+};
+
+export var setVoteCompleted = voteCompleted => {
+  return { type: "VOTE_COMPLETED", voteCompleted };
+};
+
+// export var registerVote = allVotesIn => {
+//   return { type: "ALL_VOTES_IN", allVotesIn };
+// };
 
 //ROOM MANAGEMENT
 //-------------------------------
@@ -49,9 +87,8 @@ export var getRooms = () => {
 export var setAllUsersReady = () => {
   return {
     type: "ALL_READY"
-  }
-}
-
+  };
+};
 
 export var updateAvailableRooms = rooms => {
   return {
@@ -122,7 +159,7 @@ export var getGalleryImages = () => {
   };
 };
 
-export var saveCanvas = (image) => {
+export var saveCanvas = image => {
   console.log(image);
   return dispatch => {
     fetch("/api/gallery", {
@@ -145,7 +182,7 @@ export var saveCanvas = (image) => {
   };
 };
 
-export var setCanvasToSave = (canvasToSave) => {
+export var setCanvasToSave = canvasToSave => {
   return {
     type: "SET_CANVAS_TO_SAVE",
     canvasToSave

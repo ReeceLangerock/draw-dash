@@ -46,6 +46,18 @@ var returnRouter = function(io, rooms, images) {
       //io.sockets.emitdata.roomId).emit("image_update", data);
     });
 
+    socket.on("register_vote", function(data) {
+      console.log("registering vote");
+      rooms.registerVote(data.roomId, socket.id, data.vote);
+    });
+
+    socket.on("complete_vote", function(data, fn) {
+      console.log("calculating vote", data);
+
+      fn(rooms.calculateVoteResult(data.roomId));
+      io.sockets.emit("room_update", rooms.getRooms());
+    });
+
     socket.on("disconnect", function(data) {
       console.log("disconnect");
       rooms.onDisconnect(socket.id);
