@@ -54,19 +54,19 @@ class Canvas extends React.Component {
     var canvas = document.createElement("canvas");
     canvas.width = stage.width() / 1.5;
     canvas.height = stage.height() / 1.5;
-    // creted canvas we can add to layer as "Konva.Image" element
+    // created canvas we can add to layer as "Konva.Image" element
     var image = new Konva.Image({
       image: canvas,
       x: stage.width() / 6,
       y: stage.height() / 6,
-      stroke: "green",
+      stroke: "#05AFF2",
       shadowBlur: 5
     });
     layer.add(image);
     stage.draw();
     // Good. Now we need to get access to context element
     var context = canvas.getContext("2d");
-    context.strokeStyle = "#df4b26";
+    context.strokeStyle = "#000000";
     context.lineJoin = "round";
     context.lineWidth = 5;
     var isPaint = false;
