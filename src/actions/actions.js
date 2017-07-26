@@ -84,9 +84,10 @@ export var getRooms = () => {
   };
 };
 
-export var setAllUsersReady = () => {
+export var setAllUsersReady = (allReady) => {
   return {
-    type: "ALL_READY"
+    type: "ALL_READY",
+    allReady
   };
 };
 

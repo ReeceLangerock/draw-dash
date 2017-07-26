@@ -72,7 +72,7 @@ export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentU
     case "UPDATE_ROOMS":
       return { ...state, rooms: action.rooms };
     case "ALL_READY":
-      return { ...state, allReady: !state.allReady };
+      return { ...state, allReady: action.allReady };
     case "SET_CANVAS_TO_SAVE":
       return { ...state, canvasToSave: action.canvasToSave };
     case "TOGGLE_ROOM_COMPLETED":

@@ -5,7 +5,7 @@ import ImagePrompt from "./ImagePrompt";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { toggleRoundCompleted, setCanvasToSave, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
+import { toggleRoundCompleted, setAllUsersReady, setCanvasToSave, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -51,6 +51,7 @@ class Countdown extends React.Component {
   }
 
   endTheRound() {
+    this.props.setAllUsersReady(false);
     this.props.setRoundStarted(false);
     this.props.setRoundCompleted(true);
     this.props.setVoteInProgress(true);
@@ -68,7 +69,6 @@ class Countdown extends React.Component {
     if (currentSeconds === 3) {
       document.getElementById("circle1").classList.toggle("red-active");
     } else if (currentSeconds === 2) {
-      debugger;
       document.getElementById("circle1").classList.toggle("red-active");
       document.getElementById("circle2").classList.toggle("yellow-active");
     } else if (currentSeconds === 1) {
@@ -102,7 +102,7 @@ class Countdown extends React.Component {
   renderTimer() {
     const { countdownSeconds, roundSeconds } = this.state;
 
-    if (countdownSeconds > 0) {
+    if (countdownSeconds > 0 &&) {
       //console.log(document.getElementById('circle1'));
       return (
         <div className="countdown-circle-container">
@@ -112,20 +112,17 @@ class Countdown extends React.Component {
         </div>
       );
     } else if (roundSeconds > 0) {
-      return <div>{roundSeconds}</div>;
+      return <div><h2>0:{roundSeconds}</h2></div>;
     } else if (roundSeconds === 0) {
     }
   }
 
-  renderImagePrompt() {
-    // if(this.props.imagePrompt){
-    //   return ( <imagePrompt prompt = {this.props.imagePrompt}/>)
-    // }
-    if (this.props.imagePrompt) {
+  renderImagePrompt(countdownSeconds) {
+    if (this.props.imagePrompt && countdownSeconds === 0) {
       return (
         <div id="prompt" className="image-prompt-container">
 
-          <ImagePrompt prompt={this.props.imagePrompt || "test"} />
+          <h2>Draw This: {this.props.imagePrompt}</h2>
         </div>
       );
     }
@@ -134,16 +131,11 @@ class Countdown extends React.Component {
   render() {
     const { countdownSeconds, roundSeconds } = this.state;
     return (
-      <div className = 'info-container'>
-        <div>
+      <div className="info-container">
 
-          {this.renderImagePrompt()}
+        {this.renderImagePrompt(countdownSeconds)}
 
-        </div>
-        <div>
-          {this.renderTimer()}
-
-        </div>
+        {this.renderTimer()}
 
       </div>
     );
@@ -157,6 +149,6 @@ const mapStateToProps = state => ({
   imagePrompt: state.imageReducer.prompt
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setAllUsersReady, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Countdown);

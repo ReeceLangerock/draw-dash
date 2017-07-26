@@ -19,7 +19,7 @@ class Room extends React.Component {
     // });
     this.props.socket.on("all_ready", data => {
       this.props.setImagePrompt(data.prompt);
-      this.props.setAllUsersReady();
+      this.props.setAllUsersReady(true);
     });
   }
 
@@ -77,11 +77,11 @@ class Room extends React.Component {
 
               </div>
 
-              <div className = 'info-container'>
+
 
               <Countdown socket={this.props.socket} startSignal={this.props.allReady} />
 
-            </div>
+
 
               {this.renderVotingModal()}
 
