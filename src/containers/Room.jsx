@@ -50,17 +50,16 @@ class Room extends React.Component {
     window.removeEventListener("beforeunload", this.handleUserLeavingPage);
   }
 
-  renderVotingModal(){
-    console.log('render')
+  renderVotingModal() {
+    console.log("render");
 
-    if(this.props.voteInProgress){
-      console.log('render true')
+    if (this.props.voteInProgress) {
+      console.log("render true");
 
-      return (
-        <VotingModal socket = {this.props.socket}/>
-      )
+      return <VotingModal socket={this.props.socket} />;
     }
   }
+
 
   render() {
     return (
@@ -78,9 +77,12 @@ class Room extends React.Component {
 
               </div>
 
-              <Countdown socket = {this.props.socket} startSignal={this.props.allReady} />
-              <h1>{this.props.allReady}</h1>
-              <h5>Image Prompt: {this.props.imagePrompt}</h5>
+              <div className = 'info-container'>
+
+              <Countdown socket={this.props.socket} startSignal={this.props.allReady} />
+
+            </div>
+
               {this.renderVotingModal()}
 
               <div className="canvas-items-container">
@@ -104,7 +106,6 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
   allReady: state.roomReducer.allReady,
-  imagePrompt: state.imageReducer.prompt,
   voteInProgress: state.gameReducer.voteInProgress
 });
 

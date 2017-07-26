@@ -14,9 +14,6 @@
 @import "components/Room/room-container";
 
 
-//Timer Styling
-@import "components/countdown";
-
 //Canvas Styling
 @import "components/Canvas/canvas";
 @import "components/Canvas/canvas-container";
@@ -33,6 +30,12 @@
 
 //VotingModal Styling
 @import "components/VotingModal/modal";
+
+//ImagePrompt Styling
+@import "components/ImagePrompt/image-prompt";
+
+//Countdown Styling
+@import "components/Countdown/countdown";
 
 //Navigation Styling
 @import "components/Navigation/navigation";

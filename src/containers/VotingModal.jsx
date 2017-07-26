@@ -8,7 +8,6 @@ import { setVoteInProgress, startVoteTimer } from "./../actions/actions";
 class VotingModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.registerVote = this.registerVote.bind(this);
 
   }
