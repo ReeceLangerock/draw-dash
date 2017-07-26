@@ -51,8 +51,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static( __dirname + '/../app'));
-
+app.use(express.static( __dirname + '/../build'));
+//app.use(express.static(path.resolve(`${__dirname}./../dist`)));
 //ROUTES
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
