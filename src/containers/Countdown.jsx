@@ -102,7 +102,7 @@ class Countdown extends React.Component {
   renderTimer() {
     const { countdownSeconds, roundSeconds } = this.state;
 
-    if (countdownSeconds > 0 &&) {
+    if (countdownSeconds > 0) {
       //console.log(document.getElementById('circle1'));
       return (
         <div className="countdown-circle-container">
