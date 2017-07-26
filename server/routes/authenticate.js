@@ -6,7 +6,10 @@ var passport = require("passport");
 var router = express.Router();
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
-var config = require("../config.js");
+if (!process.env.NODE_ENV) {
+  var config = require("../config.js");
+}
+
 router.use(require("body-parser").urlencoded({ extended: true }));
 router.use(cookieParser());
 router.use(session({ secret: "CHANGE-ME-LATER" }));
@@ -26,8 +29,8 @@ router.use(passport.session());
 passport.use(
   new SlackStrategy(
     {
-      clientID: config.getClientID(),
-      clientSecret: config.getClientSecret()
+      clientID: process.env.CLIENT_ID || config.getClientID(),
+      clientSecret: process.env.CLIENT_SECRET || config.getClientSecret()
     },
     (accessToken, refreshToken, profile, done) => {
       //const userWithToken = addJWT(profile);
