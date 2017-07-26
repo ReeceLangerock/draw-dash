@@ -1,3 +1,5 @@
+  //inline-source-map has TO BE DELETED FOR YARN BUILD< DONT KNOW WHY
+
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -70,7 +72,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
-      },       
+      },
       {
         test: /\.(jpe?g|png|gif|svg|ttf)$/i,
         loader: 'url-loader',
@@ -94,5 +96,6 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
   ] :
   [HTMLWebpackPluginConfig, DefinePluginConfig, UglifyJsPluginConfig],
+  //THIS HAD TO BE DELETED FOR YARN BUILD< DONT KNOW WHY
   devtool: "inline-source-map"
 };

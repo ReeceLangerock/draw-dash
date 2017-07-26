@@ -8,7 +8,7 @@ import * as actions from "./actions/actions";
 
 import App from "./App";
 import "./style.scss";
-import "./styles/fonts.scss";
+
 
 const root = document.getElementById("root");
 
@@ -23,5 +23,3 @@ render(
   </Provider>,
   root
 );
-
-if (module.hot) module.hot.accept(App, () => render(App));
