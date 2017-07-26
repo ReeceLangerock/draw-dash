@@ -97,5 +97,5 @@ module.exports = {
   ] :
   [HTMLWebpackPluginConfig, DefinePluginConfig, UglifyJsPluginConfig],
   //THIS HAD TO BE DELETED FOR YARN BUILD< DONT KNOW WHY
-  devtool: "inline-source-map"
+  // devtool: "inline-source-map"
 };
