@@ -93,7 +93,7 @@ class Lobby extends React.Component {
           <div className="columns small-centered small-12 medium-12 large-10">
             <div className="lobby-container">
               <div className="page-title">
-                <h1 className="columns small-centered small-11 medium-12 large-10">Room Select</h1>
+                <h1 className="columns small-centered small-12 medium-11 large-10">Room Select</h1>
 
               </div>
 
