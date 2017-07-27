@@ -6,7 +6,14 @@ var passport = require("passport");
 var router = express.Router();
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
-var config = require("../config.js");
+var redirectRoute;
+if (!process.env.NODE_ENV) {
+  var config = require("../config.js");
+  redirectRoute = "http://localhost:3000/"
+} else {
+  redirectRoute = "https://draw-dash.herokuapp.com/"
+}
+
 router.use(require("body-parser").urlencoded({ extended: true }));
 router.use(cookieParser());
 router.use(session({ secret: "CHANGE-ME-LATER" }));
@@ -26,8 +33,8 @@ router.use(passport.session());
 passport.use(
   new SlackStrategy(
     {
-      clientID: config.getClientID(),
-      clientSecret: config.getClientSecret()
+      clientID: process.env.CLIENT_ID || config.getClientID(),
+      clientSecret: process.env.CLIENT_SECRET || config.getClientSecret()
     },
     (accessToken, refreshToken, profile, done) => {
       //const userWithToken = addJWT(profile);
@@ -52,7 +59,7 @@ router.get(
   "/callback",
   passport.authenticate("slack", { failureRedirect: "/" }),
   function(req, res) {
-    res.redirect("http://localhost:3000/");
+    res.redirect(redirectRoute);
   }
 );
 

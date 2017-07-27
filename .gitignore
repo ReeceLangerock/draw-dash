@@ -14,4 +14,3 @@ server/node_modules
 /server/config.js
 
 # Prod Bundle
-build
