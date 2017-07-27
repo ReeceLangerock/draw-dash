@@ -9,6 +9,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node server/app.js",
+    "dev": "NODE_ENV=development && webpack-dev-server",
+    "devW": "SET NODE_ENV=development && webpack-dev-server",
     "build": "NODE_ENV=production webpack -p"
   },
   "devDependencies": {
