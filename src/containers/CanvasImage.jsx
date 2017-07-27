@@ -30,7 +30,7 @@ class CanvasImage extends React.Component {
   saveCanvasToDB(imageToSave) {
     this.props.saveCanvas({
       image: imageToSave,
-      displayName: "test"
+      displayName: this.props.user.displayName
     });
   }
 

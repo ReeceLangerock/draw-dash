@@ -51,8 +51,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static( __dirname + '/../build'));
-app.use(express.static( __dirname + 'build'));
+// app.use(express.static( __dirname + '/../build'));
+// app.use(express.static( __dirname + 'build'));
 
 //app.use(express.static(path.resolve(`${__dirname}./../build`)));
 //ROUTES
@@ -69,11 +69,11 @@ app.use("/api/room", require("./routes/room")(io, socketRooms, imagePrompts));
 app.use("/api/gallery", require("./routes/gallery"));
 app.use("/api/leaderboard", require("./routes/leaderboard"));
 
-app.get('*', (req, res)=> {
-  console.log('get');
-  console.log(path.join(__dirname+'/../build/index.html'));
-  res.sendFile(path.join(__dirname+'/../build/index.html'));
-})
+// app.get('*', (req, res)=> {
+//   console.log('get');
+//   console.log(path.join(__dirname+'/../build/index.html'));
+//   res.sendFile(path.join(__dirname+'/../build/index.html'));
+// })
 
 
 //launch

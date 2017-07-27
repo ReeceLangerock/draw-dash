@@ -9,8 +9,31 @@
 
 .gallery-item {
   border: 2px solid $dark-border;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: 2px;
   margin:5px;
-  padding: 2px;
   max-width: 225px;
+}
+
+.gallery-header {
+  background-color: $light-blue;
+  border-bottom: 2px solid $dark-border;
+  margin-bottom: 10px;
+
+  h5 {
+    margin: 0px;
+    padding: 2px;
+  }
+}
+
+.gallery-footer {
+  background-color: $light-blue;
+  border-top: 2px solid $dark-border;
+  margin-top: 10px;
+  h6 {
+    margin: 0px;
+    padding: 2px;
+  }
 }

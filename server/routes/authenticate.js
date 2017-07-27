@@ -9,9 +9,9 @@ var session = require("express-session");
 var redirectRoute;
 if (!process.env.NODE_ENV) {
   var config = require("../config.js");
-  redirectRoute = "http://localhost:3000/"
+  redirectRoute = "http://localhost:3000/";
 } else {
-  redirectRoute = "https://draw-dash.herokuapp.com/"
+  redirectRoute = "https://draw-dash.herokuapp.com/";
 }
 
 router.use(require("body-parser").urlencoded({ extended: true }));
@@ -20,16 +20,6 @@ router.use(session({ secret: "CHANGE-ME-LATER" }));
 router.use(passport.initialize());
 router.use(passport.session());
 
-// Look into adding JWT later on --------------------
-// function addJWT(user) {
-//   const token = jwt.sign({ email: "test" }, config.getJwt(), {
-//     expiresIn: 60000
-//   });
-//
-//   return Object.assign({}, user, { token });
-// }
-
-// setup the strategy using defaults
 passport.use(
   new SlackStrategy(
     {
@@ -55,17 +45,13 @@ passport.deserializeUser(function(obj, cb) {
 router.get("/", passport.authenticate("slack", { session: true }));
 
 // OAuth callback url
-router.get(
-  "/callback",
-  passport.authenticate("slack", { failureRedirect: "/" }),
-  function(req, res) {
-    res.redirect(redirectRoute);
-  }
-);
+router.get("/callback", passport.authenticate("slack", { failureRedirect: "/" }), function(req, res) {
+  res.redirect(redirectRoute);
+});
 
-router.get('/logout', function(req, res){
+router.get("/logout", function(req, res) {
   req.logout();
-  res.redirect('/');
+  res.redirect("/");
 });
 
 module.exports = router;

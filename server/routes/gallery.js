@@ -10,6 +10,7 @@ router.use(
   })
 );
 router.use(bodyParser.json());
+
 /* GET home page. */
 router.get("/", function(req, res, next) {
   getGallery().then((response, error) => {
@@ -22,9 +23,7 @@ router.get("/", function(req, res, next) {
     }
   })
 });
-router.use(bodyParser.json());
 router.post("/", function(req, res, next) {
-  console.log('post image', req.body);
   //ADD BACK LATER
   gallery.schema.methods.newGalleryItem(req.body);
 

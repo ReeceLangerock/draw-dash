@@ -4,5 +4,38 @@
   max-width: 400px;
   margin: 5px;
 
-  
+
+}
+
+.canvas-header {
+  background-color: $light-blue;
+  border-bottom: 2px solid $dark-border;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+
+  h5 {
+    margin: 0px;
+    padding: 2px;
+  }
+
+  .not-ready:focus{
+    border:1px solid $red;
+    background-color: $red-button;
+  }
+
+  .not-ready:hover{
+    background-color: $red;
+
+  }
+  .ready:focus{
+    border:1px solid $green;
+    background-color: $green;
+  }
+
+  .ready:hover {
+    background-color: $green-button;
+
+  }
+
 }
