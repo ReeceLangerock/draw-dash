@@ -1,12 +1,15 @@
 import React from "react";
 import { HashRouter, Route, Link, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "react-router-redux";
+
 import { bindActionCreators } from "redux";
 import * as Redux from "react-redux";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import * as actions from "./actions/actions";
 import {login} from "./actions/actions";
-import store from "./store/store.js";
+import store, { history } from "./store/store.js";
 import Gallery from "./containers/Gallery";
 import About from "./containers/About";
 import Leaderboard from "./containers/Leaderboard";
@@ -25,6 +28,8 @@ require("../src/styles/app.scss");
 class App extends React.Component {
   render() {
     return (
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
       <div>
         <main>
           <Switch>
@@ -39,19 +44,10 @@ class App extends React.Component {
         </main>
         <Footer />
       </div>
+    </ConnectedRouter>
+  </Provider>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-  isAuthenticated: state.authReducer.isAuthenticated
-}};
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-}, dispatch)
-
-export default connect (
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App;
