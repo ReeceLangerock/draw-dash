@@ -19,6 +19,11 @@
     padding: 2px;
   }
 
+  .not-ready{
+    border:1px solid $red;
+    background-color: $red-button;
+  }
+
   .not-ready:focus{
     border:1px solid $red;
     background-color: $red-button;
@@ -27,6 +32,11 @@
   .not-ready:hover{
     background-color: $red;
 
+  }
+
+  .ready{
+    border:1px solid $green;
+    background-color: $green;
   }
   .ready:focus{
     border:1px solid $green;
