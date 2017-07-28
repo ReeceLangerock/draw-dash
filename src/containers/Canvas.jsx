@@ -28,6 +28,19 @@ class Canvas extends React.Component {
     this.props.socket.emit('canvas_event', { roomId: this.props.roomId, canvasJSON: canvasJSON, canvasId: this.props.canvasId }, () => {});
   }
 
+  renderSize() {
+    return (
+      <div className="sizes">
+        Brush Size:
+        <select id="sizes">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+    );
+  }
+
   renderTools() {
     return (
       <div className="tool">
@@ -36,6 +49,7 @@ class Canvas extends React.Component {
           <option value="brush">Brush</option>
           <option value="eraser">Eraser</option>
         </select>
+        <button className="button" id="clear">Clear</button>
       </div>
     );
   }
@@ -74,6 +88,7 @@ class Canvas extends React.Component {
     let isPaint = false;
     let lastPointerPosition;
     let mode = 'brush';
+    let sizes = 'small';
     // now we need to bind some events
     // we need to start drawing on mousedown
     // and stop drawing on mouseup
@@ -90,12 +105,23 @@ class Canvas extends React.Component {
         return;
       }
       if (mode === 'brush') {
-        context.lineWidth = 5;
         context.globalCompositeOperation = 'source-over';
       }
       if (mode === 'eraser') {
         context.lineWidth = 15;
         context.globalCompositeOperation = 'destination-out';
+      }
+      if (sizes === 'small') {
+        context.lineWidth = 5;
+        context.globalCompositeOperation = 'source-over';
+      }
+      if (sizes === 'medium') {
+        context.lineWidth = 12;
+        context.globalCompositeOperation = 'source-over';
+      }
+      if (sizes === 'large') {
+        context.lineWidth = 20;
+        context.globalCompositeOperation = 'source-over';
       }
       context.beginPath();
       let localPos = {
@@ -124,21 +150,29 @@ class Canvas extends React.Component {
     select.addEventListener('change', () => {
       mode = select.value;
     });
-
+    const brushSize = document.getElementById('sizes');
+    brushSize.addEventListener('change', () => {
+      sizes = brushSize.value;
+    });
+    const clearButton = document.getElementById('clear');
+    clearButton.addEventListener('click', () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    });
   }
 
   render() {
     return (
       <div className="container">
+        {this.renderSize()}
         {this.renderTools()}
-        <GithubPicker onChangeComplete={this.handleChangeComplete} />
+        <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>
     );
   }
 }
 
-let newColor = '#fff';
+let newColor = '#000000';
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
