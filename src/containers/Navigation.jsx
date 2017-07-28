@@ -45,8 +45,6 @@ class Navigation extends React.Component {
                 Gallery
               </NavLink>
             </li>
-
-
           </ul>
         </div>
 
