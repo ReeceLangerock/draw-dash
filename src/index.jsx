@@ -9,13 +9,10 @@ import "./styles/fonts.scss";
 
 const root = document.getElementById("root");
 
-
 render(
-
-      <AppContainer>
-        <App />
-      </AppContainer>,
-
+  <AppContainer>
+    <App />
+  </AppContainer>,
   root
 );
 

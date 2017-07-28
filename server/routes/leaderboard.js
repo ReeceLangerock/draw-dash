@@ -10,10 +10,11 @@ router.use(
 );
 router.use(bodyParser.json());
 
-/* GET home page. */
+//get leaderboard data
 router.get("/", function(req, res, next) {
   getLeaderboard().then((response, error) => {
     if (error) {
+      res.json(false);
     } else {
       res.json(response);
     }
@@ -21,13 +22,13 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/", function(req, res, next) {
-  console.log('post', req.body);
   //temporary points assignment
-  var points = 1;
-  var user = req.body
+  console.log(req.body);
+  var points = req.body.points;
+  var user = req.body.user;
   findUser(user.UID, points).then((response, error) => {
     if (error) {
-      res.json({error: "error"});
+      res.json({ error: "error" });
     } else if (response === "NOT_FOUND") {
       leaderboard.schema.methods.newLeaderboardItem(req.body, points);
     }

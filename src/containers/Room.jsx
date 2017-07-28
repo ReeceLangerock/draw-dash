@@ -8,19 +8,34 @@ import VotingModal from "./VotingModal";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setImagePrompt, setAllUsersReady } from "./../actions/actions";
+import { setImagePrompt, setAllUsersReady, updateLeaderboard, setVoteCompleted, removeUserFromRoom, setCanvasToSave } from "./../actions/actions";
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
     this.emitOnUnload = this.emitOnUnload.bind(this);
-    // this.props.socket.on("user_join", payload => {
-    //   console.log(payload.displayName + " joined");
-    // });
+
     this.props.socket.on("all_ready", data => {
       this.props.setImagePrompt(data.prompt);
       this.props.setAllUsersReady(true);
     });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.voteCompleted === true) {
+      console.log("vote completed");
+      this.props.setVoteCompleted(false);
+      this.props.socket.emit("complete_vote", { roomId: this.props.roomId, user: this.props.user }, data => {
+        data ? this.props.setCanvasToSave(data) : this.props.setCanvasToSave(undefined);
+        if (data === false) {
+          this.props.updateLeaderboard(this.props.user, 2);
+        } else if (data === this.props.canvasSeatNumber) {
+          this.props.updateLeaderboard(this.props.user, 3);
+        } else {
+          this.props.updateLeaderboard(this.props.user, 1);
+        }
+      });
+    }
   }
 
   handleUserLeavingPage(ev) {
@@ -47,19 +62,16 @@ class Room extends React.Component {
     //this needs some work, page redirects regardless of confirm result
     //confirm("you sure?");
     this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
+    this.props.removeUserFromRoom(this.props.roomId, this.props.user);
+
     window.removeEventListener("beforeunload", this.handleUserLeavingPage);
   }
 
   renderVotingModal() {
-    console.log("render");
-
     if (this.props.voteInProgress) {
-      console.log("render true");
-
       return <VotingModal socket={this.props.socket} />;
     }
   }
-
 
   render() {
     return (
@@ -77,11 +89,7 @@ class Room extends React.Component {
 
               </div>
 
-
-
               <Countdown socket={this.props.socket} startSignal={this.props.allReady} />
-
-
 
               {this.renderVotingModal()}
 
@@ -106,9 +114,11 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   rooms: state.roomReducer.rooms,
   allReady: state.roomReducer.allReady,
-  voteInProgress: state.gameReducer.voteInProgress
+  voteInProgress: state.gameReducer.voteInProgress,
+  voteCompleted: state.gameReducer.voteCompleted,
+  canvasSeatNumber: state.roomReducer.canvasSeatNumber
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setImagePrompt }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, removeUserFromRoom, setVoteCompleted, setCanvasToSave, setImagePrompt, updateLeaderboard }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

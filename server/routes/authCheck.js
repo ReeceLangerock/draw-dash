@@ -1,15 +1,12 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	// Comment out this line:
-  //res.send('respond with a resource');
 
-  // And insert something like this instead:
-  if(req.user) {
+router.get("/", function(req, res, next) {
 
-    res.json(req.user)
+  //Serves for client side check that user is authorized
+  if (req.user) {
+    res.json(req.user);
   } else {
     res.json(false);
   }

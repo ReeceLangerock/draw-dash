@@ -4,18 +4,16 @@ import Canvas from "./Canvas";
 import CanvasImage from "./CanvasImage";
 import { connect } from "react-redux";
 
-import { sendAuthorizationCheck, updateLeaderboard } from "./../actions/actions";
+import { sendAuthorizationCheck } from "./../actions/actions";
 
 class CanvasContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onUserReady = this.onUserReady.bind(this);
-
   }
 
   onUserReady() {
     this.props.socket.emit("ready", { roomId: this.props.roomId }, function() {});
-    this.props.updateLeaderboard(this.props.user)
   }
 
   renderUserToCanvasContainer() {
@@ -27,51 +25,61 @@ class CanvasContainer extends React.Component {
       //using loose equality check because canvasSeatNumber is stored as string on backend
       if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
         var displayName = occupants.drawers[0].displayName;
-        var buttonClass = occupants.drawers[0].isReady ? "button success" : "button primary";
+        var buttonClass = occupants.drawers[0].isReady ? "button ready" : "button not-ready";
         var disabled = occupants.drawers[0].UID == this.props.user.UID ? "" : "disabled";
-
 
         var userMatch = occupants.drawers[0].UID == this.props.user.UID;
         if (userMatch) {
           return (
             <div className="canvas-container">
-              <h5>Your Canvas</h5>
-              <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber}/>
-              <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
-                Ready
-              </button>
+              <div className="canvas-header">
+                <h5>Your Canvas</h5>
+                <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
+                  Ready
+                </button>
+              </div>
+              <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber} />
+
             </div>
           );
         } else {
           return (
             <div className="canvas-container">
-              <h5>{displayName}'s Canvas</h5>
+              <div className="canvas-header">
+
+                <h5>{displayName}'s Canvas</h5>
+              </div>
               <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
             </div>
           );
         }
       } else if (occupants.drawers[1].canvasSeatNumber == this.props.canvasNumber) {
-        var buttonClass = occupants.drawers[1].isReady ? "button success" : "button primary";
+        var buttonClass = occupants.drawers[0].isReady ? "button ready" : "button not-ready";
         var displayName = occupants.drawers[1].displayName;
 
         var disabled = occupants.drawers[1].UID == this.props.user.UID ? "" : "disabled";
 
         var userMatch = occupants.drawers[1].UID == this.props.user.UID;
         if (userMatch) {
-          console.log("usermatch true2");
           return (
             <div className="canvas-container">
-              <h5>Your Canvas</h5>
+              <div className="canvas-header">
+                <h5>Your Canvas</h5>
+                <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
+                  Ready
+                </button>
+              </div>
               <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber} />
-              <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
-                Ready
-              </button>
+
             </div>
           );
         } else {
           return (
             <div className="canvas-container">
-              <h5>{displayName}'s Canvas</h5>
+              <div className="canvas-container">
+
+                <h5>{displayName}'s Canvas</h5>
+              </div>
               <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
             </div>
           );
@@ -79,33 +87,42 @@ class CanvasContainer extends React.Component {
       } else {
         return (
           <div className="canvas-container">
-            <h5>Empty Canvas</h5>
+            <div className="canvas-header">
+              <h5>Empty Canvas</h5>
+              <button id={buttonId} className="button">Join</button>
+
+            </div>
             <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
-            <button id={buttonId} className="button">Join</button>
           </div>
         );
       }
     } else if (occupants.drawers.length === 1) {
       if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
-        var buttonClass = occupants.drawers[0].isReady ? "button success" : "button primary";
+        var buttonClass = occupants.drawers[0].isReady ? "button ready" : "button not-ready";
         var disabled = occupants.drawers[0].UID == this.props.user.UID ? "" : "disabled";
         var displayName = occupants.drawers[0].displayName;
 
         return (
           <div className="canvas-container">
-            <h5>Your Canvas</h5>
+            <div className="canvas-header">
+              <h5>Your Canvas</h5>
+              <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
+                Ready
+              </button>
+            </div>
             <Canvas socket={this.props.socket} canvasId={this.props.canvasNumber} />
-            <button id={buttonId} className={buttonClass} onClick={this.onUserReady} disabled={disabled}>
-              Ready
-            </button>
+
           </div>
         );
       } else {
         return (
           <div className="canvas-container">
-            <h5>Empty Canvas</h5>
+            <div className="canvas-header">
+              <h5>Empty Canvas</h5>
+              <button id={buttonId} className="button">Join</button>
+
+            </div>
             <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
-            <button id={buttonId} className="button">Join</button>
           </div>
         );
       }
@@ -113,9 +130,11 @@ class CanvasContainer extends React.Component {
       var disabled = this.props.user.isAuthenticated ? "" : "disabled";
       return (
         <div className="canvas-container">
-          <h5>Empty Canvas</h5>
-          <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
-          <button id={buttonId} className="button" disabled={disabled}>Join</button>
+          <div className="canvas-header">
+            <h5>Empty Canvas</h5>
+            <button id={buttonId} className="button" disabled={disabled}>Join</button>
+
+          </div> <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
         </div>
       );
     }
@@ -135,14 +154,13 @@ const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   user: state.authReducer,
   rooms: state.roomReducer.rooms,
-  roomId: state.roomReducer.currentUserRoom,
-
+  roomId: state.roomReducer.currentUserRoom
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck, updateLeaderboard
+      sendAuthorizationCheck
     },
     dispatch
   );
