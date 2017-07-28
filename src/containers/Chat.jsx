@@ -9,7 +9,7 @@ class Chat extends React.Component {
     super(props);
     this.onSend = this.onSend.bind(this);
     this.props.socket.on("message_received", message => {
-      console.log('message_received', message)
+      console.log("message_received", message);
       var node = document.createElement("p");
       var textNode = document.createTextNode(message);
       node.appendChild(textNode);
@@ -28,13 +28,19 @@ class Chat extends React.Component {
       node.appendChild(textNode);
       document.getElementById("messageContainer").appendChild(node);
     });
-
-
   }
 
+  componentDidMount() {
+    document.getElementById("textToSend").addEventListener("keyup", (event) =>{
+      event.preventDefault();
+      if (event.keyCode == 13 && event.target.value != "") {
+        this.onSend();
+      }
+    });
+  }
 
-  componentWillUnmount(){
-    this.props.socket.removeListener('message_received');
+  componentWillUnmount() {
+    this.props.socket.removeListener("message_received");
   }
 
   onSend(e) {

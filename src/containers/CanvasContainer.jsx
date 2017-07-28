@@ -4,16 +4,24 @@ import Canvas from "./Canvas";
 import CanvasImage from "./CanvasImage";
 import { connect } from "react-redux";
 
-import { sendAuthorizationCheck } from "./../actions/actions";
+import { sendAuthorizationCheck, addUserToRoom } from "./../actions/actions";
 
 class CanvasContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onUserReady = this.onUserReady.bind(this);
+    this.onUserJoin = this.onUserJoin.bind(this);
   }
 
   onUserReady() {
     this.props.socket.emit("ready", { roomId: this.props.roomId }, function() {});
+  }
+
+  onUserJoin(canvasToJoin) {
+    if (this.props.canvasSeatNumber === -1 || this.props.canvasSeatNumber === undefined) {
+      this.props.socket.emit("join", { roomId: this.props.roomId, user: this.props.user, joiningAs: "drawer" }, function() {});
+      this.props.addUserToRoom(this.props.roomId, this.props.user, canvasToJoin);
+    }
   }
 
   renderUserToCanvasContainer() {
@@ -89,7 +97,7 @@ class CanvasContainer extends React.Component {
           <div className="canvas-container">
             <div className="canvas-header">
               <h5>Empty Canvas</h5>
-              <button id={buttonId} className="button">Join</button>
+              <button id={buttonId} className="button" onClick={() => this.onUserJoin(this.props.canvasNumber)}>Join</button>
 
             </div>
             <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
@@ -119,7 +127,7 @@ class CanvasContainer extends React.Component {
           <div className="canvas-container">
             <div className="canvas-header">
               <h5>Empty Canvas</h5>
-              <button id={buttonId} className="button">Join</button>
+              <button id={buttonId} className="button" onClick={() => this.onUserJoin(this.props.canvasNumber)}>Join</button>
 
             </div>
             <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
@@ -132,7 +140,7 @@ class CanvasContainer extends React.Component {
         <div className="canvas-container">
           <div className="canvas-header">
             <h5>Empty Canvas</h5>
-            <button id={buttonId} className="button" disabled={disabled}>Join</button>
+            <button id={buttonId} className="button" onClick={() => this.onUserJoin(this.props.canvasNumber)} disabled={disabled}>Join</button>
 
           </div> <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
         </div>
@@ -154,13 +162,15 @@ const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   user: state.authReducer,
   rooms: state.roomReducer.rooms,
-  roomId: state.roomReducer.currentUserRoom
+  roomId: state.roomReducer.currentUserRoom,
+  canvasSeatNumber: state.roomReducer.canvasSeatNumber
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck
+      sendAuthorizationCheck,
+      addUserToRoom
     },
     dispatch
   );

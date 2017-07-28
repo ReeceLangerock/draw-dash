@@ -23,7 +23,6 @@ class Room extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.voteCompleted === true) {
-      console.log("vote completed");
       this.props.setVoteCompleted(false);
       this.props.socket.emit("complete_vote", { roomId: this.props.roomId, user: this.props.user }, data => {
         data ? this.props.setCanvasToSave(data) : this.props.setCanvasToSave(undefined);
