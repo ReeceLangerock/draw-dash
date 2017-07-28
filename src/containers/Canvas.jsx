@@ -1,5 +1,4 @@
 import React from 'react';
-import Navigation from './Navigation';
 import { Layer, Stage, Image } from 'react-konva';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,22 +14,19 @@ class Canvas extends React.Component {
       const textNode = document.createTextNode('test');
       node.appendChild(textNode);
       document.getElementById(idToUpdate).appendChild(node);
-      console.log(data.canvasJSON);
       this.updateKonva(idToUpdate, data.canvasJSON);
-
+      this.handleChangeComplete = this.handleChangeComplete.bind(this);
       //this.renderDisabledKonva(undefined, data.canvasJSON, data.canvasId);
     });
-    this.state = {
-      background: '#fff',
-    };
   }
+
+  handleChangeComplete(color) {
+    newColor = color.hex;
+  }
+
   canvasEvent(canvasJSON) {
     this.props.socket.emit('canvas_event', { roomId: this.props.roomId, canvasJSON: canvasJSON, canvasId: this.props.canvasId }, () => {});
   }
-
-  handleChangeComplete = (color) => {
-    this.setState({ background: color.hex });
-  };
 
   renderTools() {
     return (
@@ -70,10 +66,9 @@ class Canvas extends React.Component {
     });
     layer.add(image);
     stage.draw();
-    // Good. Now we need to get access to context element
+    // Now we need to get access to context element
     const context = canvas.getContext('2d');
-    context.strokeStyle = this.props.background;
-    console.log(context.strokeStyle);
+    // context.strokeStyle = this.state.background;
     context.lineJoin = 'round';
     context.lineWidth = 5;
     let isPaint = false;
@@ -118,7 +113,7 @@ class Canvas extends React.Component {
       context.stroke();
       lastPointerPosition = pos;
       layer.draw();
-
+      context.strokeStyle = newColor;
       const dataURL = stage.toDataURL();
       // window.open(dataURL);
       that.canvasEvent(dataURL);
@@ -129,18 +124,21 @@ class Canvas extends React.Component {
     select.addEventListener('change', () => {
       mode = select.value;
     });
+
   }
 
   render() {
     return (
       <div className="container">
         {this.renderTools()}
-        <GithubPicker onChangeComplete={this.handleChangeComplete} color={this.state.background} />
+        <GithubPicker onChangeComplete={this.handleChangeComplete} />
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>
     );
   }
 }
+
+let newColor = '#fff';
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
