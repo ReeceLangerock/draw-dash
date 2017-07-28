@@ -4,10 +4,10 @@ var mongoose = require("mongoose");
 var path = require("path");
 var port = process.env.PORT || 3001;
 var app = express();
-if (!process.env.NODE_ENV) {
-  console.log("dev");
-  var config = require("./config.js");
-}
+// if (!process.env.NODE_ENV) {
+//   console.log("dev");
+//   var config = require("./config.js");
+// }
 var passport = require("passport");
 var session = require("express-session");
 var bodyParser = require("body-parser");
