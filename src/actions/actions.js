@@ -184,6 +184,7 @@ export var saveCanvas = image => {
 };
 
 export var setCanvasToSave = canvasToSave => {
+  console.log('canvas action')
   return {
     type: "SET_CANVAS_TO_SAVE",
     canvasToSave
@@ -220,8 +221,7 @@ export var setLeaderboard = leaderboard => {
   };
 };
 
-export var updateLeaderboard = user => {
-  console.log("updateLeaderboard", user);
+export var updateLeaderboard = (user, points) => {
   return dispatch => {
     fetch("/api/leaderboard", {
       credentials: "include",
@@ -230,7 +230,7 @@ export var updateLeaderboard = user => {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify({user: user, points: points})
     })
       .then(response => response.json())
       .then(response => {

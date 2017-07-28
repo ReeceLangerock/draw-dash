@@ -4,7 +4,7 @@ import Canvas from "./Canvas";
 import CanvasImage from "./CanvasImage";
 import { connect } from "react-redux";
 
-import { sendAuthorizationCheck, updateLeaderboard } from "./../actions/actions";
+import { sendAuthorizationCheck } from "./../actions/actions";
 
 class CanvasContainer extends React.Component {
   constructor(props) {
@@ -14,7 +14,6 @@ class CanvasContainer extends React.Component {
 
   onUserReady() {
     this.props.socket.emit("ready", { roomId: this.props.roomId }, function() {});
-    this.props.updateLeaderboard(this.props.user);
   }
 
   renderUserToCanvasContainer() {
@@ -161,8 +160,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck,
-      updateLeaderboard
+      sendAuthorizationCheck
     },
     dispatch
   );

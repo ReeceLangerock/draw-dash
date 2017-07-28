@@ -18,6 +18,7 @@ class CanvasImage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.canvasToSave !== undefined) {
+      console.log('canvasToSave')
       var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
 
       //set back to undefined so it should only be saved once
@@ -37,7 +38,7 @@ class CanvasImage extends React.Component {
   render() {
     return (
       <div className="container">
-        <img id={"image" + this.props.canvasId} src="http://www.bluemaize.net/im/arts-crafts-sewing/blank-canvas-3.jpg" />
+        <img id={"image" + this.props.canvasId} src={require(`./../assets/blank-canvas.jpeg`)} />
       </div>
     );
   }

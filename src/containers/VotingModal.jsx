@@ -17,9 +17,13 @@ class VotingModal extends React.Component {
 
   registerVote(e){
     var vote = e.target.value;
-    this.props.socket.emit("register_vote", { roomId: this.props.roomId, user: this.props.user, vote: vote }, function(data) {});
+    this.props.socket.emit("register_vote", { roomId: this.props.roomId, user: this.props.user, vote: vote }, function(data) {
+      console.log('data',data);
+    });
     this.props.setVoteInProgress(false);
   }
+
+
 
   render() {
     return (

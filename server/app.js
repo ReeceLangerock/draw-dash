@@ -59,10 +59,9 @@ app.use(passport.session());
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
-app.use("/api", require("./routes/index"));
+
 app.use("/api/authenticate", require("./routes/authenticate"));
 app.use("/api/logout", require("./routes/logout"));
-app.use("/api/image-prompts", require("./routes/image-prompts"));
 app.use("/api/authCheck", require("./routes/authCheck"));
 app.use("/api/lobby", require("./routes/lobby")(io, socketRooms));
 app.use("/api/room", require("./routes/room")(io, socketRooms, imagePrompts));

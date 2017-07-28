@@ -35,6 +35,7 @@ module.exports = {
           watchers: []
         },
         votes: [],
+        activeGame: false,
         max: MAX_OCCUPANTS
       });
       // add the id being used to the usedRoom array and remove it from availbleRoom array
@@ -87,6 +88,7 @@ module.exports = {
       }
     });
     if (readyCount === MAX_OCCUPANTS) {
+      rooms[id].activeGame = true;
       return true;
     } else {
       return false;
@@ -97,38 +99,37 @@ module.exports = {
     rooms[id].votes.push(vote);
   },
   calculateVoteResult(id) {
-    var drawingOneVotes = 0;
-    var drawingTwoVotes = 0;
-    var votes = rooms[id].votes;
-    for (let i = 0; i < votes.length; i++) {
-      if (votes[i] == 1) {
-        drawingOneVotes++;
-      } else {
-        drawingTwoVotes++;
+
+      var drawingOneVotes = 0;
+      var drawingTwoVotes = 0;
+      var votes = rooms[id].votes;
+      for (let i = 0; i < votes.length; i++) {
+        if (votes[i] == 1) {
+          drawingOneVotes++;
+        } else {
+          drawingTwoVotes++;
+        }
       }
-    }
-    var winner;
-    if (drawingOneVotes > drawingTwoVotes) {
-      winner = 1;
-    } else if (drawingTwoVotes > drawingOneVotes) {
-      winner = 2;
-    } else {
-      winner = false;
-    }
-    console.log("winner", winner);
-    return winner;
+      var winner;
+      if (drawingOneVotes > drawingTwoVotes) {
+        winner = 1;
+      } else if (drawingTwoVotes > drawingOneVotes) {
+        winner = 2;
+      } else {
+        winner = false;
+      }
+      console.log("winner", winner);
+      return winner;
+    
   },
   processRoundStart(id) {
     rooms[id].votes = [];
   },
   processRoundEnd(id) {
-    console.log(id);
 
-    console.log(rooms[id]);
     if (rooms[id].occupants.drawers) {
       rooms[id].occupants.drawers.map(drawer => {
-        console.log("drawer", drawer);
-
+        rooms[id].activeGame = false;
         drawer.isReady = false;
       });
     }
@@ -202,4 +203,6 @@ module.exports = {
       }
     }
   }
+
+
 };

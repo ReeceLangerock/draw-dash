@@ -16,7 +16,8 @@ if (!process.env.NODE_ENV) {
 
 router.use(require("body-parser").urlencoded({ extended: true }));
 router.use(cookieParser());
-router.use(session({ secret: "CHANGE-ME-LATER" }));
+var sessionSecret = process.env.SESSION_SECRET || config.getSessionSecret();
+router.use(session(sessionSecret));
 router.use(passport.initialize());
 router.use(passport.session());
 
