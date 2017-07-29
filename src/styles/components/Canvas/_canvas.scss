@@ -2,8 +2,13 @@
   margin: auto;
   width: 25%;
   overflow: hidden;
+  display: inline;
 }
 
 .picker {
   text-align: center
+}
+
+.svgContainer {
+  display: inline;
 }

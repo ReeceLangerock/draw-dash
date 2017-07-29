@@ -31,12 +31,10 @@ class Canvas extends React.Component {
   renderSize() {
     return (
       <div className="sizes">
-        Brush Size:
-        <select id="sizes">
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="large">Large</option>
-        </select>
+        Brush Size:<br />
+        <button className="button" id="small">Small</button>&nbsp;
+        <button className="button" id="medium">Medium</button>&nbsp;
+        <button className="button" id="large">Large</button>&nbsp;<br />
       </div>
     );
   }
@@ -44,12 +42,10 @@ class Canvas extends React.Component {
   renderTools() {
     return (
       <div className="tool">
-        Tool:
-        <select id="tool">
-          <option value="brush">Brush</option>
-          <option value="eraser">Eraser</option>
-        </select>
-        <button className="button" id="clear">Clear</button>
+        Tool:<br />
+        <button className="button" id="brush">Brush</button>&nbsp;
+        <button className="button" id="eraser">Eraser</button>&nbsp;
+        <button className="alert button" id="clear">Clear</button>
       </div>
     );
   }
@@ -106,22 +102,17 @@ class Canvas extends React.Component {
       }
       if (mode === 'brush') {
         context.globalCompositeOperation = 'source-over';
+        if (sizes === 'small') {
+          context.lineWidth = 5;
+        } else if (sizes === 'medium') {
+          context.lineWidth = 12;
+        } else if (sizes === 'large') {
+          context.lineWidth = 20;
+        }
       }
       if (mode === 'eraser') {
         context.lineWidth = 15;
         context.globalCompositeOperation = 'destination-out';
-      }
-      if (sizes === 'small') {
-        context.lineWidth = 5;
-        context.globalCompositeOperation = 'source-over';
-      }
-      if (sizes === 'medium') {
-        context.lineWidth = 12;
-        context.globalCompositeOperation = 'source-over';
-      }
-      if (sizes === 'large') {
-        context.lineWidth = 20;
-        context.globalCompositeOperation = 'source-over';
       }
       context.beginPath();
       let localPos = {
@@ -146,17 +137,29 @@ class Canvas extends React.Component {
       // that.canvasEvent(stage.toJSON());
       // console.log(layer);
     });
-    const select = document.getElementById('tool');
-    select.addEventListener('change', () => {
-      mode = select.value;
+    const brush = document.getElementById('brush');
+    brush.addEventListener('click', () => {
+      mode = 'brush';
     });
-    const brushSize = document.getElementById('sizes');
-    brushSize.addEventListener('change', () => {
-      sizes = brushSize.value;
+    const eraser = document.getElementById('eraser');
+    eraser.addEventListener('click', () => {
+      mode = 'eraser';
     });
     const clearButton = document.getElementById('clear');
     clearButton.addEventListener('click', () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+    });
+    const smallSize = document.getElementById('small');
+    smallSize.addEventListener('click', () => {
+      sizes = 'small';
+    });
+    const mediumSize = document.getElementById('medium');
+    mediumSize.addEventListener('click', () => {
+      sizes = 'medium';
+    });
+    const largeSize = document.getElementById('large');
+    largeSize.addEventListener('click', () => {
+      sizes = 'large';
     });
   }
 
