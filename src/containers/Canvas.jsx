@@ -36,17 +36,17 @@ class Canvas extends React.Component {
         Brush Size:<br />
         <div id="svgContainer">
           <div id="smallSize">
-            <svg id="small" xmlns="http://www.w3.org/2000/svg">
+            <svg id="small" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
               <circle cx="50" cy="50" r="5" fill="#000000" />
             </svg>
           </div>
           <div id="mediumSize">
-            <svg id="medium" xmlns="http://www.w3.org/2000/svg">
+            <svg id="medium" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
               <circle cx="50" cy="50" r="12" fill="#000000" />
             </svg>
           </div>
           <div id="largeSize">
-            <svg id="large" xmlns="http://www.w3.org/2000/svg">
+            <svg id="large" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
               <circle cx="50" cy="50" r="25" fill="#000000" />
             </svg>
           </div>
@@ -58,11 +58,12 @@ class Canvas extends React.Component {
   renderTools() {
     return (
       <div className="tool">
-        Tool:<br />
-        <img alt="paintbrush" src={paintbrush} />
-        <button className="button" id="brush">Brush</button>&nbsp;
-        <button className="button" id="eraser">Eraser</button>&nbsp;
-        <button className="alert button" id="clear">Clear</button>
+        Tool:
+        <select id="tool">
+          <option value="brush">Brush</option>
+          <option value="eraser">Eraser</option>
+        </select>
+        <button className="button" id="clear">Clear</button>
       </div>
     );
   }
@@ -154,13 +155,9 @@ class Canvas extends React.Component {
       // that.canvasEvent(stage.toJSON());
       // console.log(layer);
     });
-    const brush = document.getElementById('brush');
-    brush.addEventListener('click', () => {
-      mode = 'brush';
-    });
-    const eraser = document.getElementById('eraser');
-    eraser.addEventListener('click', () => {
-      mode = 'eraser';
+    const select = document.getElementById('tool');
+    select.addEventListener('change', () => {
+      mode = select.value;
     });
     const clearButton = document.getElementById('clear');
     clearButton.addEventListener('click', () => {
