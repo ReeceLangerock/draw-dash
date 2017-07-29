@@ -47,7 +47,7 @@ class Canvas extends React.Component {
           </div>
           <div id="largeSize">
             <svg id="large" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="25" fill="#000000" />
+              <circle cx="50" cy="50" r="20" fill="#000000" />
             </svg>
           </div>
         </div>
@@ -63,7 +63,7 @@ class Canvas extends React.Component {
           <option value="brush">Brush</option>
           <option value="eraser">Eraser</option>
         </select>
-        <button className="button" id="clear">Clear</button>
+        <button className="alert button" id="clear">Clear</button>
       </div>
     );
   }
