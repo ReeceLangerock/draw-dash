@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Navigation from "./Navigation";
 import ImagePrompt from "./ImagePrompt";
+import VotingModal from "./VotingModal";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { toggleRoundCompleted, setAllUsersReady, setCanvasToSave, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
+import { toggleRoundCompleted, setAllUsersReady, setCanvasToSave, setImagePrompt, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -32,19 +33,19 @@ class Countdown extends React.Component {
     if (newProps.startSignal) {
       this.startTimer();
     }
-    console.log(newProps);
+    console.log("new", newProps);
     if (newProps.voteCompleted === true && newProps.voteInProgress === false) {
       this.props.socket.emit("complete_vote", { roomId: this.props.roomId }, data => {
         if (data) {
           this.props.setCanvasToSave(data);
         }
+        console.log("DFGDFG!!!!");
         this.props.setRoundCompleted(false);
       });
     }
   }
 
   startTheRound() {
-    this.props.setVoteCompleted(false);
     this.props.setRoundStarted(true);
     this.props.setRoundCompleted(false);
     this.props.setVoteInProgress(false);
@@ -54,7 +55,14 @@ class Countdown extends React.Component {
     this.props.setAllUsersReady(false);
     this.props.setRoundStarted(false);
     this.props.setRoundCompleted(true);
+    this.props.setImagePrompt(undefined);
     this.props.setVoteInProgress(true);
+    this.setState({
+      countdownSeconds: 4,
+      roundSeconds: 5
+    });
+    this.countdownTimer = null;
+    this.roundTimer = null;
   }
 
   startTimer() {
@@ -101,24 +109,26 @@ class Countdown extends React.Component {
 
   renderTimer() {
     const { countdownSeconds, roundSeconds } = this.state;
-
-    if (countdownSeconds > 0) {
-      //console.log(document.getElementById('circle1'));
-      return (
-        <div className="countdown-circle-container">
-          <div id="circle1" className="circle red" />
-          <div id="circle2" className="circle yellow" />
-          <div id="circle3" className="circle green" />
-        </div>
-      );
-    } else if (roundSeconds > 0) {
-      return <div><h2>0:{roundSeconds}</h2></div>;
-    } else if (roundSeconds === 0) {
+    console.log("countdownSeconds", countdownSeconds);
+    if (this.props.voteInProgress === false && this.props.voteCompleted === false) {
+      if (countdownSeconds > 0) {
+        //console.log(document.getElementById('circle1'));
+        return (
+          <div className="countdown-circle-container">
+            <div id="circle1" className="circle red" />
+            <div id="circle2" className="circle yellow" />
+            <div id="circle3" className="circle green" />
+          </div>
+        );
+      } else if (roundSeconds > 0) {
+        return <div><h2>0:{roundSeconds}</h2></div>;
+      } else if (roundSeconds === 0) {
+      }
     }
   }
 
   renderImagePrompt(countdownSeconds) {
-    if (this.props.imagePrompt && countdownSeconds === 0) {
+    if (this.props.imagePrompt && countdownSeconds === 0 && this.props.voteInProgress === false) {
       return (
         <div id="prompt" className="image-prompt-container">
 
@@ -128,15 +138,22 @@ class Countdown extends React.Component {
     }
   }
 
+  renderVotingModal(countdownSeconds) {
+    if (this.props.voteInProgress === true && this.props.voteCompleted === false) {
+      return <VotingModal socket={this.props.socket} />;
+    }
+  }
+
   render() {
     const { countdownSeconds, roundSeconds } = this.state;
+
     return (
       <div className="info-container">
 
         {this.renderImagePrompt(countdownSeconds)}
 
         {this.renderTimer()}
-
+        {this.renderVotingModal(countdownSeconds)}
       </div>
     );
   }
@@ -146,9 +163,10 @@ const mapStateToProps = state => ({
   roomId: state.roomReducer.currentUserRoom,
   voteCompleted: state.gameReducer.voteCompleted,
   voteInProgress: state.gameReducer.voteInProgress,
-  imagePrompt: state.imageReducer.prompt
+  imagePrompt: state.imageReducer.prompt,
+  votingTime: state.votingTimerReducer.seconds
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setAllUsersReady, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setImagePrompt, setAllUsersReady, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Countdown);

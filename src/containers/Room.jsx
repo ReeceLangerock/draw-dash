@@ -49,6 +49,12 @@ class Room extends React.Component {
 
   componentWillMount() {
     this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
+    // this.props.pingTimer = setInterval(()=> {
+    //   this.props.socket.emit("ping", function(m) {
+    //     console.log(m);
+    //   });
+    //
+    // }, 20000)
   }
 
   componentDidMount() {
@@ -67,9 +73,9 @@ class Room extends React.Component {
   }
 
   renderVotingModal() {
-    if (this.props.voteInProgress) {
-      return <VotingModal socket={this.props.socket} />;
-    }
+    // if (this.props.voteInProgress) {
+    //   return <VotingModal socket={this.props.socket} />;
+    // }
   }
 
   render() {

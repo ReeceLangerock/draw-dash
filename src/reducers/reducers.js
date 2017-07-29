@@ -60,13 +60,13 @@ export var gameReducer = (state = { voteCompleted: false, roundCompleted: false,
   }
 };
 
-export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: -1, allReady: false }, action) => {
+export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: undefined, allReady: false }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
       return { ...state, currentUserRoom: action.room, canvasSeatNumber: action.canvasSeatNumber };
     case "REMOVE_USER_FROM_ROOM":
-      return { ...state, currentUserRoom: -1, canvasSeatNumber: -1 };
+      return { ...state, currentUserRoom: -1, canvasSeatNumber: undefined };
     case "GET_ROOMS":
       return { ...state, rooms: action.rooms };
     case "UPDATE_ROOMS":
@@ -75,8 +75,6 @@ export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentU
       return { ...state, allReady: action.allReady };
     case "SET_CANVAS_TO_SAVE":
       return { ...state, canvasToSave: action.canvasToSave };
-    case "TOGGLE_ROOM_COMPLETED":
-      return { ...state, roundCompleted: !state.roundCompleted };
 
     default:
       return state;

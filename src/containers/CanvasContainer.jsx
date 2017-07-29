@@ -18,9 +18,12 @@ class CanvasContainer extends React.Component {
   }
 
   onUserJoin(canvasToJoin) {
-    if (this.props.canvasSeatNumber === -1 || this.props.canvasSeatNumber === undefined) {
-      this.props.socket.emit("join", { roomId: this.props.roomId, user: this.props.user, joiningAs: "drawer" }, function() {});
-      this.props.addUserToRoom(this.props.roomId, this.props.user, canvasToJoin);
+    if (this.props.canvasSeatNumber === undefined || this.props.canvasSeatNumber === null ) {
+      this.props.socket.emit("join", { roomId: this.props.roomId, user: this.props.user, joiningAs: "drawer", selectedSeat: canvasToJoin }, (canvasSeatNumber) => {
+
+        this.props.addUserToRoom(this.props.roomId, this.props.user, canvasSeatNumber);
+
+      });
     }
   }
 

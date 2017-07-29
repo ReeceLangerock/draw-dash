@@ -9,40 +9,27 @@ class VotingModal extends React.Component {
   constructor(props) {
     super(props);
     this.registerVote = this.registerVote.bind(this);
-
   }
   componentDidMount() {
     this.props.startVoteTimer();
   }
 
-  registerVote(e){
+  registerVote(e) {
     var vote = e.target.value;
     this.props.socket.emit("register_vote", { roomId: this.props.roomId, user: this.props.user, vote: vote }, function(data) {
-      console.log('data',data);
+      console.log("data", data);
     });
     this.props.setVoteInProgress(false);
   }
 
-
-
   render() {
     return (
-      <div>
-        <div className="row">
+      <div className = "modal-container" >
 
-          <div className="columns small-centered small-12 medium-10 large-10">
-            <div className="modal-container">
-              <h1>Voting Modal</h1>
-              <div className="room-item-button-container">
-                <h5>Seconds To Vote: {this.props.seconds}</h5>
-                <button className="button voting-button" value = "1" onClick = {this.registerVote}>Drawing #1</button>
-                <button className="button voting-button" value = "2" onClick = {this.registerVote}>Drawing #2</button>
+        <button className="button voting-button" value="1" onClick={this.registerVote}>Drawing #1</button>
+        <h1>Vote: {this.props.seconds}</h1>
+        <button className="button voting-button" value="2" onClick={this.registerVote}>Drawing #2</button>
 
-              </div>
-            </div>
-
-          </div>
-        </div>
       </div>
     );
   }
@@ -54,6 +41,23 @@ const mapStateToProps = state => ({
   seconds: state.votingTimerReducer.seconds
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({setVoteInProgress, startVoteTimer}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setVoteInProgress, startVoteTimer }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(VotingModal);
+
+//
+// <div className="row">
+//
+//   <div className="columns small-centered small-12 medium-10 large-10">
+//     <div className="modal-container">
+//   <h2>Vote! {this.props.seconds}</h2>
+//       <div className="voting-button-container">
+//
+//         <button className="button voting-button" value = "1" onClick = {this.registerVote}>Drawing #1</button>
+//         <button className="button voting-button" value = "2" onClick = {this.registerVote}>Drawing #2</button>
+//
+//       </div>
+//     </div>
+//
+//   </div>
+// </div>

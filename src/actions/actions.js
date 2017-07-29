@@ -46,6 +46,7 @@ export var setVoteInProgress = voteInProgress => {
 
 export var startVoteTimer = () => {
   return dispatch => {
+    dispatch(setVoteCompleted(false));
     clearInterval(voteTimer);
     seconds = 5;
     voteTimer = setInterval(() => {
@@ -55,6 +56,7 @@ export var startVoteTimer = () => {
         clearInterval(voteTimer);
         dispatch(setVoteInProgress(false));
         dispatch(setVoteCompleted(true));
+        dispatch(setRoundCompleted(false));
       }
     }, 1000);
   };
