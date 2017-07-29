@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { GithubPicker } from 'react-color';
 
+import paintbrush from './../assets/paintbrush.png';
+
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
@@ -32,9 +34,23 @@ class Canvas extends React.Component {
     return (
       <div className="sizes">
         Brush Size:<br />
-        <button className="button" id="small">Small</button>&nbsp;
-        <button className="button" id="medium">Medium</button>&nbsp;
-        <button className="button" id="large">Large</button>&nbsp;<br />
+        <div id="svgContainer">
+          <div id="smallSize">
+            <svg id="small" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="5" fill="#000000" />
+            </svg>
+          </div>
+          <div id="mediumSize">
+            <svg id="medium" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="12" fill="#000000" />
+            </svg>
+          </div>
+          <div id="largeSize">
+            <svg id="large" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="25" fill="#000000" />
+            </svg>
+          </div>
+        </div>
       </div>
     );
   }
@@ -43,6 +59,7 @@ class Canvas extends React.Component {
     return (
       <div className="tool">
         Tool:<br />
+        <img alt="paintbrush" src={paintbrush} />
         <button className="button" id="brush">Brush</button>&nbsp;
         <button className="button" id="eraser">Eraser</button>&nbsp;
         <button className="alert button" id="clear">Clear</button>
@@ -167,7 +184,7 @@ class Canvas extends React.Component {
     return (
       <div className="container">
         {this.renderSize()}
-        {this.renderTools()}
+        {this.renderTools()}<br />
         <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>

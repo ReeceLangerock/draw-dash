@@ -1,14 +1,29 @@
 .tool, .sizes {
   margin: auto;
-  width: 25%;
   overflow: hidden;
-  display: inline;
 }
 
-.picker {
-  text-align: center
+.github-picker {
+  margin: auto;
 }
 
-.svgContainer {
-  display: inline;
+#svgContainer {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+}
+
+#smallSize {
+  width: 33%;
+  display: inline-block;
+}
+
+#mediumSize {
+  width: 33%;
+  display: inline-block;
+}
+
+#largeSize {
+  width: 33%;
+  display: inline-block;
 }
