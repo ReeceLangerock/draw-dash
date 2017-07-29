@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { GithubPicker } from 'react-color';
 
-import paintbrush from './../assets/paintbrush.png';
-
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
