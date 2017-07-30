@@ -8,13 +8,22 @@ import VotingModal from "./VotingModal";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setImagePrompt, setAllUsersReady, updateLeaderboard, setVoteCompleted, removeUserFromRoom, setCanvasToSave } from "./../actions/actions";
+import { setImagePrompt, setAllUsersReady, updateLeaderboard, setVoteWinner, setVoteCompleted, removeUserFromRoom, setCanvasToSave } from "./../actions/actions";
 
 class Room extends React.Component {
   constructor(props) {
     super(props);
     this.emitOnUnload = this.emitOnUnload.bind(this);
+    //keep socket connection active
+    this.pingTimer = setInterval(() => {
+      this.props.socket.emit("ping_room", res => {
 
+        console.log(res);
+      });
+
+    }, 20000);
+
+    //handle users ready for game
     this.props.socket.on("all_ready", data => {
       this.props.setImagePrompt(data.prompt);
       this.props.setAllUsersReady(true);
@@ -22,20 +31,39 @@ class Room extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
+    //handle receiving result from match vote
     if (newProps.voteCompleted === true) {
       this.props.setVoteCompleted(false);
       this.props.socket.emit("complete_vote", { roomId: this.props.roomId, user: this.props.user }, data => {
         data ? this.props.setCanvasToSave(data) : this.props.setCanvasToSave(undefined);
+        //update leaderboard and set vote winner for display
         if (data === false) {
           this.props.updateLeaderboard(this.props.user, 2);
+          this.props.setVoteWinner(false);
         } else if (data === this.props.canvasSeatNumber) {
           this.props.updateLeaderboard(this.props.user, 3);
+          this.props.setVoteWinner(data);
         } else {
           this.props.updateLeaderboard(this.props.user, 1);
+          this.props.setVoteWinner(data);
         }
       });
     }
   }
+
+  //HANDLE USER JOINING ROOM
+
+  componentWillMount() {
+    this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
+
+  }
+
+  componentDidMount() {
+    window.addEventListener("unload", this.emitOnUnload);
+    window.addEventListener("beforeunload", this.handleUserLeavingPage);
+  }
+
+  //HANDLE USER LEAVING ROOM
 
   handleUserLeavingPage(ev) {
     ev.preventDefault();
@@ -47,35 +75,16 @@ class Room extends React.Component {
     this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
   }
 
-  componentWillMount() {
-    this.props.socket.emit("join_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
-    // this.props.pingTimer = setInterval(()=> {
-    //   this.props.socket.emit("ping", function(m) {
-    //     console.log(m);
-    //   });
-    //
-    // }, 20000)
-  }
-
-  componentDidMount() {
-    window.addEventListener("unload", this.emitOnUnload);
-
-    window.addEventListener("beforeunload", this.handleUserLeavingPage);
-  }
-
   componentWillUnmount() {
     //this needs some work, page redirects regardless of confirm result
     //confirm("you sure?");
+    clearInterval(this.pingTimer)
+    this.pingTimer = null;
+
     this.props.socket.emit("leave_room", { roomId: this.props.roomId, user: this.props.user }, function(data) {});
     this.props.removeUserFromRoom(this.props.roomId, this.props.user);
 
     window.removeEventListener("beforeunload", this.handleUserLeavingPage);
-  }
-
-  renderVotingModal() {
-    // if (this.props.voteInProgress) {
-    //   return <VotingModal socket={this.props.socket} />;
-    // }
   }
 
   render() {
@@ -95,8 +104,6 @@ class Room extends React.Component {
               </div>
 
               <Countdown socket={this.props.socket} startSignal={this.props.allReady} />
-
-              {this.renderVotingModal()}
 
               <div className="canvas-items-container">
 
@@ -124,6 +131,6 @@ const mapStateToProps = state => ({
   canvasSeatNumber: state.roomReducer.canvasSeatNumber
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, removeUserFromRoom, setVoteCompleted, setCanvasToSave, setImagePrompt, updateLeaderboard }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setVoteWinner, removeUserFromRoom, setVoteCompleted, setCanvasToSave, setImagePrompt, updateLeaderboard }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

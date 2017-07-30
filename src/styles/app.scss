@@ -1,8 +1,13 @@
 @import "base/variables";
 
-@import "components/auth-button-container";
-@import "components/landing-page";
+
 @import "components/page-title";
+
+//LandingPage Styling
+@import "components/LandingPage/hero";
+@import "components/LandingPage/landing-page";
+@import "components/LandingPage/auth-button-container";
+
 
 //Lobby Styling
 @import "components/Lobby/room-selection-container";

@@ -1,0 +1,35 @@
+.auth-button-container {
+
+  border-radius: 5px;
+  display: flex;
+  text-align: center;
+  margin-top: 20px;
+  justify-content: flex-start;
+
+
+
+}
+
+.auth-button {
+  margin: 0px 3px 0px 3px;
+  padding: 6px;
+  border: 2px solid $dark-border;
+  background-color: $light-text;
+  color: $dark-border;
+  line-height: 1rem;
+  cursor: pointer;
+}
+
+.auth-button:first-child {
+  margin: 0px 2px 0px 0px;
+
+}
+
+.auth-button:hover {
+  border-color: $light-text;
+  box-shadow: 0 4px 10px rgba(209,247,237, 0.35), 0 4px 4px rgba(209,247,237,0.35);
+  color: $light-text;
+  transition: box-shadow .3s ease-in-out;
+  background-color: rgba(4,104,191, 1);
+
+}

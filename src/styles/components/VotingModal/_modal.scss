@@ -23,3 +23,37 @@
   padding: 2px;
   flex-grow: 1;
 }
+
+.vote-container {
+  display: flex;
+  justify-content: space-around;
+  width:100%;
+  align-items: stretch;
+  margin:5px;
+}
+.vote-result {
+  width: 200px;
+  padding: 2px;
+  font-size: 20px;
+text-align: center;
+  color:$dark-text;
+  align-self: center;
+}
+
+.win {
+  border: 2px solid $green;
+  background-color: $green-countdown;
+}
+
+
+
+.lose {
+  border: 2px solid $red;
+  background-color: $red-countdown;
+}
+
+.tie {
+  border: 2px solid $yellow;
+  background-color: $yellow-countdown;
+
+}

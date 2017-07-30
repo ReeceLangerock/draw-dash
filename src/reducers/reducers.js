@@ -34,17 +34,20 @@ export var leaderboardReducer = (state = { leaderboard: [] }, action) => {
   }
 };
 
-export var votingTimerReducer = (state = { seconds: undefined }, action) => {
+export var votingTimerReducer = (state = { winner: undefined, seconds: undefined, voteResult: false }, action) => {
   switch (action.type) {
     case "TICK":
       return { ...state, seconds: action.seconds };
+      case "SET_VOTE_RESULT":
+        return { ...state, voteResult: action.voteResult };
+    case "SET_WINNER":
+      return { ...state, winner: action.winner };
     default:
       return state;
   }
 };
 
 export var gameReducer = (state = { voteCompleted: false, roundCompleted: false, roundStarted: false, voteInProgress: false }, action) => {
-  console.log(action);
   switch (action.type) {
     case "SET_ROUND_STARTED":
       return { ...state, roundStarted: action.roundStarted };
@@ -54,7 +57,7 @@ export var gameReducer = (state = { voteCompleted: false, roundCompleted: false,
     case "SET_VOTE_IN_PROGRESS":
       return { ...state, voteInProgress: action.voteInProgress };
     case "VOTE_COMPLETED":
-      return { ...state, voteCompleted: action.voteCompleted}
+      return { ...state, voteCompleted: action.voteCompleted };
     default:
       return state;
   }

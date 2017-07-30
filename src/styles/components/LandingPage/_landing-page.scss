@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'mariofont';
+    src: url('./../assets/Mario-Kart-DS.ttf') format('truetype');
+
+}
+
+.landing-page-body {
+min-height: 100%;
+margin-left: 20px;
+color: $dark-border;
+  h1 {
+    font-size: 4rem;
+    font-family: mariofont;
+  }
+
+}
+
+.gif-container {
+  margin: 20px 0px 20px 0px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gif-item{
+  border: 2px solid $dark-border;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  background-color: $light-background;
+  border-radius: 2px;
+  margin:5px;
+height:350px;
+}

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Navigation from "./Navigation";
 import ImagePrompt from "./ImagePrompt";
 import VotingModal from "./VotingModal";
+import VoteResult from "./VoteResult";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -39,7 +40,6 @@ class Countdown extends React.Component {
         if (data) {
           this.props.setCanvasToSave(data);
         }
-        console.log("DFGDFG!!!!");
         this.props.setRoundCompleted(false);
       });
     }
@@ -109,8 +109,7 @@ class Countdown extends React.Component {
 
   renderTimer() {
     const { countdownSeconds, roundSeconds } = this.state;
-    console.log("countdownSeconds", countdownSeconds);
-    if (this.props.voteInProgress === false && this.props.voteCompleted === false) {
+    if (this.props.voteInProgress === false && this.props.voteCompleted === false && this.props.voteResult === false) {
       if (countdownSeconds > 0) {
         //console.log(document.getElementById('circle1'));
         return (
@@ -121,7 +120,11 @@ class Countdown extends React.Component {
           </div>
         );
       } else if (roundSeconds > 0) {
-        return <div><h2>0:{roundSeconds}</h2></div>;
+        var formattedSeconds = roundSeconds;
+        if (roundSeconds < 10) {
+          var formattedSeconds = "0" + formattedSeconds;
+        }
+        return <div><h2>0:{formattedSeconds}</h2></div>;
       } else if (roundSeconds === 0) {
       }
     }
@@ -144,6 +147,12 @@ class Countdown extends React.Component {
     }
   }
 
+  renderVoteResult() {
+    if (this.props.voteResult === true) {
+      return <VoteResult />;
+    }
+  }
+
   render() {
     const { countdownSeconds, roundSeconds } = this.state;
 
@@ -151,7 +160,7 @@ class Countdown extends React.Component {
       <div className="info-container">
 
         {this.renderImagePrompt(countdownSeconds)}
-
+        {this.renderVoteResult()}
         {this.renderTimer()}
         {this.renderVotingModal(countdownSeconds)}
       </div>
@@ -164,6 +173,8 @@ const mapStateToProps = state => ({
   voteCompleted: state.gameReducer.voteCompleted,
   voteInProgress: state.gameReducer.voteInProgress,
   imagePrompt: state.imageReducer.prompt,
+  voteResult: state.votingTimerReducer.voteResult,
+
   votingTime: state.votingTimerReducer.seconds
 });
 

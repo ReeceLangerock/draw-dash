@@ -19,7 +19,6 @@ export class LandingPage extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // if the user is authenticated, redirect to lobby page
-    console.log(nextProps);
     if (nextProps.isAuthenticated || nextProps.isGuest) {
       this.props.changePage();
     }
@@ -35,24 +34,52 @@ export class LandingPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row landing-page">
-          <div className="columns small-centered small-10 medium-6 large-4">
+      <div className="">
+        <div className="hero-section">
+          <div className="small-12 medium-10 medium-centered large-9 large-centered column">
 
-            <h1 className="page-title">Draw Dash!</h1>
-            <div className="auth-button-container">
+            <div className="hero-section-text">
+              <h1>Draw Dash!</h1>
+              <p>Stressed out? Need a break?</p>
+              <p>Grab a friend and draw!</p>
 
-              <form action="/api/authenticate">
-                <input className="button" type="submit" value="Let Me Draw!" />
-              </form>
+              <div className="">
 
-              <button className="button" type="submit" onClick={this.onWantToWatch}>
-                Let Me Watch!
-              </button>
+                <div className="auth-button-container">
+
+                  <form action="/api/authenticate">
+                    <input className="auth-button" type="submit" value="Let Me Draw!" />
+                  </form>
+
+                  <button className="auth-button" type="submit" onClick={this.onWantToWatch}>
+                    Let Me Watch!
+                  </button>
+                </div>
+              </div>
 
             </div>
-
           </div>
+        </div>
+        <div className="landing-page-background">
+          <div className="small-12 medium-10 medium-centered large-9 large-centered column">
+
+            <div className="landing-page-body">
+              <h1>Draw Dash in Action</h1>
+              <div className="gif-container">
+                <div className="gif-item">
+
+                  <img src={require("./../assets/placeholderGif1.gif")} />
+                </div>
+
+                <div className="gif-item">
+
+                  <img src={require("./../assets/placeholderGif2.gif")} />
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
