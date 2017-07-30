@@ -160,6 +160,7 @@ class Canvas extends React.Component {
     const clearButton = document.getElementById('clear');
     clearButton.addEventListener('click', () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+      layer.draw();
     });
     const smallSize = document.getElementById('small');
     smallSize.addEventListener('click', () => {
