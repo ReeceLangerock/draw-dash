@@ -20,6 +20,7 @@ var returnRouter = function(io, rooms) {
       var canvasSeatNumber = rooms.joinRoom(data.roomId, data.user, data.joiningAs, socket.id, data.selectedSeat);
       if (rooms.checkIfAllRoomsOccupied()) {
         rooms.createRoom();
+        rooms.createRoom();
       }
       io.sockets.emit("room_update", rooms.getRooms());
       fn(canvasSeatNumber);

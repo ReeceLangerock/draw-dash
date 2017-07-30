@@ -70,8 +70,8 @@ var returnRouter = function(io, rooms, images) {
     });
 
     //HANDLE CHAT MESSAGE
-    socket.on("ping", function(data) {
-      socket.emit("pong");
+    socket.on("ping_room", function(fn) {
+      fn("pong");
     });
   });
   return router;

@@ -30,7 +30,7 @@ router.post("/", function(req, res, next) {
     if (error) {
       res.json({ error: "error" });
     } else if (response === "NOT_FOUND") {
-      leaderboard.schema.methods.newLeaderboardItem(req.body, points);
+      leaderboard.schema.methods.newLeaderboardItem(user, points);
     }
   });
 });

@@ -211,7 +211,7 @@ module.exports = {
   },
   //clean up extra empty rooms
   cleanUpEmptyRooms() {
-    if (rooms.length === 1) {
+    if (rooms.length <= 2) {
       return 0;
     }
     for (var id in rooms) {
