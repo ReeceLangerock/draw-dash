@@ -31,12 +31,24 @@ class Canvas extends React.Component {
   renderSize() {
     return (
       <div className="sizes">
-        Brush Size:
-        <select id="sizes">
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="large">Large</option>
-        </select>
+        Brush Size:<br />
+        <div id="svgContainer">
+          <div id="smallSize">
+            <svg id="small" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="5" fill="#000000" />
+            </svg>
+          </div>
+          <div id="mediumSize">
+            <svg id="medium" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="12" fill="#000000" />
+            </svg>
+          </div>
+          <div id="largeSize">
+            <svg id="large" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="20" fill="#000000" />
+            </svg>
+          </div>
+        </div>
       </div>
     );
   }
@@ -49,7 +61,7 @@ class Canvas extends React.Component {
           <option value="brush">Brush</option>
           <option value="eraser">Eraser</option>
         </select>
-        <button className="button" id="clear">Clear</button>
+        <button className="alert button" id="clear">Clear</button>
       </div>
     );
   }
@@ -106,22 +118,17 @@ class Canvas extends React.Component {
       }
       if (mode === 'brush') {
         context.globalCompositeOperation = 'source-over';
+        if (sizes === 'small') {
+          context.lineWidth = 5;
+        } else if (sizes === 'medium') {
+          context.lineWidth = 12;
+        } else if (sizes === 'large') {
+          context.lineWidth = 20;
+        }
       }
       if (mode === 'eraser') {
         context.lineWidth = 15;
         context.globalCompositeOperation = 'destination-out';
-      }
-      if (sizes === 'small') {
-        context.lineWidth = 5;
-        context.globalCompositeOperation = 'source-over';
-      }
-      if (sizes === 'medium') {
-        context.lineWidth = 12;
-        context.globalCompositeOperation = 'source-over';
-      }
-      if (sizes === 'large') {
-        context.lineWidth = 20;
-        context.globalCompositeOperation = 'source-over';
       }
       context.beginPath();
       let localPos = {
@@ -150,13 +157,22 @@ class Canvas extends React.Component {
     select.addEventListener('change', () => {
       mode = select.value;
     });
-    const brushSize = document.getElementById('sizes');
-    brushSize.addEventListener('change', () => {
-      sizes = brushSize.value;
-    });
     const clearButton = document.getElementById('clear');
     clearButton.addEventListener('click', () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+      layer.draw();
+    });
+    const smallSize = document.getElementById('small');
+    smallSize.addEventListener('click', () => {
+      sizes = 'small';
+    });
+    const mediumSize = document.getElementById('medium');
+    mediumSize.addEventListener('click', () => {
+      sizes = 'medium';
+    });
+    const largeSize = document.getElementById('large');
+    largeSize.addEventListener('click', () => {
+      sizes = 'large';
     });
   }
 
@@ -164,7 +180,7 @@ class Canvas extends React.Component {
     return (
       <div className="container">
         {this.renderSize()}
-        {this.renderTools()}
+        {this.renderTools()}<br />
         <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>

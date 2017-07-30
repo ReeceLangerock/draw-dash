@@ -7,12 +7,12 @@ var router = express.Router();
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var redirectRoute;
-if (!process.env.NODE_ENV) {
+// if (!process.env.NODE_ENV) {
   var config = require("../config.js");
   redirectRoute = "http://localhost:3000/";
-} else {
-  redirectRoute = "https://draw-dash.herokuapp.com/";
-}
+// } else {
+//   redirectRoute = "https://draw-dash.herokuapp.com/";
+// }
 
 router.use(require("body-parser").urlencoded({ extended: true }));
 router.use(cookieParser());
