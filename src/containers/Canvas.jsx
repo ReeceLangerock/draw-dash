@@ -14,9 +14,8 @@ class Canvas extends React.Component {
       const textNode = document.createTextNode('test');
       node.appendChild(textNode);
       document.getElementById(idToUpdate).appendChild(node);
-      this.updateKonva(idToUpdate, data.canvasJSON);
       this.handleChangeComplete = this.handleChangeComplete.bind(this);
-      //this.renderDisabledKonva(undefined, data.canvasJSON, data.canvasId);
+
     });
   }
 
@@ -148,10 +147,9 @@ class Canvas extends React.Component {
       layer.draw();
       context.strokeStyle = newColor;
       const dataURL = stage.toDataURL();
-      // window.open(dataURL);
+
       that.canvasEvent(dataURL);
-      // that.canvasEvent(stage.toJSON());
-      // console.log(layer);
+
     });
     const select = document.getElementById('tool');
     select.addEventListener('change', () => {

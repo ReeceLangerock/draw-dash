@@ -34,7 +34,6 @@ class Countdown extends React.Component {
     if (newProps.startSignal) {
       this.startTimer();
     }
-    console.log("new", newProps);
     if (newProps.voteCompleted === true && newProps.voteInProgress === false) {
       this.props.socket.emit("complete_vote", { roomId: this.props.roomId }, data => {
         if (data) {

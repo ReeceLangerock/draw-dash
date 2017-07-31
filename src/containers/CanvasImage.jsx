@@ -22,7 +22,6 @@ class CanvasImage extends React.Component {
       this.props.setCanvasToSave(undefined);
       var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
 
-      console.log('saving', nextProps.canvasToSave)
       if (image) {
         this.saveCanvasToDB(image.src);
       }
@@ -31,7 +30,8 @@ class CanvasImage extends React.Component {
   saveCanvasToDB(imageToSave) {
     this.props.saveCanvas({
       image: imageToSave,
-      displayName: this.props.user.displayName
+      displayName: this.props.user.displayName,
+      title: this.props.prompt
     });
   }
 
@@ -53,7 +53,8 @@ const mapStateToProps = state => ({
   user: state.authReducer,
   rooms: state.roomReducer.rooms,
   roomId: state.roomReducer.currentUserRoom,
-  canvasToSave: state.roomReducer.canvasToSave
+  canvasToSave: state.roomReducer.canvasToSave,
+  title: state.imageReducer.prompt
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ saveCanvas, setCanvasToSave }, dispatch);
