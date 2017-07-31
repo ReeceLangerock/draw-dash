@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 var voteTimer = null;
 var seconds = 5;
 
