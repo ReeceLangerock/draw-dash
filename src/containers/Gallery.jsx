@@ -22,8 +22,6 @@ class Gallery extends React.Component {
   renderGalleryImages() {
 
     return this.props.gallery.map(galleryItem => {
-      console.log(galleryItem.date)
-      console.log(galleryItem.date)
 
       return (
         <div key={galleryItem["_id"]} className="gallery-item">

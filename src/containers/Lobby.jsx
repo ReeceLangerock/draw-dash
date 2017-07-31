@@ -10,8 +10,10 @@ import { getRooms, sendAuthorizationCheck, updateRooms, addUserToRoom } from "./
 class Lobby extends React.Component {
   constructor(props) {
     super(props);
-    this.props.socket.on("room_update", payload => {
-      this.props.updateRooms(payload);
+    this.renderRoomButtons = this.renderRoomButtons.bind(this);
+    //receive list of rooms
+    this.props.socket.on("room_update", rooms => {
+      this.props.updateRooms(rooms);
     });
   }
   //
@@ -22,27 +24,27 @@ class Lobby extends React.Component {
     this.props.getRooms();
   }
 
-  componentDidMount() {}
-
   handleRoomSelection(id, joinAs) {
     // emit to backend if user joins a room
-    var that = this;
-    this.props.socket.emit("join", { roomId: id, user: this.props.user, joiningAs: joinAs }, function(canvasSeatNumber) {
-      that.props.addUserToRoom(id, that.props.user, canvasSeatNumber);
-      that.props.changePage(`room/${id}`);
+    this.props.socket.emit("join", { roomId: id, user: this.props.user, joiningAs: joinAs }, canvasSeatNumber => {
+      //dispatch actions to add user to room and redirect to selected room
+      this.props.addUserToRoom(id, this.props.user, canvasSeatNumber);
+      this.props.changePage(`room/${id}`);
     });
-    //dispatch actions to add user to room and redirect to selected room
   }
 
-  render() {
+  renderRoomButtons() {
+    console.log("RENDERInG");
     var rooms = this.props.rooms; //shorten the name
 
     if (rooms) {
       var that = this;
-      var renderRoomButtons = Object.keys(rooms).map(function(keyName, keyIndex) {
+      return Object.keys(rooms).map(function(keyName, keyIndex) {
+        console.log(rooms);
         var spotsOpen = rooms[keyName].max - rooms[keyName].occupants.drawers.length;
         var roomName = rooms[keyName].roomName;
         var buttonClass, disabled;
+        //conditionally display button based on room avaiability
         switch (spotsOpen) {
           case 1:
             buttonClass = "button warning button-item";
@@ -54,12 +56,12 @@ class Lobby extends React.Component {
           default:
             buttonClass = "button primary button-item";
         }
+        //disable join button is user is guest
         if (that.props.user.isGuest) {
           disabled = true;
         }
-
         var spotsOpenText = spotsOpen !== 0 ? `${spotsOpen} Canvas open` : "All canvas taken";
-
+        // render available rooms
         return (
           <div key={keyName} className="room-item">
             <div className="room-image">
@@ -84,7 +86,9 @@ class Lobby extends React.Component {
         );
       });
     }
+  }
 
+  render() {
     return (
       <div>
         <Navigation />
@@ -99,7 +103,7 @@ class Lobby extends React.Component {
 
               <div className="room-selection-container">
 
-                {renderRoomButtons}
+                {this.renderRoomButtons()}
               </div>
             </div>
           </div>

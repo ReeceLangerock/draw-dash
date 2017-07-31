@@ -10,12 +10,12 @@ var leaderboardSchema = mongoose.Schema({
 });
 
 //Create new leaderboard entry
-leaderboardSchema.methods.newLeaderboardItem = function(data) {
+leaderboardSchema.methods.newLeaderboardItem = function(data, points) {
   var newItem = new leaderboardModel({
     _id: new ObjectID(),
     UID: data.UID,
     displayName: data.displayName,
-    score: data.score
+    score: points
   });
 
   newItem.save(function(err) {

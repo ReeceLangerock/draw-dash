@@ -1,24 +1,37 @@
+"use strict";
 import React from "react";
 import { bindActionCreators } from "redux";
 import Canvas from "./Canvas";
 import CanvasImage from "./CanvasImage";
 import { connect } from "react-redux";
 
-import { sendAuthorizationCheck } from "./../actions/actions";
+import { sendAuthorizationCheck, addUserToRoom } from "./../actions/actions";
 
 class CanvasContainer extends React.Component {
   constructor(props) {
     super(props);
     this.onUserReady = this.onUserReady.bind(this);
+    this.onUserJoin = this.onUserJoin.bind(this);
   }
 
+  //handle user readying up
   onUserReady() {
     this.props.socket.emit("ready", { roomId: this.props.roomId }, function() {});
+  }
+
+  //handle authenticated watcher 'sitting' at a canvas
+  onUserJoin(canvasToJoin) {
+    if (this.props.canvasSeatNumber === undefined || this.props.canvasSeatNumber === null) {
+      this.props.socket.emit("join", { roomId: this.props.roomId, user: this.props.user, joiningAs: "drawer", selectedSeat: canvasToJoin }, canvasSeatNumber => {
+        this.props.addUserToRoom(this.props.roomId, this.props.user, canvasSeatNumber);
+      });
+    }
   }
 
   renderUserToCanvasContainer() {
     var roomId = this.props.roomId;
     var occupants = this.props.rooms[roomId].occupants;
+    var activeGame = this.props.rooms[roomId].activeGame;
 
     var buttonId = `button${this.props.canvasNumber}`;
     if (occupants.drawers.length === 2) {
@@ -26,7 +39,7 @@ class CanvasContainer extends React.Component {
       if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
         var displayName = occupants.drawers[0].displayName;
         var buttonClass = occupants.drawers[0].isReady ? "button ready" : "button not-ready";
-        var disabled = occupants.drawers[0].UID == this.props.user.UID ? "" : "disabled";
+        var disabled = occupants.drawers[0].UID == this.props.user.UID && !activeGame ? "" : "disabled";
 
         var userMatch = occupants.drawers[0].UID == this.props.user.UID;
         if (userMatch) {
@@ -54,10 +67,10 @@ class CanvasContainer extends React.Component {
           );
         }
       } else if (occupants.drawers[1].canvasSeatNumber == this.props.canvasNumber) {
-        var buttonClass = occupants.drawers[0].isReady ? "button ready" : "button not-ready";
+        var buttonClass = occupants.drawers[1].isReady ? "button ready" : "button not-ready";
         var displayName = occupants.drawers[1].displayName;
 
-        var disabled = occupants.drawers[1].UID == this.props.user.UID ? "" : "disabled";
+        var disabled = occupants.drawers[1].UID == this.props.user.UID && !activeGame ? "" : "disabled";
 
         var userMatch = occupants.drawers[1].UID == this.props.user.UID;
         if (userMatch) {
@@ -76,7 +89,7 @@ class CanvasContainer extends React.Component {
         } else {
           return (
             <div className="canvas-container">
-              <div className="canvas-container">
+              <div className="canvas-header">
 
                 <h5>{displayName}'s Canvas</h5>
               </div>
@@ -89,7 +102,7 @@ class CanvasContainer extends React.Component {
           <div className="canvas-container">
             <div className="canvas-header">
               <h5>Empty Canvas</h5>
-              <button id={buttonId} className="button">Join</button>
+              <button id={buttonId} className="button" onClick={() => this.onUserJoin(this.props.canvasNumber)}>Join</button>
 
             </div>
             <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
@@ -99,7 +112,8 @@ class CanvasContainer extends React.Component {
     } else if (occupants.drawers.length === 1) {
       if (occupants.drawers[0].canvasSeatNumber == this.props.canvasNumber) {
         var buttonClass = occupants.drawers[0].isReady ? "button ready" : "button not-ready";
-        var disabled = occupants.drawers[0].UID == this.props.user.UID ? "" : "disabled";
+
+        var disabled = occupants.drawers[0].UID == this.props.user.UID && !activeGame ? "" : "disabled";
         var displayName = occupants.drawers[0].displayName;
 
         return (
@@ -119,7 +133,7 @@ class CanvasContainer extends React.Component {
           <div className="canvas-container">
             <div className="canvas-header">
               <h5>Empty Canvas</h5>
-              <button id={buttonId} className="button">Join</button>
+              <button id={buttonId} className="button" onClick={() => this.onUserJoin(this.props.canvasNumber)}>Join</button>
 
             </div>
             <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
@@ -132,7 +146,7 @@ class CanvasContainer extends React.Component {
         <div className="canvas-container">
           <div className="canvas-header">
             <h5>Empty Canvas</h5>
-            <button id={buttonId} className="button" disabled={disabled}>Join</button>
+            <button id={buttonId} className="button" onClick={() => this.onUserJoin(this.props.canvasNumber)} disabled={disabled}>Join</button>
 
           </div> <CanvasImage socket={this.props.socket} canvasId={this.props.canvasNumber} />
         </div>
@@ -154,13 +168,16 @@ const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   user: state.authReducer,
   rooms: state.roomReducer.rooms,
-  roomId: state.roomReducer.currentUserRoom
+  roomId: state.roomReducer.currentUserRoom,
+  canvasSeatNumber: state.roomReducer.canvasSeatNumber,
+  allReady: state.roomReducer.allReady
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      sendAuthorizationCheck
+      sendAuthorizationCheck,
+      addUserToRoom
     },
     dispatch
   );

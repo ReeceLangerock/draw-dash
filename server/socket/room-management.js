@@ -8,7 +8,7 @@ module.exports = {
   getRooms() {
     return rooms;
   },
-
+  //check through all rooms and see if all are occupied
   checkIfAllRoomsOccupied() {
     if (rooms.length === 0) {
       return true;
@@ -23,13 +23,13 @@ module.exports = {
 
     return true;
   },
+  //create a room
   createRoom() {
     if (usedRoomId.length < MAX_ROOMS) {
       var id = availableRoomId[0];
       rooms.push({
         roomName: roomNames[id],
         roomId: id,
-        namespace: "none",
         occupants: {
           drawers: [],
           watchers: []
@@ -44,13 +44,19 @@ module.exports = {
       availableRoomId.splice(indexToSplice, 1);
     }
   },
-  joinRoom(id, user, joiningAs, socketId) {
+  joinRoom(id, user, joiningAs, socketId, selectedSeat = false) {
+    // if the user is 'sitting' down at a canvas after joining as a watcher,
+    //add them to whichever seat they selected and remove as watcher
+    if (selectedSeat) {
+      this.removeWatcher(id, user, socketId);
+    }
     if (rooms[id]) {
       if (joiningAs === "drawer") {
+        // if joining as a drawer, calculate which canvas to put them at
         if (rooms[id].occupants.drawers.length < MAX_OCCUPANTS) {
           var canvasSeatNumber;
           if (rooms[id].occupants.drawers.length === 0) {
-            canvasSeatNumber = 1;
+            selectedSeat ? (canvasSeatNumber = selectedSeat) : (canvasSeatNumber = 1);
           } else if (rooms[id].occupants.drawers[0].canvasSeatNumber === 1) {
             canvasSeatNumber = 2;
           } else {
@@ -71,10 +77,12 @@ module.exports = {
           socketId: socketId,
           displayName: user.displayName
         });
-        return null;
+
+        return undefined;
       }
     }
   },
+  //toggle if a user is ready or not, and if both are ready return true
   toggleReadyUser(id, socketId) {
     rooms[id].occupants.drawers.map(drawer => {
       if (drawer.socketId === socketId) {
@@ -88,45 +96,42 @@ module.exports = {
       }
     });
     if (readyCount === MAX_OCCUPANTS) {
+      // get ready for game start
       rooms[id].activeGame = true;
+      rooms[id].votes = [];
+
       return true;
     } else {
       return false;
     }
   },
   registerVote(id, socketId, vote) {
-    //var numInRoom = rooms[id].occupants.drawers.length + rooms[id].occupants.watchers.length
     rooms[id].votes.push(vote);
   },
   calculateVoteResult(id) {
-
-      var drawingOneVotes = 0;
-      var drawingTwoVotes = 0;
-      var votes = rooms[id].votes;
-      for (let i = 0; i < votes.length; i++) {
-        if (votes[i] == 1) {
-          drawingOneVotes++;
-        } else {
-          drawingTwoVotes++;
-        }
-      }
-      var winner;
-      if (drawingOneVotes > drawingTwoVotes) {
-        winner = 1;
-      } else if (drawingTwoVotes > drawingOneVotes) {
-        winner = 2;
+    var drawingOneVotes = 0;
+    var drawingTwoVotes = 0;
+    var votes = rooms[id].votes;
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i] == 1) {
+        drawingOneVotes++;
       } else {
-        winner = false;
+        drawingTwoVotes++;
       }
-      console.log("winner", winner);
-      return winner;
-    
+    }
+    var winner;
+    if (drawingOneVotes > drawingTwoVotes) {
+      winner = 1;
+    } else if (drawingTwoVotes > drawingOneVotes) {
+      winner = 2;
+    } else {
+      winner = false;
+    }
+    return winner;
   },
-  processRoundStart(id) {
-    rooms[id].votes = [];
-  },
-  processRoundEnd(id) {
 
+  processRoundEnd(id) {
+    //cleanup after round end
     if (rooms[id].occupants.drawers) {
       rooms[id].occupants.drawers.map(drawer => {
         rooms[id].activeGame = false;
@@ -135,6 +140,7 @@ module.exports = {
     }
   },
   leaveRoom(id, user, socket) {
+    //handle a user leaving room either as watcher or drawer
     if (!rooms[id]) {
       return 0;
     }
@@ -160,6 +166,23 @@ module.exports = {
       }
     }
   },
+  //remove watcher specifically, used when user switches from watcher to drawer
+  removeWatcher(id, user, socket) {
+    if (!rooms[id]) {
+      return 0;
+    }
+    if (rooms[id].occupants.watchers) {
+      var indexOfUser = rooms[id].occupants.watchers
+        .map(watcher => {
+          return watcher.socketId;
+        })
+        .indexOf(socket);
+      if (indexOfUser !== -1) {
+        rooms[id].occupants.watchers.splice(indexOfUser, 1);
+      }
+    }
+  },
+  //handle user disconnecting other than by leaving the room
   onDisconnect(socket) {
     for (let i = 0; i < rooms.length; i++) {
       if (rooms[i].occupants.watchers) {
@@ -186,8 +209,9 @@ module.exports = {
       }
     }
   },
+  //clean up extra empty rooms
   cleanUpEmptyRooms() {
-    if (rooms.length === 1) {
+    if (rooms.length <= 2) {
       return 0;
     }
     for (var id in rooms) {
@@ -203,6 +227,4 @@ module.exports = {
       }
     }
   }
-
-
 };

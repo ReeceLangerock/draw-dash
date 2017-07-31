@@ -18,11 +18,11 @@ class CanvasImage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.canvasToSave !== undefined) {
-      console.log('canvasToSave')
-      var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
-
       //set back to undefined so it should only be saved once
       this.props.setCanvasToSave(undefined);
+      var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
+
+      console.log('saving', nextProps.canvasToSave)
       if (image) {
         this.saveCanvasToDB(image.src);
       }

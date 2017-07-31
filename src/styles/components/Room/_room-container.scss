@@ -4,9 +4,10 @@
 }
 
 .info-container {
-padding: 3px 10px 3px 10px;
+
   display: flex;
   justify-content: space-between;
+  min-height: 110px;
 
   border-bottom: 2px solid $dark-border;
 }

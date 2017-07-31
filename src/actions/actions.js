@@ -1,22 +1,6 @@
 var voteTimer = null;
 var seconds = 5;
 
-export var addImagePrompts = prompts => {
-  return {
-    type: "ADD_IMAGE_PROMPTS",
-    prompts
-  };
-};
-
-export var startGetImagePrompts = () => {
-  return (dispatch, getState) => {
-    fetch("/api/image-prompts", { credentials: "include" }).then(response => response.json()).then(response => {
-      var imagePrompts = response["image-prompts"];
-      dispatch(addImagePrompts(imagePrompts));
-    });
-  };
-};
-
 //'GAME' MANAGEMENT
 //-------------------------------
 export var setRoundCompleted = roundCompleted => {
@@ -44,8 +28,12 @@ export var setVoteInProgress = voteInProgress => {
   };
 };
 
+//VOTE MANAGEMENT
+//-------------------------------
+
 export var startVoteTimer = () => {
   return dispatch => {
+    dispatch(setVoteCompleted(false));
     clearInterval(voteTimer);
     seconds = 5;
     voteTimer = setInterval(() => {
@@ -55,6 +43,25 @@ export var startVoteTimer = () => {
         clearInterval(voteTimer);
         dispatch(setVoteInProgress(false));
         dispatch(setVoteCompleted(true));
+        dispatch(setRoundCompleted(false));
+        dispatch(startVoteDisplay());
+      }
+    }, 1000);
+  };
+};
+
+export var startVoteDisplay = () => {
+  return dispatch => {
+    dispatch(setVoteResult(true));
+    clearInterval(voteTimer);
+    seconds = 5;
+    voteTimer = setInterval(() => {
+      seconds--;
+      dispatch({ type: "TICK", seconds });
+      if (seconds <= 0) {
+        clearInterval(voteTimer);
+        dispatch(setVoteResult(false));
+        dispatch(setVoteWinner(undefined))
       }
     }, 1000);
   };
@@ -64,9 +71,16 @@ export var setVoteCompleted = voteCompleted => {
   return { type: "VOTE_COMPLETED", voteCompleted };
 };
 
-// export var registerVote = allVotesIn => {
-//   return { type: "ALL_VOTES_IN", allVotesIn };
-// };
+export var setVoteResult = voteResult => {
+  return { type: "SET_VOTE_RESULT", voteResult };
+};
+
+export var setVoteWinner = winner => {
+  return {
+    type: "SET_WINNER",
+    winner
+  };
+};
 
 //ROOM MANAGEMENT
 //-------------------------------
@@ -84,7 +98,7 @@ export var getRooms = () => {
   };
 };
 
-export var setAllUsersReady = (allReady) => {
+export var setAllUsersReady = allReady => {
   return {
     type: "ALL_READY",
     allReady
@@ -161,7 +175,7 @@ export var getGalleryImages = () => {
 };
 
 export var saveCanvas = image => {
-  console.log(image);
+  console.log("IMAGE",image);
   return dispatch => {
     fetch("/api/gallery", {
       credentials: "include",
@@ -184,7 +198,7 @@ export var saveCanvas = image => {
 };
 
 export var setCanvasToSave = canvasToSave => {
-  console.log('canvas action')
+  console.log("canvas action");
   return {
     type: "SET_CANVAS_TO_SAVE",
     canvasToSave
@@ -230,7 +244,7 @@ export var updateLeaderboard = (user, points) => {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({user: user, points: points})
+      body: JSON.stringify({ user: user, points: points })
     })
       .then(response => response.json())
       .then(response => {

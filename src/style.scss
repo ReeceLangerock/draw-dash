@@ -1,6 +1,7 @@
 @import '~foundation-sites/scss/foundation';
 @include foundation-everything;
 @import "styles/base/variables";
+@import "./assets/Mario-Kart-DS.ttf";
 
 //override foundation nav styling
 .top-bar{
@@ -31,7 +32,7 @@ select {
 html {
   height: 100%;
   box-sizing: border-box;
-  background-color: blue;
+
 }
 
 *,
@@ -43,7 +44,8 @@ html {
 body {
   position: relative;
   margin: 0;
-  padding-bottom: 6rem;
+  padding: 0px 0px 57px 0px;
   min-height: 100%;
   font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: $light-grey-background-complement;
 }
