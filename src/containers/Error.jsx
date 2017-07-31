@@ -1,21 +1,25 @@
-import React from 'react';
+import React from "react";
 import Navigation from "./Navigation";
 import { connect } from "react-redux";
 
-const Error = (props) => {
+const Error = props => {
+  return (
+    <div>
+      <Navigation />
+      <div className="row">
+        <div className="columns small-centered small-12 medium-10 large-10">
+          <div className="room-container">
+            <div className="page-title">
+              <h2>404 Error</h2>
 
-  return(
-  <div>
-    <Navigation />
-    <div className="row">
-      <div className="columns small-centered small-12 medium-10 large-10">
-        <h2 className="container">404 Error</h2>
-        <p>Oops! Something broke.</p>
+            </div>
+            <p>Oops! Something broke.</p>
+          </div>
+        </div>
       </div>
+
     </div>
+  );
+};
 
-  </div>
-);
-}
-
-export default connect(null, null)(About);
+export default connect(null, null)(Error);
