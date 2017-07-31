@@ -2,9 +2,17 @@
   border: 2px solid $dark-border;
   border-radius: 3px;
   max-width: 400px;
+  background-color: white;
   margin: 5px;
+  z-index: 1;
 
 
+}
+
+
+.canvas-disabled {
+  pointer-events: none;
+  background-color: $red-countdown;
 }
 
 .canvas-header {
