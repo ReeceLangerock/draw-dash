@@ -12,9 +12,9 @@ var socketRooms = require("./socket/room-management");
 var imagePrompts = require("./socket/image-prompt-management");
 
 //figure this out for windows
-//if (!process.env.NODE_ENV) {
+if (!process.env.NODE_ENV) {
   var config = require("./config.js");
-//}
+}
 
 
 app.use(

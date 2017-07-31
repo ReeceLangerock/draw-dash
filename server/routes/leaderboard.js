@@ -22,8 +22,7 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/", function(req, res, next) {
-  //temporary points assignment
-  console.log(req.body);
+
   var points = req.body.points;
   var user = req.body.user;
   findUser(user.UID, points).then((response, error) => {

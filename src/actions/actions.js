@@ -36,7 +36,7 @@ export var startVoteTimer = () => {
   return dispatch => {
     dispatch(setVoteCompleted(false));
     clearInterval(voteTimer);
-    seconds = 5;
+    seconds = 10;
     voteTimer = setInterval(() => {
       seconds--;
       dispatch({ type: "TICK", seconds });
@@ -55,7 +55,7 @@ export var startVoteDisplay = () => {
   return dispatch => {
     dispatch(setVoteResult(true));
     clearInterval(voteTimer);
-    seconds = 5;
+    seconds = 6;
     voteTimer = setInterval(() => {
       seconds--;
       dispatch({ type: "TICK", seconds });
@@ -176,7 +176,6 @@ export var getGalleryImages = () => {
 };
 
 export var saveCanvas = image => {
-  console.log("IMAGE",image);
   return dispatch => {
     fetch("/api/gallery", {
       credentials: "include",
@@ -189,8 +188,6 @@ export var saveCanvas = image => {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-        //dispatch(setGalleryImages(response));
       })
       .catch(error => {
         console.error(error);
@@ -199,7 +196,7 @@ export var saveCanvas = image => {
 };
 
 export var setCanvasToSave = canvasToSave => {
-  console.log("canvas action");
+
   return {
     type: "SET_CANVAS_TO_SAVE",
     canvasToSave

@@ -15,8 +15,13 @@ class Countdown extends React.Component {
     super(props);
 
     this.state = {
+<<<<<<< HEAD
       countdownSeconds: 0,
       roundSeconds: 0
+=======
+      countdownSeconds: 5,
+      roundSeconds: 60
+>>>>>>> master
     };
 
     this.roundCountdown = this.roundCountdown.bind(this);
