@@ -1,3 +1,9 @@
+@font-face {
+  font-family: mariofont;
+    src: url('./../assets/Mario-Kart-DS.ttf') format('truetype');
+
+}
+
 .page-title {
   text-align: center;
   padding: .5rem 0;
@@ -12,7 +18,7 @@ border-bottom: 2px solid $dark-border;
 background-color: $dark-background;
     font-size: 4rem;
     font-weight: bold;
-    font-family: mariofont
+    font-family: mariofont;
   }
 
   p {

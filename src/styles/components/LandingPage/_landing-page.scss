@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'mariofont';
+  font-family: mariofont;
     src: url('./../assets/Mario-Kart-DS.ttf') format('truetype');
 
 }
@@ -8,6 +8,7 @@
 min-height: 100%;
 margin-left: 20px;
 color: $dark-border;
+
   h1 {
     font-size: 4rem;
     font-family: mariofont;

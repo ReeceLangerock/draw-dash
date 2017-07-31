@@ -19,9 +19,9 @@ class Leaderboard extends React.Component {
   componentDidMount() {}
 
   renderLeaderboard() {
-    return this.props.leaderboard.map(leaderboardItem => {
+    return this.props.leaderboard.map((leaderboardItem, index) => {
       return (
-        <div key={leaderboardItem.UID} className="leaderboard-item">
+        <div key={index} className="leaderboard-item">
           <h4>{leaderboardItem.displayName}</h4>
           <h4>{leaderboardItem.score} points</h4>
 

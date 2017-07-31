@@ -1,5 +1,9 @@
 $hero-height: 50vh;
+@font-face {
+  font-family: mariofont;
+    src: url('./../assets/Mario-Kart-DS.ttf') format('truetype');
 
+}
 .hero-section {
 
   height: $hero-height;
@@ -22,7 +26,7 @@ flex-direction: column;
   background-color: $dark-background;
       font-size: 8rem;
       font-weight: bold;
-      font-family: mariofont
+      font-family: mariofont;
     }
     p {
       font-size:1.1rem;
