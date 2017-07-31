@@ -1,3 +1,4 @@
+"use strict";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Navigation from "./Navigation";
@@ -14,8 +15,8 @@ class Countdown extends React.Component {
     super(props);
 
     this.state = {
-      countdownSeconds: 4,
-      roundSeconds: 5
+      countdownSeconds: 0,
+      roundSeconds: 0
     };
 
     this.roundCountdown = this.roundCountdown.bind(this);
@@ -34,8 +35,11 @@ class Countdown extends React.Component {
     if (newProps.startSignal) {
       this.startTimer();
     }
-    console.log("new", newProps);
     if (newProps.voteCompleted === true && newProps.voteInProgress === false) {
+      if (document.getElementById("canvas-item-container")) {
+        document.getElementById("canvas-item-container").classList.remove("canvas-disabled");
+      }
+
       this.props.socket.emit("complete_vote", { roomId: this.props.roomId }, data => {
         if (data) {
           this.props.setCanvasToSave(data);
@@ -46,6 +50,10 @@ class Countdown extends React.Component {
   }
 
   startTheRound() {
+    this.setState({
+      countdownSeconds: 4,
+      roundSeconds: 5
+    });
     this.props.setRoundStarted(true);
     this.props.setRoundCompleted(false);
     this.props.setVoteInProgress(false);
@@ -57,12 +65,11 @@ class Countdown extends React.Component {
     this.props.setRoundCompleted(true);
     this.props.setImagePrompt(undefined);
     this.props.setVoteInProgress(true);
-    this.setState({
-      countdownSeconds: 4,
-      roundSeconds: 5
-    });
+
     this.countdownTimer = null;
     this.roundTimer = null;
+
+    document.getElementById("canvas-item-container").classList.add("canvas-disabled");
   }
 
   startTimer() {
@@ -109,14 +116,16 @@ class Countdown extends React.Component {
 
   renderTimer() {
     const { countdownSeconds, roundSeconds } = this.state;
-    if (this.props.voteInProgress === false && this.props.voteCompleted === false && this.props.voteResult === false) {
+    if (this.props.voteInProgress === false && this.props.voteResult === false) {
+      if (document.getElementById("canvas-item-container")) {
+        document.getElementById("canvas-item-container").classList.remove("canvas-disabled");
+      }
       if (countdownSeconds > 0) {
-        //console.log(document.getElementById('circle1'));
         return (
           <div className="countdown-circle-container">
-            <div id="circle1" className="circle red" />
-            <div id="circle2" className="circle yellow" />
-            <div id="circle3" className="circle green" />
+            <div id="circle1" className="circle red"><h3>3</h3></div>
+            <div id="circle2" className="circle yellow"><h3>2</h3></div>
+            <div id="circle3" className="circle green"><h3>1</h3></div>
           </div>
         );
       } else if (roundSeconds > 0) {
@@ -126,7 +135,10 @@ class Countdown extends React.Component {
         }
         return <div><h2>0:{formattedSeconds}</h2></div>;
       } else if (roundSeconds === 0) {
-      }
+        return (
+        <p>Click Ready to start. Round will begin when both users are ready! Feel free to draw while you wait but canvas will clear when the round begins.</p>
+
+      )}
     }
   }
 

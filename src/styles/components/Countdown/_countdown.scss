@@ -8,15 +8,28 @@
   width: 100px;
   height: 100px;
   margin: 1px 3px 1px 3px;
+  text-align: center;
 
+  font-size: 3rem;
+  h3 {
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+    display: inline;
+  }
 
 }
 .red {
   background-color: $red-countdown;
   border: 3px solid red;
+
+
 }
 .red-active {
   background-color: $red;
+  h3 {
+    visibility:visible;
+  }
 }
 
 .yellow {
@@ -26,6 +39,9 @@
 
 .yellow-active {
   background-color: $yellow;
+  h3 {
+    visibility:visible;
+  }
 }
 
 .green {
@@ -35,4 +51,7 @@
 
 .green-active {
   background-color: $green;
+  h3 {
+    visibility:visible;
+  }
 }
