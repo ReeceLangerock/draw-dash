@@ -105,7 +105,7 @@ class Room extends React.Component {
 
               <Countdown socket={this.props.socket} startSignal={this.props.allReady} />
 
-              <div className="canvas-items-container">
+              <div id = "canvas-item-container" className="canvas-items-container">
 
                 <CanvasContainer canvasNumber="1" socket={this.props.socket} />
                 <CanvasContainer canvasNumber="2" socket={this.props.socket} />
