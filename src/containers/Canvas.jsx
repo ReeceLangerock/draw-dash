@@ -179,10 +179,11 @@ class Canvas extends React.Component {
   render() {
     return (
       <div className="container">
+
+        <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
         {this.renderSize()}
         {this.renderTools()}<br />
         <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
-        <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>
     );
   }

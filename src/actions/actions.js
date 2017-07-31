@@ -35,7 +35,7 @@ export var startVoteTimer = () => {
   return dispatch => {
     dispatch(setVoteCompleted(false));
     clearInterval(voteTimer);
-    seconds = 5;
+    seconds = 10;
     voteTimer = setInterval(() => {
       seconds--;
       dispatch({ type: "TICK", seconds });
@@ -54,7 +54,7 @@ export var startVoteDisplay = () => {
   return dispatch => {
     dispatch(setVoteResult(true));
     clearInterval(voteTimer);
-    seconds = 5;
+    seconds = 6;
     voteTimer = setInterval(() => {
       seconds--;
       dispatch({ type: "TICK", seconds });

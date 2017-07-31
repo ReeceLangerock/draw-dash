@@ -14,8 +14,8 @@ class Countdown extends React.Component {
     super(props);
 
     this.state = {
-      countdownSeconds: 4,
-      roundSeconds: 5
+      countdownSeconds: 5,
+      roundSeconds: 60
     };
 
     this.roundCountdown = this.roundCountdown.bind(this);
@@ -58,8 +58,8 @@ class Countdown extends React.Component {
     this.props.setImagePrompt(undefined);
     this.props.setVoteInProgress(true);
     this.setState({
-      countdownSeconds: 4,
-      roundSeconds: 5
+      countdownSeconds: 5,
+      roundSeconds: 60
     });
     this.countdownTimer = null;
     this.roundTimer = null;
