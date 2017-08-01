@@ -90,7 +90,6 @@ export var getRooms = () => {
     fetch("/api/lobby", { credentials: "include" })
       .then(response => response.json())
       .then(response => {
-        console.log("rooms in action", response);
         dispatch(updateAvailableRooms(response));
       })
       .catch(error => {
@@ -152,10 +151,15 @@ export var registerGuestAsWatcher = () => {
 //-------------------------------
 
 export var setImagePrompt = prompt => {
-  console.log("action", prompt);
   return {
     type: "SET_IMAGE_PROMPT",
     prompt
+  };
+};
+export var setImagePromptToSave = imagePromptToSave => {
+  return {
+    type: "SET_IMAGE_PROMPT_TO_SAVE",
+    imagePromptToSave
   };
 };
 
@@ -246,7 +250,6 @@ export var updateLeaderboard = (user, points) => {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
         //if (response === "UPDATED") console.log(updated);
       })
       .catch(error => {

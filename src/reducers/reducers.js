@@ -47,12 +47,14 @@ export var votingTimerReducer = (state = { winner: undefined, seconds: undefined
   }
 };
 
-export var gameReducer = (state = { voteCompleted: false, roundCompleted: false, roundStarted: false, voteInProgress: false }, action) => {
+export var gameReducer = (state = { voteCompleted: false, imagePromptToSave: "", roundCompleted: false, roundStarted: false, voteInProgress: false }, action) => {
   switch (action.type) {
     case "SET_ROUND_STARTED":
       return { ...state, roundStarted: action.roundStarted };
     case "SET_ROUND_COMPLETED":
       return { ...state, roundCompleted: action.roundCompleted };
+      case "SET_IMAGE_PROMPT_TO_SAVE":
+        return { ...state, imagePromptToSave: action.imagePromptToSave };
 
     case "SET_VOTE_IN_PROGRESS":
       return { ...state, voteInProgress: action.voteInProgress };

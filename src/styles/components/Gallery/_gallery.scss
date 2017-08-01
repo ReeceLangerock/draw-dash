@@ -21,10 +21,12 @@
   background-color: $light-blue;
   border-bottom: 2px solid $dark-border;
   margin-bottom: 10px;
+  text-align: center;
 
   h5 {
+    font-size: 1.2rem;
     margin: 0px;
-    padding: 2px;
+    padding: 0px;
   }
 }
 

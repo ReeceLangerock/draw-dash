@@ -26,7 +26,8 @@ class Gallery extends React.Component {
       return (
         <div key={galleryItem["_id"]} className="gallery-item">
           <div className="gallery-header">
-            <h5>Artwork by: {galleryItem.displayName}</h5>
+            <h5>'{galleryItem.title}'</h5>
+            <h5>{galleryItem.displayName}</h5>
           </div>
           <img src={galleryItem.image} />
           <div className="gallery-footer">

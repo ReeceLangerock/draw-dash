@@ -8,7 +8,7 @@ import VotingModal from "./VotingModal";
 import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setImagePrompt, setAllUsersReady, updateLeaderboard, setVoteWinner, setVoteCompleted, removeUserFromRoom, setCanvasToSave } from "./../actions/actions";
+import { setImagePrompt, setImagePromptToSave, setAllUsersReady, updateLeaderboard, setVoteWinner, setVoteCompleted, removeUserFromRoom, setCanvasToSave } from "./../actions/actions";
 
 class Room extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class Room extends React.Component {
     //handle users ready for game
     this.props.socket.on("all_ready", data => {
       this.props.setImagePrompt(data.prompt);
+      this.props.setImagePromptToSave(data.prompt);
       this.props.setAllUsersReady(true);
     });
   }
@@ -131,6 +132,6 @@ const mapStateToProps = state => ({
   canvasSeatNumber: state.roomReducer.canvasSeatNumber
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setVoteWinner, removeUserFromRoom, setVoteCompleted, setCanvasToSave, setImagePrompt, updateLeaderboard }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setAllUsersReady, setImagePromptToSave, setVoteWinner, removeUserFromRoom, setVoteCompleted, setCanvasToSave, setImagePrompt, updateLeaderboard }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

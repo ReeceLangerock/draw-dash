@@ -21,7 +21,6 @@ class CanvasImage extends React.Component {
       //set back to undefined so it should only be saved once
       this.props.setCanvasToSave(undefined);
       var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
-
       if (image) {
         this.saveCanvasToDB(image.src);
       }
@@ -31,7 +30,7 @@ class CanvasImage extends React.Component {
     this.props.saveCanvas({
       image: imageToSave,
       displayName: this.props.user.displayName,
-      title: this.props.prompt
+      title: this.props.title
     });
   }
 
@@ -54,7 +53,7 @@ const mapStateToProps = state => ({
   rooms: state.roomReducer.rooms,
   roomId: state.roomReducer.currentUserRoom,
   canvasToSave: state.roomReducer.canvasToSave,
-  title: state.imageReducer.prompt
+  title: state.gameReducer.imagePromptToSave
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ saveCanvas, setCanvasToSave }, dispatch);
