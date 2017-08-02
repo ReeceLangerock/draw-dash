@@ -31,25 +31,7 @@ class Canvas extends React.Component {
   renderSize() {
     return (
       <div>
-        <div className="row">
-          <div className="large-4 small-4 columns"><strong>Brush Size:</strong></div>
-          <div className="large-4 small-4 columns"><strong>Tool:</strong></div>
-          <div className="large-4 small-4 columns"><strong>Color:</strong></div>
-        </div>
-        <div className="row">
-          <div className="small-3 columns brushes">
-            <img src={require(`./../assets/brush-small.png`)} />
-            <img src={require(`./../assets/brush-medium.png`)} />
-            <img src={require(`./../assets/brush-large.png`)} />
-          </div>
-          <div className="large-6 small-6 columns">
-            <select id="tool">
-              <option value="brush">Brush</option>
-              <option value="eraser">Eraser</option>
-            </select>
-            <button className="alert button" id="clear">Clear</button>
-          </div>
-        </div>
+
       </div>
     );
   }
@@ -183,9 +165,36 @@ class Canvas extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="small-12 large-12 columns">{this.renderSize()}</div>
-        </div>
-        <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
+              <div className="large-6 small-6 columns"><strong>Brush Size:</strong></div>
+              <div className="large-6 small-6 columns"><strong>Color:</strong></div>
+            </div>
+            <div className="row">
+              <div className="small-2 columns" id="small">
+                <img src={require(`./../assets/brush-small.png`)} />
+              </div>
+              <div className="small-2 columns" id="medium">
+                <img src={require(`./../assets/brush-medium.png`)} />
+              </div>
+              <div className="small-2 columns" id="large">
+                <img src={require(`./../assets/brush-large.png`)} />
+              </div>
+              <div className="large-6 small-6 columns">
+                <GithubPicker onChangeComplete={this.handleChangeComplete} />
+              </div>
+            </div>
+            <div className="row">
+              <div className="large-10 small-10 columns">
+                <div className="large-10 small-10 columns">
+                  <select id="tool">
+                    <option value="brush">Brush</option>
+                    <option value="eraser">Eraser</option>
+                  </select>
+                </div>
+                <div className="large-2 small-2 columns">
+                  <button className="alert button" id="clear">Clear</button>
+                </div>
+              </div>
+            </div>
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>
     );
