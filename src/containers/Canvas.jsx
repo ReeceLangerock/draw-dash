@@ -30,41 +30,44 @@ class Canvas extends React.Component {
 
   renderSize() {
     return (
-      <div className="sizes">
-        Brush Size:<br />
-        <div id="svgContainer">
-          <div id="smallSize">
-            <svg id="small" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="5" fill="#000000" />
-            </svg>
+      <div>
+        <div className="row">
+          <div className="large-4 small-4 columns"><strong>Brush Size:</strong></div>
+          <div className="large-4 small-4 columns"><strong>Tool:</strong></div>
+          <div className="large-4 small-4 columns"><strong>Color:</strong></div>
+        </div>
+        <div className="row">
+          <div className="small-3 columns brushes">
+            <img src={require(`./../assets/brush-small.png`)} />
+            <img src={require(`./../assets/brush-medium.png`)} />
+            <img src={require(`./../assets/brush-large.png`)} />
           </div>
-          <div id="mediumSize">
-            <svg id="medium" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="12" fill="#000000" />
-            </svg>
-          </div>
-          <div id="largeSize">
-            <svg id="large" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="20" fill="#000000" />
-            </svg>
+          <div className="large-6 small-6 columns">
+            <select id="tool">
+              <option value="brush">Brush</option>
+              <option value="eraser">Eraser</option>
+            </select>
+            <button className="alert button" id="clear">Clear</button>
           </div>
         </div>
       </div>
     );
   }
 
-  renderTools() {
-    return (
-      <div className="tool">
-        Tool:
-        <select id="tool">
-          <option value="brush">Brush</option>
-          <option value="eraser">Eraser</option>
-        </select>
-        <button className="alert button" id="clear">Clear</button>
-      </div>
-    );
-  }
+  // renderTools() {
+  //   return (
+  //     <div>
+  //       Tool:
+  //       <div className="tool">
+  //       <select id="tool">
+  //         <option value="brush">Brush</option>
+  //         <option value="eraser">Eraser</option>
+  //       </select>
+  //       <button className="alert button" id="clear">Clear</button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   renderKonva(container) {
     const that = this;
@@ -179,8 +182,9 @@ class Canvas extends React.Component {
   render() {
     return (
       <div className="container">
-        {this.renderSize()}
-        {this.renderTools()}<br />
+        <div className="row">
+          <div className="small-12 large-12 columns">{this.renderSize()}</div>
+        </div>
         <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
       </div>

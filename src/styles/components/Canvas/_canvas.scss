@@ -1,6 +1,7 @@
 .tool, .sizes {
   margin: auto;
   overflow: hidden;
+  text-align: center;
 }
 
 .tool {
@@ -11,22 +12,38 @@
   margin: auto;
 }
 
-#svgContainer {
-  display: inline-block;
-  width: 70%;
+#brushes {
+  display: inline;
 }
 
-#smallSize {
-  width: 33%;
-  display: inline-block;
-}
+// .small {
+//   width: 33%;
+// }
+//
+// .medium {
+//   width: 33%;
+// }
+//
+// .large {
+//   width: 33%;
+// }
 
-#mediumSize {
-  width: 33%;
-  display: inline-block;
-}
-
-#largeSize {
-  width: 33%;
-  display: inline-block;
-}
+// #svgContainer {
+//   display: inline-block;
+//   width: 40%;
+// }
+//
+// #smallSize {
+//   width: 33%;
+//   display: inline-block;
+// }
+//
+// #mediumSize {
+//   width: 33%;
+//   display: inline-block;
+// }
+//
+// #largeSize {
+//   width: 33%;
+//   display: inline-block;
+// }
