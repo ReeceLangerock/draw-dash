@@ -4,14 +4,66 @@
   text-align: center;
 }
 
-.tool {
-  width: 25%;
-}
-
-.github-picker {
-  margin: auto;
+#tool {
+  height: 34.4px;
 }
 
 #small, #medium, #large {
   display: inline-block;
+  margin-top: 16px;
+}
+
+.picker {
+    width: 140px;
+}
+
+#black, #blue, #yellow, #red, #green, #purple, #brown, #silver, #pink, #orange {
+    cursor: pointer;
+    display: block;
+    height: 25px;
+    float: left;
+    margin: 1px;
+    padding: 0;
+    width: 25px;
+    border-radius: 5px;
+}
+
+#black {
+  background-color: #000000;
+}
+
+#green {
+  background-color: #00ff00;
+}
+
+#blue {
+  background-color: #0000ff;
+}
+
+#red {
+  background-color: #ff0000;
+}
+
+#yellow {
+  background-color: #ffff00;
+}
+
+#purple {
+  background-color: #800080;
+}
+
+#silver {
+  background-color: #C0C0C0;
+}
+
+#orange {
+  background-color: #FFA500;
+}
+
+#pink {
+  background-color: #FFC0CB;
+}
+
+#brown {
+  background-color: #654321;
 }
