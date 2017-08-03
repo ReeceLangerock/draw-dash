@@ -138,7 +138,7 @@ class Countdown extends React.Component {
         return <div><h2>0:{formattedSeconds}</h2></div>;
       } else if (roundSeconds === 0) {
         return (
-        <p>Click Ready to start. Round will begin when both users are ready! Feel free to draw while you wait but canvas will clear when the round begins.</p>
+        <p>Click <strong>Ready</strong> to start. Round will begin when both users are ready! Feel free to draw while you wait but the canvas will clear when the round begins.</p>
 
       )}
     }

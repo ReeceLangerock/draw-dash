@@ -2,7 +2,6 @@ import React from 'react';
 import { Layer, Stage, Image } from 'react-konva';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { GithubPicker } from 'react-color';
 
 class Canvas extends React.Component {
   constructor(props) {
@@ -19,50 +18,29 @@ class Canvas extends React.Component {
     });
   }
 
-  handleChangeComplete(color) {
-    newColor = color.hex;
-  }
-
   canvasEvent(canvasJSON) {
     this.props.socket.emit('canvas_event', { roomId: this.props.roomId, canvasJSON: canvasJSON, canvasId: this.props.canvasId }, () => {});
   }
 
-  renderSize() {
+  colorPicker() {
     return (
-      <div className="sizes">
-        Brush Size:<br />
-        <div id="svgContainer">
-          <div id="smallSize">
-            <svg id="small" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="5" fill="#000000" />
-            </svg>
-          </div>
-          <div id="mediumSize">
-            <svg id="medium" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="12" fill="#000000" />
-            </svg>
-          </div>
-          <div id="largeSize">
-            <svg id="large" height="100" width="100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="20" fill="#000000" />
-            </svg>
-          </div>
-        </div>
+      <div>
+        <ul className="picker">
+          <li id="black"></li>
+          <li id="blue"></li>
+          <li id="red"></li>
+          <li id="green"></li>
+          <li id="orange"></li>
+        </ul><br />
+        <ul className="picker">
+          <li id="brown"></li>
+          <li id="purple"></li>
+          <li id="yellow"></li>
+          <li id="pink"></li>
+          <li id="silver"></li>
+        </ul>
       </div>
-    );
-  }
-
-  renderTools() {
-    return (
-      <div className="tool">
-        Tool:
-        <select id="tool">
-          <option value="brush">Brush</option>
-          <option value="eraser">Eraser</option>
-        </select>
-        <button className="alert button" id="clear">Clear</button>
-      </div>
-    );
+    )
   }
 
   renderKonva(container) {
@@ -172,16 +150,79 @@ class Canvas extends React.Component {
     largeSize.addEventListener('click', () => {
       sizes = 'large';
     });
+    const black = document.getElementById('black');
+    black.addEventListener('click', () => {
+      newColor = '#000000';
+    });
+    const blue = document.getElementById('blue');
+    blue.addEventListener('click', () => {
+      newColor = '#0000ff';
+    });
+    const red = document.getElementById('red');
+    red.addEventListener('click', () => {
+      newColor = '#ff0000';
+    });
+    const green = document.getElementById('green');
+    green.addEventListener('click', () => {
+      newColor = '#00ff00';
+    });
+    const orange = document.getElementById('orange');
+    orange.addEventListener('click', () => {
+      newColor = '#FFA500';
+    });
+    const brown = document.getElementById('brown');
+    brown.addEventListener('click', () => {
+      newColor = '#654321';
+    });
+    const purple = document.getElementById('purple');
+    purple.addEventListener('click', () => {
+      newColor = '#800080';
+    });
+    const yellow = document.getElementById('yellow');
+    yellow.addEventListener('click', () => {
+      newColor = '#ffff00';
+    });
+    const pink = document.getElementById('pink');
+    pink.addEventListener('click', () => {
+      newColor = '#FFC0CB';
+    });
+    const silver = document.getElementById('silver');
+    silver.addEventListener('click', () => {
+      newColor = '#C0C0C0';
+    });
   }
 
   render() {
     return (
       <div className="container">
-
         <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
-        {this.renderSize()}
-        {this.renderTools()}<br />
-        <div id="picker"><GithubPicker onChangeComplete={this.handleChangeComplete} /></div>
+        <div className="row">
+          <div className="small-2 large-2 columns" id="small">
+            <img src={require(`./../assets/brush-small.png`)} />
+          </div>
+          <div className="small-2 large-2 columns" id="medium">
+            <img src={require(`./../assets/brush-medium.png`)} />
+          </div>
+          <div className="small-2 large-2 columns" id="large">
+            <img src={require(`./../assets/brush-large.png`)} />
+          </div>
+          <div className="large-6 small-6 columns">
+            {this.colorPicker()}
+          </div>
+        </div><br />
+        <div className="row">
+          <div className="large-10 small-10 columns">
+            <div className="large-7 small-7 columns">
+              <select id="tool">
+                <option value="brush">Brush</option>
+                <option value="eraser">Eraser</option>
+              </select>
+            </div>
+            <div className="large-2 small-2 columns">
+              <button className="alert button" id="clear">Clear</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

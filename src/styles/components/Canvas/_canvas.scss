@@ -1,32 +1,69 @@
 .tool, .sizes {
   margin: auto;
   overflow: hidden;
+  text-align: center;
 }
 
-.tool {
-  width: 25%;
+#tool {
+  height: 34.4px;
 }
 
-.github-picker {
-  margin: auto;
-}
-
-#svgContainer {
+#small, #medium, #large {
   display: inline-block;
-  width: 70%;
+  margin-top: 16px;
 }
 
-#smallSize {
-  width: 33%;
-  display: inline-block;
+.picker {
+    width: 140px;
 }
 
-#mediumSize {
-  width: 33%;
-  display: inline-block;
+#black, #blue, #yellow, #red, #green, #purple, #brown, #silver, #pink, #orange {
+    cursor: pointer;
+    display: block;
+    height: 25px;
+    float: left;
+    margin: 1px;
+    padding: 0;
+    width: 25px;
+    border-radius: 5px;
 }
 
-#largeSize {
-  width: 33%;
-  display: inline-block;
+#black {
+  background-color: #000000;
+}
+
+#green {
+  background-color: #00ff00;
+}
+
+#blue {
+  background-color: #0000ff;
+}
+
+#red {
+  background-color: #ff0000;
+}
+
+#yellow {
+  background-color: #ffff00;
+}
+
+#purple {
+  background-color: #800080;
+}
+
+#silver {
+  background-color: #C0C0C0;
+}
+
+#orange {
+  background-color: #FFA500;
+}
+
+#pink {
+  background-color: #FFC0CB;
+}
+
+#brown {
+  background-color: #654321;
 }
