@@ -3,11 +3,14 @@ import Navigation from "./Navigation";
 import { Layer, Stage, Image } from "react-konva";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { saveCanvas, setCanvasToSave } from "./../actions/actions";
+import { saveCanvas, setCanvasToSave, setCanvasShouldClear } from "./../actions/actions";
 
 class CanvasImage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      imageSent: false
+    }
     this.props.socket.on("image_update", data => {
       var image;
       var idToUpdate = data.canvasId == 1 ? (image = document.getElementById("image1")) : (image = document.getElementById("image2"));
@@ -21,8 +24,10 @@ class CanvasImage extends React.Component {
       //set back to undefined so it should only be saved once
       this.props.setCanvasToSave(undefined);
       var image = nextProps.canvasToSave == 1 ? document.getElementById("image1") : document.getElementById("image2");
-      if (image) {
+      if (image && !this.state.imageSent) {
+        this.setState({imageSent: true})
         this.saveCanvasToDB(image.src);
+
       }
     }
   }
@@ -33,6 +38,7 @@ class CanvasImage extends React.Component {
       title: this.props.title
     });
   }
+
 
   render() {
     return (
@@ -56,6 +62,6 @@ const mapStateToProps = state => ({
   title: state.gameReducer.imagePromptToSave
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ saveCanvas, setCanvasToSave }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ saveCanvas, setCanvasToSave, setCanvasShouldClear }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CanvasImage);

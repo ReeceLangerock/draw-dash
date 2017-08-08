@@ -207,6 +207,14 @@ export var setCanvasToSave = canvasToSave => {
   };
 };
 
+export var setCanvasShouldClear = canvasShouldClear => {
+
+  return {
+    type: "SET_CANVAS_SHOULD_CLEAR",
+    canvasShouldClear
+  };
+};
+
 export var setGalleryImages = images => {
   return {
     type: "SET_GALLERY_IMAGES",

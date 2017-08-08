@@ -65,7 +65,7 @@ export var gameReducer = (state = { voteCompleted: false, imagePromptToSave: "",
   }
 };
 
-export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: undefined, allReady: false }, action) => {
+export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentUserRoom: -1, roundCompleted: false, canvasSeatNumber: undefined, allReady: false, canvasShouldClear: false }, action) => {
   switch (action.type) {
     // might be needed depending on how users/rooms are managed
     case "ADD_USER_TO_ROOM":
@@ -80,6 +80,8 @@ export var roomReducer = (state = { rooms: {}, canvasToSave: undefined, currentU
       return { ...state, allReady: action.allReady };
     case "SET_CANVAS_TO_SAVE":
       return { ...state, canvasToSave: action.canvasToSave };
+      case "SET_CANVAS_SHOULD_CLEAR":
+        return { ...state, canvasShouldClear: action.canvasShouldClear };
 
     default:
       return state;

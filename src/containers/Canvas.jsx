@@ -1,46 +1,49 @@
-import React from 'react';
-import { Layer, Stage, Image } from 'react-konva';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { Layer, Stage, Image } from "react-konva";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.canvasEvent = this.canvasEvent.bind(this);
-    this.props.socket.on('canvas_update', data => {
-      const idToUpdate = data.canvasId == 1 ? 'drawing2' : 'drawing1';
-      const node = document.createElement('p');
-      const textNode = document.createTextNode('test');
-      node.appendChild(textNode);
-      document.getElementById(idToUpdate).appendChild(node);
+    this.props.socket.on("canvas_update", data => {
+      const idToUpdate = data.canvasId == 1 ? "drawing2" : "drawing1";
       this.handleChangeComplete = this.handleChangeComplete.bind(this);
-
     });
   }
 
   canvasEvent(canvasJSON) {
-    this.props.socket.emit('canvas_event', { roomId: this.props.roomId, canvasJSON: canvasJSON, canvasId: this.props.canvasId }, () => {});
+    this.props.socket.emit("canvas_event", { roomId: this.props.roomId, canvasJSON: canvasJSON, canvasId: this.props.canvasId }, () => {});
   }
 
+  componentWillReceiveProps(newProps) {
+    console.log("newProps", newProps);
+    if (newProps.canvasShouldClear) {
+      console.log("receiving");
+      const clearButton = document.getElementById("clear");
+      clearButton.dispatchEvent("click");
+    }
+  }
   colorPicker() {
     return (
       <div>
         <ul className="picker">
-          <li id="black"></li>
-          <li id="blue"></li>
-          <li id="red"></li>
-          <li id="green"></li>
-          <li id="orange"></li>
+          <li id="black" />
+          <li id="blue" />
+          <li id="red" />
+          <li id="green" />
+          <li id="orange" />
         </ul><br />
         <ul className="picker">
-          <li id="brown"></li>
-          <li id="purple"></li>
-          <li id="yellow"></li>
-          <li id="pink"></li>
-          <li id="silver"></li>
+          <li id="brown" />
+          <li id="purple" />
+          <li id="yellow" />
+          <li id="pink" />
+          <li id="silver" />
         </ul>
       </div>
-    )
+    );
   }
 
   renderKonva(container) {
@@ -56,7 +59,7 @@ class Canvas extends React.Component {
     const layer = new Konva.Layer({});
     stage.add(layer);
     // then we are going to draw into special canvas element
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = stage.width() / 1.5;
     canvas.height = stage.height() / 1.5;
     // created canvas we can add to layer as 'Konva.Image' element
@@ -64,59 +67,59 @@ class Canvas extends React.Component {
       image: canvas,
       x: stage.width() / 6,
       y: stage.height() / 6,
-      stroke: '#05AFF2',
-      shadowBlur: 5,
+      stroke: "#05AFF2",
+      shadowBlur: 5
     });
     layer.add(image);
     stage.draw();
     // Now we need to get access to context element
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
     // context.strokeStyle = this.state.background;
-    context.lineJoin = 'round';
+    context.lineJoin = "round";
     context.lineWidth = 5;
     let isPaint = false;
     let lastPointerPosition;
-    let mode = 'brush';
-    let sizes = 'small';
+    let mode = "brush";
+    let sizes = "small";
     // now we need to bind some events
     // we need to start drawing on mousedown
     // and stop drawing on mouseup
-    stage.on('contentMousedown.proto', () => {
+    stage.on("contentMousedown.proto", () => {
       isPaint = true;
       lastPointerPosition = stage.getPointerPosition();
     });
-    stage.on('contentMouseup.proto', () => {
+    stage.on("contentMouseup.proto", () => {
       isPaint = false;
     });
     // and core function - drawing
-    stage.on('contentMousemove.proto', () => {
+    stage.on("contentMousemove.proto", () => {
       if (!isPaint) {
         return;
       }
-      if (mode === 'brush') {
-        context.globalCompositeOperation = 'source-over';
-        if (sizes === 'small') {
+      if (mode === "brush") {
+        context.globalCompositeOperation = "source-over";
+        if (sizes === "small") {
           context.lineWidth = 5;
-        } else if (sizes === 'medium') {
+        } else if (sizes === "medium") {
           context.lineWidth = 12;
-        } else if (sizes === 'large') {
+        } else if (sizes === "large") {
           context.lineWidth = 20;
         }
       }
-      if (mode === 'eraser') {
+      if (mode === "eraser") {
         context.lineWidth = 15;
-        context.globalCompositeOperation = 'destination-out';
+        context.globalCompositeOperation = "destination-out";
       }
       context.beginPath();
       let localPos = {
         x: lastPointerPosition.x - image.x(),
-        y: lastPointerPosition.y - image.y(),
+        y: lastPointerPosition.y - image.y()
       };
       context.moveTo(localPos.x, localPos.y);
       const pos = stage.getPointerPosition();
       localPos = {
         x: pos.x - image.x(),
-        y: pos.y - image.y(),
+        y: pos.y - image.y()
       };
       context.lineTo(localPos.x, localPos.y);
       context.closePath();
@@ -127,75 +130,76 @@ class Canvas extends React.Component {
       const dataURL = stage.toDataURL();
 
       that.canvasEvent(dataURL);
-
     });
-    const select = document.getElementById('tool');
-    select.addEventListener('change', () => {
+
+    const select = document.getElementById("tool");
+    select.addEventListener("change", () => {
       mode = select.value;
     });
-    const clearButton = document.getElementById('clear');
-    clearButton.addEventListener('click', () => {
+    const clearButton = document.getElementById("clear");
+    clearButton.addEventListener("click", () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
       layer.draw();
     });
-    const smallSize = document.getElementById('small');
-    smallSize.addEventListener('click', () => {
-      sizes = 'small';
+    const smallSize = document.getElementById("small");
+    smallSize.addEventListener("click", () => {
+      sizes = "small";
     });
-    const mediumSize = document.getElementById('medium');
-    mediumSize.addEventListener('click', () => {
-      sizes = 'medium';
+    const mediumSize = document.getElementById("medium");
+    mediumSize.addEventListener("click", () => {
+      sizes = "medium";
     });
-    const largeSize = document.getElementById('large');
-    largeSize.addEventListener('click', () => {
-      sizes = 'large';
+    const largeSize = document.getElementById("large");
+    largeSize.addEventListener("click", () => {
+      sizes = "large";
     });
-    const black = document.getElementById('black');
-    black.addEventListener('click', () => {
-      newColor = '#000000';
+    const black = document.getElementById("black");
+    black.addEventListener("click", () => {
+      newColor = "#000000";
     });
-    const blue = document.getElementById('blue');
-    blue.addEventListener('click', () => {
-      newColor = '#0000ff';
+    const blue = document.getElementById("blue");
+    blue.addEventListener("click", () => {
+      newColor = "#0000ff";
     });
-    const red = document.getElementById('red');
-    red.addEventListener('click', () => {
-      newColor = '#ff0000';
+    const red = document.getElementById("red");
+    red.addEventListener("click", () => {
+      newColor = "#ff0000";
     });
-    const green = document.getElementById('green');
-    green.addEventListener('click', () => {
-      newColor = '#00ff00';
+    const green = document.getElementById("green");
+    green.addEventListener("click", () => {
+      newColor = "#00ff00";
     });
-    const orange = document.getElementById('orange');
-    orange.addEventListener('click', () => {
-      newColor = '#FFA500';
+    const orange = document.getElementById("orange");
+    orange.addEventListener("click", () => {
+      newColor = "#FFA500";
     });
-    const brown = document.getElementById('brown');
-    brown.addEventListener('click', () => {
-      newColor = '#654321';
+    const brown = document.getElementById("brown");
+    brown.addEventListener("click", () => {
+      newColor = "#654321";
     });
-    const purple = document.getElementById('purple');
-    purple.addEventListener('click', () => {
-      newColor = '#800080';
+    const purple = document.getElementById("purple");
+    purple.addEventListener("click", () => {
+      newColor = "#800080";
     });
-    const yellow = document.getElementById('yellow');
-    yellow.addEventListener('click', () => {
-      newColor = '#ffff00';
+    const yellow = document.getElementById("yellow");
+    yellow.addEventListener("click", () => {
+      newColor = "#ffff00";
     });
-    const pink = document.getElementById('pink');
-    pink.addEventListener('click', () => {
-      newColor = '#FFC0CB';
+    const pink = document.getElementById("pink");
+    pink.addEventListener("click", () => {
+      newColor = "#FFC0CB";
     });
-    const silver = document.getElementById('silver');
-    silver.addEventListener('click', () => {
-      newColor = '#C0C0C0';
+    const silver = document.getElementById("silver");
+    silver.addEventListener("click", () => {
+      newColor = "#C0C0C0";
     });
   }
 
   render() {
     return (
       <div className="container">
-        <div id={'drawing' + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
+        {this.clearIt}
+        <div id={"drawing" + this.props.canvasId} ref={ref => this.renderKonva(ref)} />
         <div className="row">
           <div className="small-2 large-2 columns" id="small">
             <img src={require(`./../assets/brush-small.png`)} />
@@ -228,12 +232,13 @@ class Canvas extends React.Component {
   }
 }
 
-let newColor = '#000000';
+let newColor = "#000000";
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   user: state.authReducer,
   roomId: state.roomReducer.currentUserRoom,
+  canvasShouldClear: state.roomReducer.canvasShouldClear
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);

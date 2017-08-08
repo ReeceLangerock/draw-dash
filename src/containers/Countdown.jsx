@@ -8,17 +8,15 @@ import VoteResult from "./VoteResult";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { toggleRoundCompleted, setAllUsersReady, setCanvasToSave, setImagePrompt, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
+import { toggleRoundCompleted, setAllUsersReady,setCanvasShouldClear, setCanvasToSave, setImagePrompt, setVoteInProgress, setVoteCompleted, setRoundStarted, setRoundCompleted } from "./../actions/actions";
 
 class Countdown extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
       countdownSeconds: 0,
       roundSeconds: 0
-
     };
 
     this.roundCountdown = this.roundCountdown.bind(this);
@@ -36,18 +34,18 @@ class Countdown extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.startSignal) {
       this.startTimer();
+
     }
     if (newProps.voteCompleted === true && newProps.voteInProgress === false) {
-      if (document.getElementById("canvas-item-container")) {
-        document.getElementById("canvas-item-container").classList.remove("canvas-disabled");
-      }
-
       this.props.socket.emit("complete_vote", { roomId: this.props.roomId }, data => {
         if (data) {
           this.props.setCanvasToSave(data);
         }
         this.props.setRoundCompleted(false);
       });
+      if (document.getElementById("canvas-item-container")) {
+        document.getElementById("canvas-item-container").classList.remove("canvas-disabled");
+      }
     }
   }
 
@@ -137,10 +135,9 @@ class Countdown extends React.Component {
         }
         return <div><h2>0:{formattedSeconds}</h2></div>;
       } else if (roundSeconds === 0) {
-        return (
-        <p>Click <strong>Ready</strong> to start. Round will begin when both users are ready! Feel free to draw while you wait but the canvas will clear when the round begins.</p>
-
-      )}
+        return <p>Click <strong>Ready</strong> to start. Round will begin when both users are ready! Feel free to draw while you wait but the canvas will clear when the round begins.</p>;
+      } else {
+      }
     }
   }
 
@@ -192,6 +189,6 @@ const mapStateToProps = state => ({
   votingTime: state.votingTimerReducer.seconds
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setImagePrompt, setAllUsersReady, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ setRoundCompleted, setImagePrompt, setCanvasShouldClear, setAllUsersReady, setVoteCompleted, setVoteInProgress, setRoundStarted, setCanvasToSave }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Countdown);

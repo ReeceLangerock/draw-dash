@@ -9,8 +9,13 @@ class VotingModal extends React.Component {
   constructor(props) {
     super(props);
     this.registerVote = this.registerVote.bind(this);
+    this.state = {
+      voted: false
+    };
   }
   componentDidMount() {
+    this.setState({ voted: false });
+
     this.props.startVoteTimer();
   }
 
@@ -19,16 +24,17 @@ class VotingModal extends React.Component {
     this.props.socket.emit("register_vote", { roomId: this.props.roomId, user: this.props.user, vote: vote }, function(data) {
       console.log("data", data);
     });
-    this.props.setVoteInProgress(false);
+    this.setState({ voted: true });
+    //this.props.setVoteInProgress(false);
   }
 
   render() {
     return (
-      <div className = "modal-container" >
+      <div className="modal-container">
 
-        <button className="button voting-button" value="1" onClick={this.registerVote}>Drawing #1</button>
+        <button disabled={this.state.voted} className="button voting-button" value="1" onClick={this.registerVote}>Drawing #1</button>
         <h1>Vote: {this.props.seconds}</h1>
-        <button className="button voting-button" value="2" onClick={this.registerVote}>Drawing #2</button>
+        <button disabled={this.state.voted} className="button voting-button" value="2" onClick={this.registerVote}>Drawing #2</button>
 
       </div>
     );
