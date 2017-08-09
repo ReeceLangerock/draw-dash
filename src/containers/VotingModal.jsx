@@ -50,20 +50,3 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({ setVoteInProgress, startVoteTimer }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(VotingModal);
-
-//
-// <div className="row">
-//
-//   <div className="columns small-centered small-12 medium-10 large-10">
-//     <div className="modal-container">
-//   <h2>Vote! {this.props.seconds}</h2>
-//       <div className="voting-button-container">
-//
-//         <button className="button voting-button" value = "1" onClick = {this.registerVote}>Drawing #1</button>
-//         <button className="button voting-button" value = "2" onClick = {this.registerVote}>Drawing #2</button>
-//
-//       </div>
-//     </div>
-//
-//   </div>
-// </div>

@@ -18,7 +18,6 @@ class Room extends React.Component {
     this.pingTimer = setInterval(() => {
       this.props.socket.emit("ping_room", res => {
 
-        console.log(res);
       });
 
     }, 20000);

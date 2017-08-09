@@ -34,13 +34,11 @@ class Lobby extends React.Component {
   }
 
   renderRoomButtons() {
-    console.log("RENDERInG");
     var rooms = this.props.rooms; //shorten the name
 
     if (rooms) {
       var that = this;
       return Object.keys(rooms).map(function(keyName, keyIndex) {
-        console.log(rooms);
         var spotsOpen = rooms[keyName].max - rooms[keyName].occupants.drawers.length;
         var roomName = rooms[keyName].roomName;
         var buttonClass, disabled;

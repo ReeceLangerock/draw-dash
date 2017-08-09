@@ -18,9 +18,7 @@ class Canvas extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("newProps", newProps);
     if (newProps.canvasShouldClear) {
-      console.log("receiving");
       const clearButton = document.getElementById("clear");
       clearButton.dispatchEvent("click");
     }
