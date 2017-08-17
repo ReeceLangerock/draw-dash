@@ -11,7 +11,7 @@ const MongoStore = require("connect-mongo")(session);
 var socketRooms = require("./socket/room-management");
 var imagePrompts = require("./socket/image-prompt-management");
 
-//figure this out for windows
+figure this out for windows
 if (!process.env.NODE_ENV) {
   var config = require("./config.js");
 }
