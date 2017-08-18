@@ -34,54 +34,45 @@ export class LandingPage extends React.Component {
 
   render() {
     return (
-      <div className="">
-        <div className="hero-section">
+      <div>
+        <div className="hero-section row">
           <div className="small-12 medium-10 medium-centered large-9 large-centered column">
-
             <div className="hero-section-text">
               <h1>Draw Dash!</h1>
               <p>Stressed out? Need a break?</p>
               <p>Grab a friend and draw!</p>
-
               <div className="">
-
                 <div className="auth-button-container">
-
                   <form action="/api/authenticate">
                     <input className="auth-button" type="submit" value="Let Me Draw!" />
                   </form>
-
                   <button className="auth-button" type="submit" onClick={this.onWantToWatch}>
                     Let Me Watch!
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-        <div className="landing-page-background">
+        <div className="landing-page-background row">
           <div className="small-12 medium-10 medium-centered large-9 large-centered column">
-
             <div className="landing-page-body">
               <h1>Draw Dash in Action</h1>
               <div className="gif-container">
+                <div className="small-12 medium-6 large-6 column">
                 <div className="gif-item">
-
                   <img src={require("./../assets/placeholderGif1.gif")} />
                 </div>
-
+                </div>
+                <div className="small-12 medium-6 large-6 column">
                 <div className="gif-item">
-
                   <img src={require("./../assets/placeholderGif2.gif")} />
                 </div>
-
+                </div>
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
     );
   }

@@ -5,13 +5,14 @@
 }
 
 .landing-page-body {
-min-height: 100%;
-margin-left: 20px;
-color: $dark-border;
+  min-height: 100%;
+  margin-left: 20px;
+  color: $dark-border;
 
   h1 {
     font-size: 4rem;
     font-family: mariofont;
+    text-align: center;
   }
 
 }
@@ -30,5 +31,5 @@ color: $dark-border;
   background-color: $light-background;
   border-radius: 2px;
   margin:5px;
-height:350px;
+  height:350px;
 }

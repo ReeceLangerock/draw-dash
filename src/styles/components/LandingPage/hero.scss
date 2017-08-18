@@ -4,37 +4,29 @@
     src: url('./../assets/Mario-Kart-DS.ttf');
 
 }
+
 .hero-section {
-
-
   background-color: $light-background;
-
-
   border-bottom: 3px solid $dark-border;
   display: flex;
-flex-direction: column;
+  flex-direction: column;
+
   .hero-section-text {
-
-
-    margin: 50px 0px 50px 20px;
-
+    margin: 20px 0px 25px 20px;
     background-color: $dark-background;
-  color:$light-text;
+    color:$light-text;
 
-
-    h1{
-  background-color: $dark-background;
-      font-size: 8rem;
+    h1 {
+      background-color: $dark-background;
+      font-size: 6rem;
       font-weight: bold;
       font-family: mariofont;
     }
+
     p {
       font-size:1.1rem;
       padding: 0px;
       margin: 0px 0px 8px 0px;
-
     }
-
-
   }
 }
