@@ -286,10 +286,7 @@ export var sendAuthorizationCheck = () => {
       .then(response => {
         if (response !== false) {
           dispatch(login(response));
-        } else {
-          //temporary error, add action for unauthenticated user later
-          console.log("ERROR");
-        }
+        } 
       })
       .then(() => {
         dispatch(isAuthenticating(false));

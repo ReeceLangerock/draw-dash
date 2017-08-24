@@ -35,7 +35,7 @@ export class LandingPage extends React.Component {
   render() {
     return (
       <div>
-        <div className="hero-section row">
+        <div className="hero-section">
           <div className="small-12 medium-10 medium-centered large-9 large-centered column">
             <div className="hero-section-text">
               <h1>Draw Dash!</h1>

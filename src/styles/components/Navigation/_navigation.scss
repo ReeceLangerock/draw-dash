@@ -1,6 +1,15 @@
 .nav-item {
-  margin-left: 10px;
+
   border: 2px solid BLACK;
-  background-color: #F2CA52;
-  color: $dark-text
+  background-color: #f2ca52;
+  color: $dark-text;
+  
+}
+
+.menu {
+  margin: 0;
+  display: flex;
+  list-style-type: none;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
