@@ -52,7 +52,7 @@ class Countdown extends React.Component {
   startTheRound() {
     this.setState({
       countdownSeconds: 4,
-      roundSeconds: 5
+      roundSeconds: 60
     });
     this.props.setRoundStarted(true);
     this.props.setRoundCompleted(false);
