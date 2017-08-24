@@ -130,6 +130,55 @@ class Canvas extends React.Component {
       that.canvasEvent(dataURL);
     });
 
+    // mobile/touchscreen support
+    stage.on("contentTouchstart.proto", () => {
+      isPaint = true;
+      lastPointerPosition = stage.getPointerPosition();
+    });
+    stage.on("contentTouchend.proto", () => {
+      isPaint = false;
+    });
+    // and core function - drawing
+    stage.on("contentTouchmove.proto", () => {
+      if (!isPaint) {
+        return;
+      }
+      if (mode === "brush") {
+        context.globalCompositeOperation = "source-over";
+        if (sizes === "small") {
+          context.lineWidth = 5;
+        } else if (sizes === "medium") {
+          context.lineWidth = 12;
+        } else if (sizes === "large") {
+          context.lineWidth = 20;
+        }
+      }
+      if (mode === "eraser") {
+        context.lineWidth = 15;
+        context.globalCompositeOperation = "destination-out";
+      }
+      context.beginPath();
+      let localPos = {
+        x: lastPointerPosition.x - image.x(),
+        y: lastPointerPosition.y - image.y()
+      };
+      context.moveTo(localPos.x, localPos.y);
+      const pos = stage.getPointerPosition();
+      localPos = {
+        x: pos.x - image.x(),
+        y: pos.y - image.y()
+      };
+      context.lineTo(localPos.x, localPos.y);
+      context.closePath();
+      context.stroke();
+      lastPointerPosition = pos;
+      layer.draw();
+      context.strokeStyle = newColor;
+      const dataURL = stage.toDataURL();
+
+      that.canvasEvent(dataURL);
+    });
+
     const select = document.getElementById("tool");
     select.addEventListener("change", () => {
       mode = select.value;
