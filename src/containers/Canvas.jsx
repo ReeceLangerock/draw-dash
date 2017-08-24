@@ -12,7 +12,7 @@ class Canvas extends React.Component {
       this.handleChangeComplete = this.handleChangeComplete.bind(this);
     });
   }
-
+// test
   canvasEvent(canvasJSON) {
     this.props.socket.emit("canvas_event", { roomId: this.props.roomId, canvasJSON: canvasJSON, canvasId: this.props.canvasId }, () => {});
   }
