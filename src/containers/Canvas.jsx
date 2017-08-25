@@ -131,15 +131,15 @@ class Canvas extends React.Component {
     });
 
     // mobile/touchscreen support
-    stage.on("contentTouchstart.proto", () => {
+    stage.on("contentTouchstart", () => {
       isPaint = true;
       lastPointerPosition = stage.getPointerPosition();
     });
-    stage.on("contentTouchend.proto", () => {
+    stage.on("contentTouchend", () => {
       isPaint = false;
     });
     // and core function - drawing
-    stage.on("contentTouchmove.proto", () => {
+    stage.on("contentTouchmove", () => {
       if (!isPaint) {
         return;
       }
