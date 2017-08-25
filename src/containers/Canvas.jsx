@@ -82,15 +82,15 @@ class Canvas extends React.Component {
     // now we need to bind some events
     // we need to start drawing on mousedown
     // and stop drawing on mouseup
-    stage.on("contentMousedown.proto contentTouchstart", () => {
+    stage.on("contentMousedown.proto contentTouchstart.proto", () => {
       isPaint = true;
       lastPointerPosition = stage.getPointerPosition();
     });
-    stage.on("contentMouseup.proto contentTouchend", () => {
+    stage.on("contentMouseup.proto contentTouchend.proto", () => {
       isPaint = false;
     });
     // and core function - drawing
-    stage.on("contentMousemove.proto contentTouchmove", () => {
+    stage.on("contentMousemove.proto contentTouchmove.proto", () => {
       if (!isPaint) {
         return;
       }
